@@ -14,19 +14,22 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core"))
+            implementation(project(":feat:deadlock"))
 
             implementation(libs.bundles.ktor)
-            implementation(libs.ktor.cio)
-            implementation(libs.ktor.logging)
-            implementation(libs.ktor.slf)
 
             implementation(libs.koin.core)
-            implementation(libs.kord)
             implementation(libs.napier)
 
             implementation(libs.kotlinx.coroutines.core)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.kotlin.date.time)
+        }
+
+        jvmMain.dependencies {
+            implementation(libs.kord)
+            implementation(libs.ktor.cio)
+            implementation(libs.ktor.slf)
         }
 
         commonTest.dependencies {

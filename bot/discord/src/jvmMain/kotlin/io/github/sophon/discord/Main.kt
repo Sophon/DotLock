@@ -1,4 +1,4 @@
-package io.github.sophon.discordBot
+package io.github.sophon.discord
 
 import kotlinx.coroutines.coroutineScope
 
