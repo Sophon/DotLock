@@ -1,0 +1,72 @@
+package io.github.sophon.deadlock.data
+
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+internal data class ItemDto(
+    @SerialName("Name") val name: String? = null,
+    @SerialName("Description") val description: String? = null,
+    @SerialName("Cost") val cost: Int? = null,
+    @SerialName("Tier") val tier: Int? = null,
+    @SerialName("Activation") val activation: String? = null,
+    @SerialName("Slot") val slot: String? = null,
+    @SerialName("Components") val components: List<String>? = null,
+    @SerialName("TargetTypes") val targetTypes: List<String>? = null,
+    @SerialName("ShopFilters") val shopFilters: List<String>? = null,
+    @SerialName("IsDisabled") val isDisabled: Boolean? = null,
+    @SerialName("StreetBrawl") val streetBrawl: Boolean? = null,
+
+    @SerialName("AbilityCooldown") val abilityCooldown: Double? = null,
+    @SerialName("AbilityCooldownBetweenCharge") val abilityCooldownBetweenCharge: Double? = null,
+    @SerialName("AbilityCastDelay") val abilityCastDelay: Double? = null,
+    @SerialName("AbilityCastRange") val abilityCastRange: Double? = null,
+    @SerialName("AbilityChannelTime") val abilityChannelTime: Double? = null,
+    @SerialName("AbilityDuration") val abilityDuration: Double? = null,
+    @SerialName("AbilityPostCastDuration") val abilityPostCastDuration: Double? = null,
+    @SerialName("AbilityUnitTargetLimit") val abilityUnitTargetLimit: Int? = null,
+    @SerialName("AbilityCharges") val abilityCharges: Int? = null,
+
+    @SerialName("ChannelMoveSpeed") val channelMoveSpeed: Double? = null,
+
+    @SerialName("Damage") val damage: ScaledValueDto? = null,
+    @SerialName("DPS") val dps: ScaledValueDto? = null,
+
+    @SerialName("Radius") val radius: Double? = null,
+    @SerialName("TickRate") val tickRate: Double? = null,
+    @SerialName("SlowPercent") val slowPercent: Double? = null,
+    @SerialName("SlowDuration") val slowDuration: Double? = null,
+    @SerialName("StunDuration") val stunDuration: Double? = null,
+    @SerialName("DebuffDuration") val debuffDuration: Double? = null,
+
+    @SerialName("BonusMoveSpeed") val bonusMoveSpeed: Double? = null,
+    @SerialName("BonusSprintSpeed") val bonusSprintSpeed: Double? = null,
+    @SerialName("BonusFireRate") val bonusFireRate: Double? = null,
+    @SerialName("BonusHealth") val bonusHealth: ScaledValueDto? = null,
+    @SerialName("BonusHealthRegen") val bonusHealthRegen: Double? = null,
+    @SerialName("OutOfCombatHealthRegen") val outOfCombatHealthRegen: Double? = null,
+    @SerialName("BonusClipSizePercent") val bonusClipSizePercent: Double? = null,
+    @SerialName("BonusClipSize") val bonusClipSize: Int? = null,
+    @SerialName("BonusBulletSpeedPercent") val bonusBulletSpeedPercent: Double? = null,
+    @SerialName("BonusAbilityDurationPercent") val bonusAbilityDurationPercent: Double? = null,
+    @SerialName("BonusAbilityCharges") val bonusAbilityCharges: Int? = null,
+    @SerialName("BonusMeleeDamagePercent") val bonusMeleeDamagePercent: Double? = null,
+
+    @SerialName("BulletResist") val bulletResist: Double? = null,
+    @SerialName("TechResist") val techResist: Double? = null,
+    @SerialName("TechPower") val techPower: Double? = null,
+    @SerialName("TechPowerPercent") val techPowerPercent: Double? = null,
+    @SerialName("TechRangeMultiplier") val techRangeMultiplier: Double? = null,
+    @SerialName("TechRadiusMultiplier") val techRadiusMultiplier: Double? = null,
+
+    @SerialName("BulletLifestealPercent") val bulletLifestealPercent: Double? = null,
+    @SerialName("AbilityLifestealPercentHero") val abilityLifestealPercentHero: Double? = null,
+
+    @SerialName("BaseAttackDamagePercent") val baseAttackDamagePercent: Double? = null,
+    @SerialName("CooldownReduction") val cooldownReduction: Double? = null,
+    @SerialName("StatusResistancePercent") val statusResistancePercent: Double? = null,
+    @SerialName("Stamina") val stamina: Int? = null,
+    @SerialName("StaminaCooldownReduction") val staminaCooldownReduction: Double? = null,
+    @SerialName("ProcChance") val procChance: Double? = null,
+    @SerialName("MaxStacks") val maxStacks: Int? = null,
+)
