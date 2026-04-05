@@ -1,4 +1,4 @@
-rootProject.name = "Dotlock"
+rootProject.name = "FireFrog"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
