@@ -1,10 +1,10 @@
-package arch
+package io.github.sophon.firefrog.core.arch
 
 typealias EmptyResult<E> = Result<Unit, E>
 
 sealed interface Result<out T, out E: Error> {
     data class Success<out T>(val data: T): Result< T, Nothing>
-    data class Error<out E: arch.Error>(val error: E): Result<Nothing, E>
+    data class Error<out E: io.github.sophon.firefrog.core.arch.Error>(val error: E): Result<Nothing, E>
 }
 
 /**

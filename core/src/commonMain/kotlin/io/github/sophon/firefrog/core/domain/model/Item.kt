@@ -1,4 +1,4 @@
-package domain.model
+package io.github.sophon.firefrog.core.domain.model
 
 data class Item(
     val key: String,
