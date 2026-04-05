@@ -1,4 +1,5 @@
 [versions]
+agp = "8.11.2" # not needed, for AS
 assertK = "0.25"
 jetbrainsKotlinJvm = "2.2.20"
 junit = "4.13.2"
@@ -48,6 +49,7 @@ test-assertk = { module = "com.willowtreeapps.assertk:assertk", version.ref = "a
 test-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]
+androidLibrary = { id = "com.android.library", version.ref = "agp" } # not needed, for AS
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
