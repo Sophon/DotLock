@@ -16,5 +16,4 @@ dependencyResolutionManagement {
 
 include(":core")
 include(":feat:deadlock")
-
-include("bot:discord")
+include(":bot:discord")
