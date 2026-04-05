@@ -1,3 +1,0 @@
-package arch
-
-interface Error

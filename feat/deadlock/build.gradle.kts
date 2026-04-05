@@ -1,5 +1,5 @@
 plugins {
-    alias(libs.plugins.jetbrainsKotlinJvm)
+    alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
 }
 
@@ -7,26 +7,25 @@ group = "io.github.sophon.firefrog"
 version = "1.0-SNAPSHOT"
 
 kotlin {
-    jvmToolchain(21)
-}
+    jvm()
 
-dependencies {
-    implementation(project(":core"))
+    sourceSets {
+        commonMain.dependencies {
+            implementation(project(":core"))
 
-    implementation(libs.bundles.ktor)
-    implementation(libs.napier)
-    implementation(libs.kotlin.date.time)
-    implementation(libs.koin.core)
-    implementation(libs.kotlinx.serialization.json)
-
-    testImplementation(libs.kotlin.test)
-    testImplementation(libs.kotlin.testJunit)
-    testImplementation(libs.test.assertk)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.test.turbine)
-    testImplementation(libs.junit)
-}
-
-tasks.test {
-    useJUnitPlatform()
+            implementation(libs.bundles.ktor)
+            implementation(libs.napier)
+            implementation(libs.kotlin.date.time)
+            implementation(libs.koin.core)
+            implementation(libs.kotlinx.serialization.json)
+        }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlin.testJunit)
+            implementation(libs.test.assertk)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.test.turbine)
+            implementation(libs.junit)
+        }
+    }
 }
