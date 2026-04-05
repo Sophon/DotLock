@@ -8,7 +8,7 @@ data class Ability(
     val timing: Timing,
     val targeting: Targeting,
 
-    val propertyList: List<Property>,
+    val propertySet: Set<Property>,
 
     val zone: ZoneStats?,
     val upgrades: List<Upgrade>,
@@ -117,10 +117,10 @@ data class Ability(
 
     data class Upgrade(
         val changes: Map<String, UpgradeValue>
-    )
-
-    sealed class UpgradeValue {
-        data class Plain(val value: Double) : UpgradeValue()
-        data class Scaled(val scaledValue: ScaledValue) : UpgradeValue()
+    ) {
+        sealed class UpgradeValue {
+            data class Plain(val value: Double) : UpgradeValue()
+            data class Scaled(val scaledValue: ScaledValue) : UpgradeValue()
+        }
     }
 }
