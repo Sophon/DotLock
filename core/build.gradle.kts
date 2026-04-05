@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
 }
 
-group = "io.github.sophon.dotlock"
+group = "io.github.sophon.firefrog"
 version = "1.0-SNAPSHOT"
 
 kotlin {
