@@ -14,7 +14,6 @@ kotlinx-serialization = "1.7.3"
 ktor = "3.1.2"
 napier = "2.7.1"
 slf = "2.0.9"
-sqldelight = "2.0.2"
 turbine = "0.7.0"
 
 [libraries]
@@ -36,11 +35,6 @@ ktor-slf = { module = "org.slf4j:slf4j-simple", version.ref = "slf" }
 # Koin
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 
-# SQLDelight
-sqldelight-driver-sqlite = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
-sqldelight-coroutines = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
-sqldelight-primitive-adapters = { module = "app.cash.sqldelight:primitive-adapters", version.ref = "sqldelight" }
-
 # Misc
 kord = { module = "dev.kord:kord-core", version.ref = "kord" }
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
@@ -55,9 +49,9 @@ test-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
-sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 
 [bundles]
 ktor = [
