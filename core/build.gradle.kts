@@ -1,18 +1,26 @@
 plugins {
-    kotlin("multiplatform")
+    alias(libs.plugins.jetbrainsKotlinJvm)
+    alias(libs.plugins.kotlinSerialization)
 }
 
-kotlin {
-    jvm {
-        binaries {
-            executable {
-                mainClass = "io.github.sophon.dotlock.core.MainKt"
-            }
-        }
-    }
+group = "io.github.sophon.dotlock"
+version = "1.0-SNAPSHOT"
 
-    sourceSets {
-        commonMain.dependencies { }
-        jvmMain.dependencies { }
-    }
+kotlin {
+    jvmToolchain(21)
+}
+
+dependencies {
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.kotlin.date.time)
+
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.test.assertk)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.test.turbine)
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
