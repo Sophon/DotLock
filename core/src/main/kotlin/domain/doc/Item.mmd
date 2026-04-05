@@ -1,0 +1,62 @@
+---
+title: Item Domain Model
+---
+classDiagram
+    Item "1" *-- "1" Shop: has
+    Item "1" *-- "0..1" Timing: has
+    Item "1" *-- "0..1" Targeting: has
+    Item "1" *-- "0..*" StatUpgrade: has
+    Item "1" *-- "0..*" PropertyUpgrade: has
+
+    Shop "1" *-- "0..1" Slot: has
+    Shop "1" *-- "1" Activation: has
+    Shop "1" *-- "0..*" TargetType: has
+    Shop "1" *-- "0..*" ShopFilter: has
+
+    StatUpgrade "1" o-- "1" ScaledValue: uses
+
+    class Slot {
+        <<enumeration>>
+        WEAPON
+        ARMOR
+        TECH
+    }
+
+    class Activation {
+        <<enumeration>>
+        PASSIVE
+        INSTANT_CAST
+        INSTANT_CAST_TOGGLE
+        PRESS
+        ON_RELEASE
+    }
+
+    class TargetType {
+        <<enumeration>>
+        HERO
+        HERO_FRIENDLY
+        HERO_ENEMY
+        ALL_FRIENDLY
+        ALL_ENEMY
+        BOSS_ENEMY
+        TROOPER_FRIENDLY
+        TROOPER_ENEMY
+        MINION_FRIENDLY
+        MINION_ENEMY
+        CREEP_ENEMY
+        PROP_ENEMY
+        NEUTRAL
+    }
+
+    class ShopFilter {
+        <<enumeration>>
+        WEAPON_DAMAGE
+        MAGIC_DAMAGE
+        FIRE_RATE
+        CLIP_SIZE
+        MOVEMENT
+        DURABILITY
+        DISRUPTION
+        HEALING
+        MELEE
+    }
