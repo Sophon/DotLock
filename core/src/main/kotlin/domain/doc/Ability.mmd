@@ -1,0 +1,38 @@
+---
+title: Ability Domain Model
+---
+classDiagram
+    Ability "1" *-- "1" Timing: has
+    Ability "1" *-- "1" Targeting: has
+    Ability "1" *-- "0..1" ZoneStats: has
+    Ability "1" *-- "0..*" Upgrade: has
+    Ability "0..*" o-- "0..*" ScaledValue: uses
+
+    Upgrade "1" *-- "0..*" UpgradeValue: has
+    UpgradeValue <|-- Plain: implements
+    UpgradeValue <|-- Scaled: implements
+    Scaled "1" o-- "1" ScaledValue: uses
+
+    Timing "0..*" o-- "0..*" ScaledValue: uses
+    Targeting "0..*" o-- "0..*" ScaledValue: uses
+
+    ScaledValue "1" *-- "0..1" Scale: has
+    Scale "1" *-- "1" ScaleType: has
+
+    class ScaleType {
+        <<enumeration>>
+        SPIRIT
+        WEAPON_DAMAGE
+        WEAPON_DAMAGE_INCREASE
+        WEAPON_POWER
+        DURATION
+        POWER_INCREASE
+        RANGE
+        MELEE
+        HEAVY_MELEE
+        HEALING
+        COOLDOWN
+        DAMAGE
+        STATS_COUNT
+        PARRY_CD
+    }

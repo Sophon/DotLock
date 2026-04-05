@@ -1,0 +1,36 @@
+---
+title: Hero Domain Model
+---
+classDiagram
+    Hero "1" *-- "1" MovementStats: has
+    Hero "1" *-- "1" DashStats: has
+    Hero "1" *-- "1" StaminaStats: has
+    Hero "1" *-- "1" MeleeStats: has
+    Hero "1" *-- "1" LevelScaling: has
+    Hero "1" *-- "0..*" BoundAbility: has
+    Hero "1" o-- "0..1" Type: is of
+    Hero "0..*" o-- "0..1" Weapon: equips
+
+    Weapon "1" *-- "1..*" Attribute: has
+    Weapon "1" *-- "1" FalloffProfile: has
+    Weapon "1" *-- "1" DamageRange: has
+
+    class Type {
+        <<enumeration>>
+        BRAWLER
+        MARKSMAN
+        TANK
+        SUPPORT
+        ASSASSIN
+    }
+
+    class Attribute {
+        <<enumeration>>
+        BURST_FIRE
+        MEDIUM_RANGE
+        CLOSE_RANGE
+        HEAVY_HITTER
+        SPREADSHOT
+        BEAM_WEAPON
+        LONG_RANGE
+    }
