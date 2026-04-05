@@ -1,4 +1,4 @@
-package io.github.sophon.firefrog.core.util
+package io.github.sophon.core.util
 
 import kotlin.random.Random
 

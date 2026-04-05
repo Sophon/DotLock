@@ -1,9 +1,9 @@
-package io.github.sophon.firefrog.core
+package io.github.sophon.core
 
+import io.github.sophon.core.network.HttpClientFactory
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
 import kotlinx.serialization.json.Json
-import io.github.sophon.firefrog.core.network.HttpClientFactory
 import org.koin.dsl.module
 
 val coreModule = module {

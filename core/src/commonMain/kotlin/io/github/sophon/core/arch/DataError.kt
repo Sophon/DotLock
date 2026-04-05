@@ -1,4 +1,4 @@
-package io.github.sophon.firefrog.core.arch
+package io.github.sophon.core.arch
 
 sealed interface DataError: Error {
     enum class Local: DataError {

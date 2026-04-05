@@ -1,4 +1,4 @@
-package io.github.sophon.firefrog.core.network
+package io.github.sophon.core.network
 
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine

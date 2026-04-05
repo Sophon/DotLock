@@ -1,7 +1,7 @@
-package io.github.sophon.firefrog.core.network
+package io.github.sophon.core.network
 
-import io.github.sophon.firefrog.core.arch.DataError
-import io.github.sophon.firefrog.core.arch.Result
+import io.github.sophon.core.arch.DataError
+import io.github.sophon.core.arch.Result
 import io.ktor.client.call.body
 import io.ktor.client.network.sockets.SocketTimeoutException
 import io.ktor.client.statement.HttpResponse
