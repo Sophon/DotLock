@@ -1,4 +1,4 @@
-package io.github.sophon.deadlock.data
+package io.github.sophon.deadlock.data.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

@@ -1,4 +1,4 @@
-package io.github.sophon.deadlock.data
+package io.github.sophon.deadlock.data.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -39,8 +39,8 @@ internal data class ItemDto(
     @SerialName("StunDuration") val stunDuration: Double? = null,
     @SerialName("DebuffDuration") val debuffDuration: Double? = null,
 
-    @SerialName("BonusMoveSpeed") val bonusMoveSpeed: Double? = null,
-    @SerialName("BonusSprintSpeed") val bonusSprintSpeed: Double? = null,
+    @SerialName("BonusMoveSpeed") val bonusMoveSpeed: String? = null,
+    @SerialName("BonusSprintSpeed") val bonusSprintSpeed: String? = null,
     @SerialName("BonusFireRate") val bonusFireRate: Double? = null,
     @SerialName("BonusHealth") val bonusHealth: ScaledValueDto? = null,
     @SerialName("BonusHealthRegen") val bonusHealthRegen: Double? = null,
