@@ -17,7 +17,9 @@ internal class SyncItemsUseCase(
         return source.downloadItemList()
             .mapError { it.toDomain() }
             .flatMap { map ->
-                val itemList = map.entries.map { it.toDomain() }
+                val itemList = map.entries
+                    .map { it.toDomain() }
+                    .filter { it.key.isNotBlank() }
                 Napier.d(tag = TAG) { "${itemList.size} items downloaded" }
                 db.insert(itemList)
             }

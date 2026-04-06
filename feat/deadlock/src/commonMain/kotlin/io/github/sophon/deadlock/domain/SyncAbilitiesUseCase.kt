@@ -17,7 +17,9 @@ internal class SyncAbilitiesUseCase(
         return source.downloadAbilityList()
             .mapError { it.toDomain() }
             .flatMap { map ->
-                val abilityList = map.entries.map { it.toDomain() }
+                val abilityList = map.entries
+                    .map { it.toDomain() }
+                    .filter { it.key.isNotBlank() }
                 Napier.d(tag = TAG) { "${abilityList.size} abilities downloaded" }
                 db.insert(abilityList)
             }

@@ -12,7 +12,8 @@ internal fun Map.Entry<String, ItemDto>.toDomain(): Item {
     val key = key
 
     val item = Item(
-        name = key,
+        key = key,
+        name = dto.name ?: key,
         description = dto.description,
         isDisabled = dto.isDisabled ?: false,
         isStreetBrawl = dto.streetBrawl ?: false,

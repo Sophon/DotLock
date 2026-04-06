@@ -17,7 +17,9 @@ internal class SyncHeroesUseCase(
         return source.downloadHeroList()
             .mapError { it.toDomain() }
             .flatMap { map ->
-                val heroList = map.entries.map { it.toDomain() }
+                val heroList = map.entries
+                    .map { it.toDomain() }
+                    .filter { it.key.isNotBlank() }
                 Napier.d(tag = TAG) { "${heroList.size} heroes downloaded" }
                 db.insert(heroList)
             }

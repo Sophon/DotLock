@@ -1,6 +1,7 @@
 package io.github.sophon.core.domain.model
 
 data class Item(
+    val key: String,
     val name: String,
     val description: String?,
     val isDisabled: Boolean,

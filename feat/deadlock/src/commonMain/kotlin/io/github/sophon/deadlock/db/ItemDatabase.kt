@@ -1,5 +1,6 @@
 package io.github.sophon.deadlock.db
 
+import io.github.aakira.napier.Napier
 import io.github.sophon.core.arch.EmptyResult
 import io.github.sophon.core.domain.model.Item
 import io.github.sophon.core.arch.Result
@@ -22,9 +23,10 @@ internal class ItemDatabaseImpl : ItemDatabase {
         itemList.forEach { item ->
             val key = item.name.lowercase()
             if (itemMap.containsKey(key)) {
-                return Result.Error(WikiError.Duplicate("Item already exists: ${item.name}"))
+                Napier.e(tag = TAG) { "Item already exists: ${item.name}" }
+            } else {
+                itemMap[key] = item
             }
-            itemMap[key] = item
         }
         return Result.Success(Unit)
     }
@@ -44,5 +46,10 @@ internal class ItemDatabaseImpl : ItemDatabase {
         itemMap.clear()
         aliasMap.clear()
         return Result.Success(Unit)
+    }
+
+
+    private companion object {
+        const val TAG = "ItemDatabase"
     }
 }

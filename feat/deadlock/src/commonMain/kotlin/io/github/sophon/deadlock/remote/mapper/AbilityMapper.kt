@@ -10,6 +10,7 @@ internal fun Map.Entry<String, AbilityDto>.toDomain(): Ability {
     val key = key
 
     val ability = Ability(
+        key = key,
         name = key,
         isDisabled = dto.isDisabled ?: false,
         timing = dto.toDomainTiming(),

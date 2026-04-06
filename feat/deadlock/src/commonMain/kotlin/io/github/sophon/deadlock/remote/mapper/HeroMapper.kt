@@ -10,7 +10,7 @@ internal fun Map.Entry<String, HeroDto>.toDomain(): Hero {
 
     val hero = Hero(
         key = key,
-        name = dto.name.orEmpty(),
+        name = dto.name ?: key,
         type = dto.type?.toHeroType(),
         loreKey = dto.lore,
         playstyleKey = dto.playstyle,
