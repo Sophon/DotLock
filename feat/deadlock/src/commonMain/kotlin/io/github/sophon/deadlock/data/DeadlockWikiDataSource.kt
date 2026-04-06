@@ -1,12 +1,12 @@
 package io.github.sophon.deadlock.data
 
-import io.github.sophon.core.arch.DataError
 import io.github.sophon.core.arch.Result
 import io.github.sophon.core.arch.WikiError
 import io.github.sophon.core.arch.map
 import io.github.sophon.core.arch.mapError
 import io.github.sophon.core.domain.model.Ability
 import io.github.sophon.core.domain.model.Hero
+import io.github.sophon.core.domain.model.Item
 import io.github.sophon.core.network.safeCall
 import io.github.sophon.deadlock.URL_ABILITY
 import io.github.sophon.deadlock.URL_HERO
@@ -21,7 +21,7 @@ import io.ktor.client.request.get
 internal interface DeadlockWikiDataSource {
     suspend fun downloadHeroList(): Result<List<Hero>, WikiError>
     suspend fun downloadAbilityList(): Result<List<Ability>, WikiError>
-    suspend fun downloadItemList(): Result<List<ItemDto>, DataError>
+    suspend fun downloadItemList(): Result<List<Item>, WikiError>
 }
 
 internal class DeadlockWikiDataSourceImpl(
@@ -41,7 +41,10 @@ internal class DeadlockWikiDataSourceImpl(
             .mapError { it.toDomain() }
     }
 
-    override suspend fun downloadItemList(): Result<List<ItemDto>, DataError> {
-        return safeCall { httpClient.get(URL_ITEM) }
+    override suspend fun downloadItemList(): Result<List<Item>, WikiError> {
+        val result = safeCall<Map<String, ItemDto>> { httpClient.get(URL_ITEM) }
+        return result
+            .map { map -> map.entries.map { it.toDomain() } }
+            .mapError { it.toDomain() }
     }
 }

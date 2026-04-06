@@ -11,8 +11,7 @@ data class Item(
     val timing: Timing?,
     val targeting: Targeting?,
 
-    val statBonusSet: Set<StatBonus>,
-    val propertyUpgradeSet: Set<PropertyBonus>,
+    val bonusSet: Set<Bonus>,
 ) {
     data class Timing(
         val cooldown: Double?,
@@ -30,9 +29,9 @@ data class Item(
         val unitTargetLimit: Int?,
     )
 
-    data class StatBonus(
+    data class Bonus(
         val type: Type,
-        val scaledValue: ScaledValue,
+        val value: ScaledValue,
     ) {
         enum class Type {
             DAMAGE,
@@ -46,15 +45,11 @@ data class Item(
             DPS_INCREASE,
             DPS_MAX,
             DAMAGE_P_CHAIN,
-
             ARMOR_REDUCTION_BULLET,
-
             PROC_DAMAGE_ATTACK_DAMAGE_BASE_PCT,
             PROC_DAMAGE_ATTACK_DAMAGE_BASE_ALT_PCT,
-
             HP_REGEN_TOTAL,
             HP_BONUS,
-
             HEAL_P_STACK,
             HEAL_LIFE_STRIKE,
             HEAL_LIFE_STEAL,
@@ -63,25 +58,15 @@ data class Item(
             HEAL_P_CAST,
             REGEN,
             HEAL_ON_VEIL,
-
             VEX_BARRIER_COMBAT_BARRIER,
             COMBAT_BARRIER,
             BONUS_P_CHAIN,
-        }
-    }
-
-    data class PropertyBonus(
-        val type: Type,
-        val value: Double,
-    ) {
-        enum class Type {
             TECH_POWER,
             TECH_RESIST,
             BULLET_RESIST,
             BONUS_FIRE_RATE,
             BONUS_MS,
             BONUS_SPRINT,
-            BONUS_HP,
             BONUS_HP_REG,
             OOC_HP_REG,
             STAMINA,
@@ -100,14 +85,13 @@ data class Item(
             TECH_RADIUS_MULT,
             BONUS_ABILITY_DUR_PCT,
             ABILITY_CD,
-            BULLET_ARMOR_RED,
             MAGIC_RESIST_RED,
             HEAL_AMP_RECEIVE_PENALTY_PCT,
             HEAL_AMP_REGEN_PENALTY_PCT,
             BONUS_ABILITY_CHARGE,
-            MS_BONUS, //TODO: redundant with BONUS_MS
             FIRE_RATE_SLOW,
-            DAMAGE,
+            BONUS_MELEE_DAMAGE_PCT,
+            TECH_POWER_PCT,
         }
     }
 }

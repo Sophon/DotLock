@@ -1,11 +1,13 @@
 package io.github.sophon.core.domain.model
 
+import io.github.sophon.core.util.toEnumOrDefault
+
 data class ShopInfo(
     val cost: Int?,
     val tier: Int?,
     val slot: Slot?,
     val activation: Activation,
-    val targetTypes: List<TargetType>,
+    val targetTypeSet: Set<TargetType>,
     val shopFilters: List<ShopFilter>,
     val components: List<String>,
 ) {
@@ -13,6 +15,8 @@ data class ShopInfo(
         WEAPON,
         ARMOR,
         TECH,
+
+        UNKNOWN,
     }
 
     enum class Activation {
@@ -21,6 +25,8 @@ data class ShopInfo(
         INSTANT_CAST_TOGGLE,
         PRESS,
         ON_RELEASE,
+
+        UNKNOWN,
     }
 
     enum class TargetType {
@@ -37,6 +43,12 @@ data class ShopInfo(
         CREEP_ENEMY,
         PROP_ENEMY,
         NEUTRAL,
+
+        UNKNOWN;
+
+        companion object {
+            fun fromString(value: String?) = value.toEnumOrDefault(UNKNOWN)
+        }
     }
 
     enum class ShopFilter {
@@ -49,5 +61,11 @@ data class ShopInfo(
         DISRUPTION,
         HEALING,
         MELEE,
+
+        UNKNOWN;
+
+        companion object {
+            fun fromString(value: String?) = value.toEnumOrDefault(UNKNOWN)
+        }
     }
 }
