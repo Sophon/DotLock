@@ -3,14 +3,12 @@ package io.github.sophon.core.domain.model
 data class Ability(
     val key: String,
     val name: String?,
+
     val isDisabled: Boolean,
 
     val timing: Timing,
     val targeting: Targeting,
-
     val propertySet: Set<Property>,
-
-    val zone: ZoneStats?,
     val upgrades: List<Upgrade>,
 ) {
     data class Property(
