@@ -1,5 +1,7 @@
 package io.github.sophon.deadlock
 
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import io.github.sophon.core.arch.onError
 import io.github.sophon.core.arch.onSuccess
 import io.github.sophon.core.coreModule
@@ -14,6 +16,8 @@ suspend fun main() = coroutineScope {
             deadlockModule(),
         )
     }
+
+    Napier.base(DebugAntilog())
 
     val client = KoinPlatform.getKoin().get<DeadlockWikiClient>()
     client.downloadAllData()
