@@ -9,21 +9,36 @@ import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.coroutines.ensureActive
 import kotlin.coroutines.coroutineContext
 
-suspend inline fun <reified T> safeCall(
-    request: () -> HttpResponse,
+//suspend inline fun <reified T> safeCall(
+//    request: () -> HttpResponse,
+//): Result<T, DataError.Remote> {
+//    val response = try {
+//        request()
+//    } catch (e: SocketTimeoutException) {
+//        return Result.Error(DataError.Remote.REQUEST_TIMEOUT)
+//    } catch (e: UnresolvedAddressException) {
+//        return Result.Error(DataError.Remote.NO_INTERNET)
+//    } catch (e: Exception) {
+//        coroutineContext.ensureActive()
+//        return Result.Error(DataError.Remote.UNKNOWN)
+//    }
+//
+//    return response.toResult()
+//}
+
+suspend fun <T> safeCall(
+    request: suspend () -> T,
 ): Result<T, DataError.Remote> {
-    val response = try {
-        request()
+    return try {
+        Result.Success(request())
     } catch (e: SocketTimeoutException) {
-        return Result.Error(DataError.Remote.REQUEST_TIMEOUT)
+        Result.Error(DataError.Remote.REQUEST_TIMEOUT)
     } catch (e: UnresolvedAddressException) {
-        return Result.Error(DataError.Remote.NO_INTERNET)
+        Result.Error(DataError.Remote.NO_INTERNET)
     } catch (e: Exception) {
         coroutineContext.ensureActive()
-        return Result.Error(DataError.Remote.UNKNOWN)
+        Result.Error(DataError.Remote.UNKNOWN)
     }
-
-    return response.toResult()
 }
 
 suspend inline fun <reified T> HttpResponse.toResult(): Result<T, DataError.Remote> {
