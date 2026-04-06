@@ -6,7 +6,7 @@ import io.ktor.client.engine.cio.CIO
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
-val coreModule = module {
+fun coreModule() = module {
     // KMP: single<HttpClientEngine> { httpClientEngine() }
     // KMP: single<HttpClient> { HttpClientFactory.create(get(), get()) }
     single<HttpClient> { HttpClientFactory.create(CIO.create(), get()) }
