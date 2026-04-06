@@ -132,13 +132,13 @@ private fun ItemDto.toDomainBonus(): Set<Item.Bonus> {
     fireRateSlow?.let { bonuses.add(Item.Bonus(Item.Bonus.Type.FIRE_RATE_SLOW, it.toScaledValue())) }
     bonusMeleeDamagePercent?.let { bonuses.add(Item.Bonus(Item.Bonus.Type.BONUS_MELEE_DAMAGE_PCT, it.toScaledValue())) }
     techPowerPercent?.let { bonuses.add(Item.Bonus(Item.Bonus.Type.TECH_POWER_PCT, it.toScaledValue())) }
-    bonusMoveSpeed?.toDoubleOrNull()?.let { bonuses.add(Item.Bonus(Item.Bonus.Type.BONUS_MS, it.toScaledValue())) }
-    bonusSprintSpeed?.toDoubleOrNull()?.let { bonuses.add(Item.Bonus(Item.Bonus.Type.BONUS_SPRINT, it.toScaledValue())) }
+    bonusMoveSpeed?.parseDouble()?.let { bonuses.add(Item.Bonus(Item.Bonus.Type.BONUS_MS, it.toScaledValue())) }
+    bonusSprintSpeed?.parseDouble()?.let { bonuses.add(Item.Bonus(Item.Bonus.Type.BONUS_SPRINT, it.toScaledValue())) }
 
     return bonuses.toSet()
 }
 
-private fun String.toDoubleOrNull(): Double? {
+private fun String.parseDouble(): Double? {
     return this
         .filter { it.isDigit() || it == '.' }
         .toDoubleOrNull()
