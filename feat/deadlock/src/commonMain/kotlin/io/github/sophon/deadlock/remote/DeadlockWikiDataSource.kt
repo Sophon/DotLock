@@ -1,4 +1,4 @@
-package io.github.sophon.deadlock.data
+package io.github.sophon.deadlock.remote
 
 import io.github.sophon.core.arch.DataError
 import io.github.sophon.core.arch.Result
@@ -6,9 +6,9 @@ import io.github.sophon.core.network.safeCall
 import io.github.sophon.deadlock.URL_ABILITY
 import io.github.sophon.deadlock.URL_HERO
 import io.github.sophon.deadlock.URL_ITEM
-import io.github.sophon.deadlock.data.dto.AbilityDto
-import io.github.sophon.deadlock.data.dto.HeroDto
-import io.github.sophon.deadlock.data.dto.ItemDto
+import io.github.sophon.deadlock.remote.dto.AbilityDto
+import io.github.sophon.deadlock.remote.dto.HeroDto
+import io.github.sophon.deadlock.remote.dto.ItemDto
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 

@@ -1,4 +1,4 @@
-package io.github.sophon.deadlock.data.mapper
+package io.github.sophon.deadlock.remote.mapper
 
 import io.github.sophon.core.arch.DataError
 import io.github.sophon.core.arch.WikiError

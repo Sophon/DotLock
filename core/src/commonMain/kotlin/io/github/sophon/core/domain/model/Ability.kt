@@ -1,8 +1,7 @@
 package io.github.sophon.core.domain.model
 
 data class Ability(
-    val key: String,
-    val name: String?,
+    val name: String,
 
     val isDisabled: Boolean,
 

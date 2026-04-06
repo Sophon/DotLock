@@ -1,8 +1,8 @@
-package io.github.sophon.deadlock.data.mapper
+package io.github.sophon.deadlock.remote.mapper
 
 import io.github.sophon.core.domain.model.Ability
-import io.github.sophon.deadlock.data.dto.AbilityDto
-import io.github.sophon.deadlock.data.dto.ScaledValueDto
+import io.github.sophon.deadlock.remote.dto.AbilityDto
+import io.github.sophon.deadlock.remote.dto.ScaledValueDto
 import io.github.sophon.core.domain.model.ScaledValue
 
 internal fun Map.Entry<String, AbilityDto>.toDomain(): Ability {
@@ -10,8 +10,7 @@ internal fun Map.Entry<String, AbilityDto>.toDomain(): Ability {
     val key = key
 
     val ability = Ability(
-        key = dto.key ?: key,
-        name = dto.name,
+        name = key,
         isDisabled = dto.isDisabled ?: false,
         timing = dto.toDomainTiming(),
         targeting = dto.toDomainTargeting(),

@@ -1,19 +1,18 @@
-package io.github.sophon.deadlock.data.mapper
+package io.github.sophon.deadlock.remote.mapper
 
 import io.github.sophon.core.domain.model.Item
 import io.github.sophon.core.domain.model.ScaledValue
 import io.github.sophon.core.domain.model.ShopInfo
 import io.github.sophon.core.util.toEnumOrDefault
-import io.github.sophon.deadlock.data.dto.ItemDto
-import io.github.sophon.deadlock.data.dto.ScaledValueDto
+import io.github.sophon.deadlock.remote.dto.ItemDto
+import io.github.sophon.deadlock.remote.dto.ScaledValueDto
 
 internal fun Map.Entry<String, ItemDto>.toDomain(): Item {
     val dto = value
     val key = key
 
     val item = Item(
-        key = key,
-        name = dto.name.orEmpty(),
+        name = key,
         description = dto.description,
         isDisabled = dto.isDisabled ?: false,
         isStreetBrawl = dto.streetBrawl ?: false,

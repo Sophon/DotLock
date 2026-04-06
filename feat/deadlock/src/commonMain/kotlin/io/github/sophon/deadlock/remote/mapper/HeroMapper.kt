@@ -1,8 +1,8 @@
-package io.github.sophon.deadlock.data.mapper
+package io.github.sophon.deadlock.remote.mapper
 
 import io.github.sophon.core.domain.model.Hero
 import io.github.sophon.core.domain.model.Weapon
-import io.github.sophon.deadlock.data.dto.HeroDto
+import io.github.sophon.deadlock.remote.dto.HeroDto
 
 internal fun Map.Entry<String, HeroDto>.toDomain(): Hero {
     val dto = value
