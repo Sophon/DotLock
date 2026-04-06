@@ -4,15 +4,15 @@ data class Hero(
     val key: String,
     val name: String,
     val type: Type?,
-    val loreKey: String,
-    val playstyleKey: String,
-    val roleKey: String,
+    val loreKey: String?,
+    val playstyleKey: String?,
+    val roleKey: String?,
 
-    val isDisabled: Boolean = false,
-    val isInDevelopment: Boolean = false,
-    val isInHeroLabs: Boolean = false,
-    val isSelectable: Boolean = true,
-    val isRecommended: Boolean = false,
+    val isDisabled: Boolean,
+    val isInDevelopment: Boolean,
+    val isInHeroLabs: Boolean,
+    val isSelectable: Boolean,
+    val isRecommended: Boolean,
 
     val maxHealth: Double,
     val baseHealthRegen: Double,
@@ -32,7 +32,7 @@ data class Hero(
     val techRange: Double,
 
     val boundAbilities: List<BoundAbility>,
-    val weapon: Weapon?
+    val weapon: Weapon,
 ) {
     enum class Type {
         BRAWLER,
@@ -40,6 +40,7 @@ data class Hero(
         TANK,
         SUPPORT,
         ASSASSIN,
+        MYSTIC,
     }
 
     data class MovementStats(
@@ -75,7 +76,7 @@ data class Hero(
         val techPower: Double,
         val lightMeleeDamage: Double,
         val heavyMeleeDamage: Double,
-        val powerIncreases: Int,
+        val powerIncreases: Double,
         val dps: Double? = null,
         val sustainedDps: Double? = null,
         val bonusAttackRange: Double? = null,

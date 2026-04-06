@@ -31,6 +31,8 @@ data class Weapon(
         SPREADSHOT,
         BEAM_WEAPON,
         LONG_RANGE,
+
+        UNKNOWN,
     }
 
     data class FalloffProfile(
