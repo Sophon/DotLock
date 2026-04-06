@@ -29,6 +29,11 @@ data class Item(
         val unitTargetLimit: Int?,
     )
 
+    /**
+     * TODO: just have categories and then inside have String and value
+     * for example category HEAL; lifeStrike: String, regen: String etc
+     * this means we can filter items by heal etc
+     */
     data class Bonus(
         val type: Type,
         val value: ScaledValue,
