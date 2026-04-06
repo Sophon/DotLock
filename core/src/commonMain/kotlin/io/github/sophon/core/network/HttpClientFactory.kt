@@ -24,6 +24,7 @@ object HttpClientFactory {
             }
 
             install(ContentNegotiation) {
+                json(json, ContentType("text", "x-wiki"))
                 json(json)
             }
 
