@@ -1,6 +1,7 @@
 [versions]
 agp = "8.11.2" # not needed, for AS
 assertK = "0.25"
+buildkonfig = "0.17.1"
 jetbrainsKotlinJvm = "2.2.20"
 junit = "4.13.2"
 koin = "4.0.0"
@@ -50,6 +51,7 @@ test-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [plugins]
 androidLibrary = { id = "com.android.library", version.ref = "agp" } # not needed, for AS
+buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig"}
 jetbrainsKotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
