@@ -1,10 +1,10 @@
-package io.github.sophon.discord
+package io.github.sophon.discord.config
 
 import io.github.sophon.core.domain.model.Game
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Config(
+data class BotConfig(
     val featureList: List<Feature>,
     val adminConfig: AdminConfig? = null,
     val statsConfig: StatsConfig? = null,
