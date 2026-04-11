@@ -7,7 +7,7 @@ import io.github.sophon.core.arch.WikiError
 import io.github.sophon.core.domain.model.Ability
 import io.github.sophon.core.domain.model.Hero
 import io.github.sophon.core.domain.model.Item
-import io.github.sophon.deadlock.domain.SyncDataUseCase
+import io.github.sophon.deadlock.usecase.SyncDataUseCase
 
 interface DeadlockWikiClient {
     suspend fun downloadAllData(): EmptyResult<Error>
