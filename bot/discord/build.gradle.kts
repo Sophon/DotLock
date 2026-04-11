@@ -1,42 +1,80 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.buildkonfig)
 }
 
-group = "io.github.sophon.firefrog"
-version = "1.0-SNAPSHOT"
-
 kotlin {
-    jvmToolchain(21)
-
-    jvm()
+    jvm {
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+        }
+        @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
+        mainRun {
+            mainClass.set("io.github.sophon.discord.MainKt")
+        }
+    }
 
     sourceSets {
-        commonMain.dependencies {
+        jvmMain.dependencies {
             implementation(project(":core"))
             implementation(project(":feat:deadlock"))
 
-            implementation(libs.bundles.ktor)
-
-            implementation(libs.koin.core)
             implementation(libs.napier)
-
-            implementation(libs.kotlinx.coroutines.core)
-            implementation(libs.kotlinx.serialization.json)
-            implementation(libs.kotlin.date.time)
-        }
-
-        jvmMain.dependencies {
             implementation(libs.kord)
-            implementation(libs.ktor.cio)
-            implementation(libs.ktor.slf)
+            implementation(libs.kotlin.date.time)
+            implementation(libs.kotlin.reflect)
+            implementation(libs.ktor.java)
+
+            api(libs.koin.core)
         }
 
-        commonTest.dependencies {
+        jvmTest.dependencies {
+            implementation(libs.junit)
             implementation(libs.kotlin.test)
-            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.kotlin.testJunit)
             implementation(libs.test.assertk)
-            implementation(libs.test.turbine)
+            implementation(libs.kotlinx.coroutines.test)
         }
+    }
+}
+
+
+val fatJar = tasks.register<Jar>("fatJar") {
+    group = "build"
+    description = "Creates a fat JAR with all dependencies for JVM"
+
+    archiveBaseName.set("discord-bot")
+    archiveClassifier.set("all")
+
+    val jvmTarget = kotlin.targets.getByName("jvm")
+    from(jvmTarget.compilations.getByName("main").output)
+
+    val runtimeClasspath = configurations.getByName("jvmRuntimeClasspath")
+    dependsOn(runtimeClasspath)
+
+    from({
+        runtimeClasspath.map { if (it.isDirectory) it else zipTree(it) }
+    })
+
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    manifest {
+        attributes["Main-Class"] = "io.github.sophon.discord.MainKt"
+    }
+}
+
+tasks.matching { it.name == "jvmRun" }.configureEach {
+    (this as JavaExec).workingDir = rootProject.projectDir
+}
+
+val featureVersion = "0.1.0"
+buildkonfig {
+    packageName = "io.github.sophon.discord"
+
+    defaultConfigs {
+        buildConfigField(STRING, "VERSION", featureVersion)
     }
 }
