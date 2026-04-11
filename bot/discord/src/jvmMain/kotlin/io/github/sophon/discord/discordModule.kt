@@ -3,6 +3,9 @@ package io.github.sophon.discord
 import dev.kord.core.Kord
 import io.github.sophon.core.coreModule
 import io.github.sophon.deadlock.deadlockModule
+import io.github.sophon.discord.data.FileManager
+import io.github.sophon.discord.data.FileManagerImpl
+import io.github.sophon.discord.featureRegistry.featureModule
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -22,6 +25,7 @@ fun initKoin(
         discordModule(kord),
         coreModule(),
 
+        featureModule(),
         deadlockModule(),
     )
 }
@@ -33,4 +37,6 @@ fun discordModule(kord: Kord) = module {
     single { kord }
 
     singleOf(::DiscordBotImpl).bind<DiscordBot>()
+
+    singleOf(::FileManagerImpl).bind<FileManager>()
 }
