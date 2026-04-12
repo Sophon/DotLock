@@ -14,9 +14,11 @@ import io.github.aakira.napier.Napier
 import io.github.sophon.core.arch.onError
 import io.github.sophon.core.arch.onSuccess
 import io.github.sophon.discord.config.BotConfig
+import io.github.sophon.discord.domain.BotOutput
 import io.github.sophon.discord.domain.DiscordRegisteredFeature
 import io.github.sophon.discord.domain.Source
 import io.github.sophon.discord.domain.adminCommands
+import io.github.sophon.discord.usecase.ResultToEmbedUseCase
 import io.github.sophon.discord.usecase.RouteCommandToFeatureUseCase
 import io.github.sophon.discord.util.safeRestCall
 import kotlinx.coroutines.CoroutineScope
@@ -37,7 +39,10 @@ internal class DiscordBotImpl(
     private val adminConfig: BotConfig.AdminConfig,
 
     private val routeCommandToFeatureUseCase: RouteCommandToFeatureUseCase,
+    private val resultToEmbedUseCase: ResultToEmbedUseCase,
 ): DiscordBot {
+    private val editableEmbedMap = mutableMapOf<String, BotOutput>()
+
     override suspend fun startSession() {
         Napier.i(tag = TAG) { "🚀 Bot starting..." }
 
@@ -243,17 +248,17 @@ internal class DiscordBotImpl(
             serverName = interaction.getGuildOrNull()?.name.orEmpty(),
         )
 
-        routeCommandToFeatureUseCase.invoke(
+        val result = routeCommandToFeatureUseCase.invoke(
             command = command,
             query = query,
             source = source,
-        )
-            .onSuccess { botOutput ->
-                Napier.d(tag = TAG) { "Success" }
-            }
-            .onError { error ->
+        ).onError { error ->
                 Napier.e(tag = TAG) { error.toString() }
             }
+
+        with (resultToEmbedUseCase) {
+            invoke(source, result, coroutineScope, editableEmbedMap)
+        }
     }
 
     private suspend fun MessageCreateEvent.handleMessage() {
@@ -266,16 +271,16 @@ internal class DiscordBotImpl(
             serverName = message.getGuildOrNull()?.name.orEmpty(),
         )
 
-        routeCommandToFeatureUseCase.invoke(
+        val result = routeCommandToFeatureUseCase.invoke(
             message = message.content,
             source = source,
-        )
-            .onSuccess { botOutput ->
-                Napier.d(tag = TAG) { "Success" }
-            }
-            .onError { error ->
+        ).onError { error ->
                 Napier.e(tag = TAG) { error.toString() }
             }
+
+        with (resultToEmbedUseCase) {
+            invoke(source, result, coroutineScope, editableEmbedMap)
+        }
     }
 
 
