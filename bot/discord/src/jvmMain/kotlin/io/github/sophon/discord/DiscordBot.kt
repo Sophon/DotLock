@@ -12,12 +12,11 @@ import dev.kord.core.on
 import dev.kord.rest.builder.interaction.string
 import io.github.aakira.napier.Napier
 import io.github.sophon.core.arch.onError
-import io.github.sophon.core.arch.onSuccess
 import io.github.sophon.discord.config.BotConfig
 import io.github.sophon.discord.domain.BotOutput
-import io.github.sophon.discord.domain.DiscordRegisteredFeature
 import io.github.sophon.discord.domain.Source
 import io.github.sophon.discord.domain.adminCommands
+import io.github.sophon.discord.featureRegistry.DiscordRegisteredFeature
 import io.github.sophon.discord.usecase.ResultToEmbedUseCase
 import io.github.sophon.discord.usecase.RouteCommandToFeatureUseCase
 import io.github.sophon.discord.util.safeRestCall
@@ -75,7 +74,7 @@ internal class DiscordBotImpl(
 //        cleanOldGuildCommands(kord)
 //        createGlobalCommands()
 //        createAdminCommands()
-//        createCommandsForTestServer()
+        createCommandsForTestServer()
 
         monitorGatewayHealth()
 

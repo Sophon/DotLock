@@ -8,7 +8,7 @@ import io.github.sophon.discord.domain.BotError
 import io.github.sophon.discord.domain.BotOutput
 import io.github.sophon.discord.domain.Command
 import io.github.sophon.discord.domain.Command.Companion.fromStringOrNull
-import io.github.sophon.discord.domain.DiscordRegisteredFeature
+import io.github.sophon.discord.featureRegistry.DiscordRegisteredFeature
 import io.github.sophon.discord.domain.Source
 
 internal class RouteCommandToFeatureUseCase(
