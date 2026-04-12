@@ -12,3 +12,11 @@ fun String.maskSecret(): String {
         }
     }
 }
+
+fun String?.orDash(): String = this?.takeUnless { it.isBlank() } ?: "-"
+
+fun String.truncate(maxLength: Int): String {
+    return if (length > maxLength) {
+        take(maxLength - 3) + "..."
+    } else this
+}
