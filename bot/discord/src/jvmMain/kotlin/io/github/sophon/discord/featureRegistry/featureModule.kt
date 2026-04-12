@@ -6,6 +6,8 @@ import org.koin.dsl.module
 import io.github.sophon.core.arch.Result
 import io.github.sophon.discord.config.BotConfig
 import io.github.sophon.discord.domain.DiscordRegisteredFeature
+import io.github.sophon.discord.usecase.FetchItemUseCase
+import org.koin.dsl.bind
 
 internal fun featureModule() = module {
     singleOf(::ConfigLoader)
@@ -45,4 +47,8 @@ internal fun featureModule() = module {
 //        features + adminFeature
         features
     }
+
+    singleOf(::DeadlockFeature).bind<DiscordRegisteredFeature>()
+
+    singleOf(::FetchItemUseCase)
 }

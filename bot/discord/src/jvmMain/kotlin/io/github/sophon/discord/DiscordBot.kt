@@ -5,14 +5,20 @@ import dev.kord.common.entity.Permissions
 import dev.kord.common.entity.Snowflake
 import dev.kord.core.Kord
 import dev.kord.core.event.gateway.DisconnectEvent
+import dev.kord.core.event.interaction.ButtonInteractionCreateEvent
+import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEvent
+import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
 import dev.kord.rest.builder.interaction.string
 import io.github.aakira.napier.Napier
 import io.github.sophon.discord.config.BotConfig
 import io.github.sophon.discord.domain.DiscordRegisteredFeature
 import io.github.sophon.discord.domain.adminCommands
+import io.github.sophon.discord.util.safeRestCall
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 
 interface DiscordBot {
     suspend fun startSession()
@@ -29,6 +35,7 @@ internal class DiscordBotImpl(
     override suspend fun startSession() {
         Napier.i(tag = TAG) { "🚀 Bot starting..." }
 
+        startFeatures()
         startTracking()
         startKord()
 
@@ -36,24 +43,39 @@ internal class DiscordBotImpl(
     }
 
 
+    private suspend fun startFeatures() {
+        supervisorScope {
+            featureList.forEach { feature ->
+                launch {
+                    runCatching { feature.start() }
+                        .onFailure {
+                            Napier.e(tag = TAG) { "Failed to load ${feature.featureInfo.name}: $it" }
+                        }
+                }
+            }
+        }
+    }
+
     private fun startTracking() {
         //TODO()
     }
 
     private suspend fun startKord() {
 //        cleanOldGuildCommands(kord)
-//        createGlobalCommands()
+        createGlobalCommands()
         createAdminCommands()
         createCommandsForTestServer()
 
         monitorGatewayHealth()
 
+        observeBotInteractions()
+
         //‼️ THIS SUSPENDS UNTIL LOGGED OUT
         try {
             kord.login {
-//                presence {
-//                    playing("/FD | /HELP | /FEEDBACK")
-//                }
+                presence {
+                    playing("/ability | /hero | /item")
+                }
             }
         } catch (e: Exception) {
             Napier.e(tag = TAG) { "💥 Login failed: ${e.message}" }
@@ -83,7 +105,7 @@ internal class DiscordBotImpl(
         try {
             kord.createGlobalApplicationCommands {
                 featureList
-                    .flatMap { feature -> feature.otherCommands + listOfNotNull(feature.defaultCommand) }
+                    .flatMap { feature -> feature.supportedCommands }
                     .distinctBy { it.name.lowercase() }
                     .filter { supportedCommand ->
                         adminCommands.contains(supportedCommand).not()
@@ -110,7 +132,7 @@ internal class DiscordBotImpl(
         val testGuildSnowFlake = Snowflake(adminConfig.adminServerId)
         kord.createGuildApplicationCommands(testGuildSnowFlake) {
             featureList
-                .flatMap { feature -> feature.otherCommands + listOfNotNull(feature.defaultCommand) }
+                .flatMap { feature -> feature.supportedCommands }
                 .distinctBy { it.name.lowercase() }
                 .forEach { supportedCommand ->
                     input(
@@ -175,6 +197,40 @@ internal class DiscordBotImpl(
         kord.on<dev.kord.core.event.gateway.ResumedEvent> {
             Napier.i(tag = TAG) { "Gateway resumed successfully" }
         }
+    }
+
+    private fun observeBotInteractions() {
+        kord.on<GuildChatInputCommandInteractionCreateEvent> {
+            safeRestCall(TAG) { handleCommand() }
+        }
+        kord.on<MessageCreateEvent> {
+            // ignoring other bots, even ourselves
+            if (message.author?.isBot != false) return@on
+
+            // ignoring if someone replies with tag
+            val botId = kord.selfId
+            val botMention = "<@$botId>"
+            val botNicknameMention = "<@!$botId>"
+            if (botMention !in message.content && botNicknameMention !in message.content) {
+                return@on
+            }
+
+            safeRestCall(TAG) { handleMessage() }
+        }
+        kord.on<ButtonInteractionCreateEvent> {
+//            handleButtonInteractionUseCase.invoke(interaction, editableEmbedMap, coroutineScope)
+//                .onError { error ->
+//                    Napier.e(tag = TAG) { "${interaction.data.guildId} → Button interaction: $error" }
+//                }
+        }
+    }
+
+    private suspend fun GuildChatInputCommandInteractionCreateEvent.handleCommand() {
+        //TODO
+    }
+
+    private suspend fun MessageCreateEvent.handleMessage() {
+        //TODO
     }
 
 

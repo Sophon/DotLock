@@ -20,6 +20,8 @@ import org.koin.dsl.module
 fun deadlockModule() = module {
     singleOf(::DeadlockWikiClientImpl).bind<DeadlockWikiClient>()
 
+    single { DeadlockFeatureInfo }
+
     singleOf(::DeadlockWikiDataSourceImpl).bind<DeadlockWikiDataSource>()
     singleOf(::AbilityDatabaseImpl).bind<AbilityDatabase>()
     singleOf(::HeroDatabaseImpl).bind<HeroDatabase>()
