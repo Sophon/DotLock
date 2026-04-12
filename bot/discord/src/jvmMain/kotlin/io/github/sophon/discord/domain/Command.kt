@@ -7,7 +7,16 @@ internal sealed class Command(
 ) {
     //TODO: ability
     //TODO: hero
-    //TODO: item
+    object Item: Command(
+        name = "item",
+        description = "Item data",
+        argumentList = listOf(
+            Argument(
+                name = "item",
+                description = "item name",
+            )
+        )
+    )
 
 
     data class Argument(
@@ -20,6 +29,10 @@ internal sealed class Command(
         val entries: List<Command> by lazy {
             Command::class.sealedSubclasses
                 .mapNotNull { it.objectInstance }
+        }
+
+        fun Companion.fromStringOrNull(value: String): Command? {
+            return entries.find { it.name.equals(value, ignoreCase = true) }
         }
     }
 }

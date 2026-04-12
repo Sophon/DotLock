@@ -1,4 +1,4 @@
-package io.github.sophon.deadlock.domain
+package io.github.sophon.deadlock.usecase
 
 import io.github.aakira.napier.Napier
 import io.github.sophon.core.arch.EmptyResult

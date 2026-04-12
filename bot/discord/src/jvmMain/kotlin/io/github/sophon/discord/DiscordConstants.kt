@@ -9,6 +9,8 @@ internal const val EMBED_BUTTON_DURATION_DEFAULT_S = 15
 internal const val EMBED_BUTTON_DURATION_INF = 0
 internal const val EMBED_LIST_MIN_COLUMN = 10
 internal const val EMBED_LIST_PER_COLUMN = 20
+internal const val TIME_UPDATE_INTERVAL_H = 3
+internal const val TIME_AUTO_EDIT_EMBED_S = 10
 
 internal const val URL_REPO = "https://github.com/Sophon/FireFrog"
 

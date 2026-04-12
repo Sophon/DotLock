@@ -1,0 +1,24 @@
+{
+  "featureList": [
+    {
+      "name": "Deadlock Wiki",
+      "isEnabled": true,
+      "supportedGames": []
+    }
+  ],
+  "adminConfig": {
+    "administratorIdList": [
+      "126041495038853120"
+    ],
+    "feedbackChannelIdList": [
+      "1492634099821707384"
+    ],
+    "adminServerId": "717398042562658344"
+  },
+  "statsConfig": {
+    "isEnabled": true,
+    "statsChannelIdList": [
+      "1492635316144832583"
+    ]
+  }
+}

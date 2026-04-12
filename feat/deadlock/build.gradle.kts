@@ -1,6 +1,9 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.buildkonfig)
 }
 
 group = "io.github.sophon.firefrog"
@@ -27,5 +30,14 @@ kotlin {
             implementation(libs.test.turbine)
             implementation(libs.junit)
         }
+    }
+}
+
+val featureVersion = "0.1.0"
+buildkonfig {
+    packageName = "io.github.sophon.wikiwavu"
+
+    defaultConfigs {
+        buildConfigField(STRING, "VERSION", featureVersion)
     }
 }
