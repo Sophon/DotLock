@@ -20,3 +20,21 @@ fun String.truncate(maxLength: Int): String {
         take(maxLength - 3) + "..."
     } else this
 }
+
+fun String.removeTag(): String {
+    return if (contains("@")) {
+        this
+            .substringAfter("@")
+            .substringAfter(" ")
+    } else this
+}
+
+fun String.normalizeWhiteSpace(): String {
+    return this.replace(Regex("\\s+"), " ")
+}
+
+fun String.extractFirstWord(): String {
+    return this
+        .trim()
+        .substringBefore(' ')
+}

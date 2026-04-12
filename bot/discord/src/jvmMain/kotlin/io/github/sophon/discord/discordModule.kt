@@ -6,6 +6,7 @@ import io.github.sophon.deadlock.deadlockModule
 import io.github.sophon.discord.data.FileManager
 import io.github.sophon.discord.data.FileManagerImpl
 import io.github.sophon.discord.featureRegistry.featureModule
+import io.github.sophon.discord.usecase.RouteCommandToFeatureUseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -39,4 +40,6 @@ fun discordModule(kord: Kord) = module {
     singleOf(::DiscordBotImpl).bind<DiscordBot>()
 
     singleOf(::FileManagerImpl).bind<FileManager>()
+
+    singleOf(::RouteCommandToFeatureUseCase)
 }

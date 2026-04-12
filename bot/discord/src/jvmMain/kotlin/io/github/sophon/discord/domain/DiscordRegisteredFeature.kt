@@ -7,7 +7,7 @@ import io.github.sophon.core.domain.model.Game
 internal interface DiscordRegisteredFeature {
     val featureInfo: FeatureInfo
 
-    val supportedCommands: List<Command>
+    val supportedCommands: Set<Command>
 
     fun registerGames(enabledGames: List<Game>) {
         //default: for when feature doesn't support games

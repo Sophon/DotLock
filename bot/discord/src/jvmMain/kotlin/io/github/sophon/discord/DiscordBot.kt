@@ -11,9 +11,13 @@ import dev.kord.core.event.message.MessageCreateEvent
 import dev.kord.core.on
 import dev.kord.rest.builder.interaction.string
 import io.github.aakira.napier.Napier
+import io.github.sophon.core.arch.onError
+import io.github.sophon.core.arch.onSuccess
 import io.github.sophon.discord.config.BotConfig
 import io.github.sophon.discord.domain.DiscordRegisteredFeature
+import io.github.sophon.discord.domain.Source
 import io.github.sophon.discord.domain.adminCommands
+import io.github.sophon.discord.usecase.RouteCommandToFeatureUseCase
 import io.github.sophon.discord.util.safeRestCall
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collect
@@ -31,6 +35,8 @@ internal class DiscordBotImpl(
 
     private val featureList: List<DiscordRegisteredFeature>,
     private val adminConfig: BotConfig.AdminConfig,
+
+    private val routeCommandToFeatureUseCase: RouteCommandToFeatureUseCase,
 ): DiscordBot {
     override suspend fun startSession() {
         Napier.i(tag = TAG) { "🚀 Bot starting..." }
@@ -62,9 +68,9 @@ internal class DiscordBotImpl(
 
     private suspend fun startKord() {
 //        cleanOldGuildCommands(kord)
-        createGlobalCommands()
-        createAdminCommands()
-        createCommandsForTestServer()
+//        createGlobalCommands()
+//        createAdminCommands()
+//        createCommandsForTestServer()
 
         monitorGatewayHealth()
 
@@ -226,11 +232,50 @@ internal class DiscordBotImpl(
     }
 
     private suspend fun GuildChatInputCommandInteractionCreateEvent.handleCommand() {
-        //TODO
+        val command = interaction.command.rootName
+            .lowercase()
+        val query = interaction.command.strings.values
+            .joinToString(" ")
+        val source = Source(
+            username = interaction.user.username,
+            id = interaction.user.data.id.toString(),
+            channelId = interaction.channelId.toString(),
+            serverName = interaction.getGuildOrNull()?.name.orEmpty(),
+        )
+
+        routeCommandToFeatureUseCase.invoke(
+            command = command,
+            query = query,
+            source = source,
+        )
+            .onSuccess { botOutput ->
+                Napier.d(tag = TAG) { "Success" }
+            }
+            .onError { error ->
+                Napier.e(tag = TAG) { error.toString() }
+            }
     }
 
     private suspend fun MessageCreateEvent.handleMessage() {
-        //TODO
+        if (kord.selfId !in message.mentionedUserIds) return
+
+        val source = Source(
+            username = message.author?.username.orEmpty(),
+            id = message.author?.id.toString(),
+            channelId = message.channelId.toString(),
+            serverName = message.getGuildOrNull()?.name.orEmpty(),
+        )
+
+        routeCommandToFeatureUseCase.invoke(
+            message = message.content,
+            source = source,
+        )
+            .onSuccess { botOutput ->
+                Napier.d(tag = TAG) { "Success" }
+            }
+            .onError { error ->
+                Napier.e(tag = TAG) { error.toString() }
+            }
     }
 
 

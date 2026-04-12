@@ -30,5 +30,9 @@ internal sealed class Command(
             Command::class.sealedSubclasses
                 .mapNotNull { it.objectInstance }
         }
+
+        fun Companion.fromStringOrNull(value: String): Command? {
+            return entries.find { it.name.equals(value, ignoreCase = true) }
+        }
     }
 }

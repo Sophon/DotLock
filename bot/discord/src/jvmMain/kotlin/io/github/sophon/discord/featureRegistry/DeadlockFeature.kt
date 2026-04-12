@@ -18,7 +18,7 @@ internal class DeadlockFeature(
     private val fetchItemUseCase: FetchItemUseCase,
 ): DiscordRegisteredFeature {
     override val featureInfo: FeatureInfo = deadlockFeatureInfo.featureInfo
-    override val supportedCommands = listOf(
+    override val supportedCommands = setOf(
         Command.Item,
     )
 

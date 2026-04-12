@@ -5,6 +5,7 @@ import io.github.sophon.core.arch.Error
 sealed class BotError(private vararg val inputs: String) : Error {
     class InvalidCommand(command: String) : BotError(command)
     class NotFound(input: String) : BotError(input)
+    class BadUsage(query: String) : BotError(query)
 
     class DownloadError(error: String) : BotError(error)
     class BotLogicError(vararg inputs: String) : BotError(*inputs)
