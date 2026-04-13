@@ -7,6 +7,7 @@ import io.github.sophon.core.arch.WikiError
 import io.github.sophon.core.domain.model.Ability
 import io.github.sophon.core.domain.model.Hero
 import io.github.sophon.core.domain.model.Item
+import io.github.sophon.deadlock.usecase.FetchHeroUseCase
 import io.github.sophon.deadlock.usecase.FetchItemUseCase
 import io.github.sophon.deadlock.usecase.SyncDataUseCase
 
@@ -23,13 +24,14 @@ interface DeadlockWikiClient {
 internal class DeadlockWikiClientImpl(
     private val syncDataUseCase: SyncDataUseCase,
     private val fetchItemUseCase: FetchItemUseCase,
+    private val fetchHeroUseCase: FetchHeroUseCase,
 ): DeadlockWikiClient {
     override suspend fun downloadAllData(): EmptyResult<WikiError> {
         return syncDataUseCase.invoke()
     }
 
     override suspend fun fetchHero(heroName: String): Result<Hero, WikiError> {
-        TODO("Not yet implemented")
+        return fetchHeroUseCase.invoke(heroName)
     }
 
     override suspend fun fetchAbility(abilityName: String): Result<Ability, WikiError> {

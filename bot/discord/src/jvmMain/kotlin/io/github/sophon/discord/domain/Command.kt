@@ -18,6 +18,17 @@ internal sealed class Command(
         )
     )
 
+    object Hero: Command(
+        name = "hero",
+        description = "Hero data",
+        argumentList = listOf(
+            Argument(
+                name = "hero",
+                description = "hero name",
+            )
+        )
+    )
+
 
     data class Argument(
         val name: String,
