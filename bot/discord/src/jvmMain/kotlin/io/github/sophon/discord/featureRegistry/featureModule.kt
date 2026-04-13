@@ -6,6 +6,7 @@ import org.koin.dsl.module
 import io.github.sophon.core.arch.Result
 import io.github.sophon.discord.config.BotConfig
 import io.github.sophon.discord.featureRegistry.DiscordRegisteredFeature
+import io.github.sophon.discord.usecase.FetchAbilityUseCase
 import io.github.sophon.discord.usecase.FetchHeroUseCase
 import io.github.sophon.discord.usecase.FetchItemUseCase
 import org.koin.dsl.bind
@@ -53,4 +54,5 @@ internal fun featureModule() = module {
 
     singleOf(::FetchItemUseCase)
     singleOf(::FetchHeroUseCase)
+    singleOf(::FetchAbilityUseCase)
 }
