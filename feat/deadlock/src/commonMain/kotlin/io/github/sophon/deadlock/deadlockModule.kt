@@ -12,6 +12,7 @@ import io.github.sophon.deadlock.usecase.SyncHeroesUseCase
 import io.github.sophon.deadlock.usecase.SyncItemsUseCase
 import io.github.sophon.deadlock.remote.DeadlockWikiDataSource
 import io.github.sophon.deadlock.remote.DeadlockWikiDataSourceImpl
+import io.github.sophon.deadlock.usecase.FetchHeroUseCase
 import io.github.sophon.deadlock.usecase.FetchItemUseCase
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -32,4 +33,5 @@ fun deadlockModule() = module {
     singleOf(::SyncItemsUseCase)
     singleOf(::SyncDataUseCase)
     singleOf(::FetchItemUseCase)
+    singleOf(::FetchHeroUseCase)
 }
