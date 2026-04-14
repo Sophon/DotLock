@@ -35,7 +35,7 @@ kotlin {
 
 val featureVersion = "0.1.0"
 buildkonfig {
-    packageName = "io.github.sophon.wikiwavu"
+    packageName = "io.github.sophon.deadlock.impl"
 
     defaultConfigs {
         buildConfigField(STRING, "VERSION", featureVersion)

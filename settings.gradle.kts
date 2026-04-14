@@ -18,5 +18,6 @@ dependencyResolutionManagement {
 
 include(":composeApp")
 include(":core")
-include(":feat:deadlock")
+include(":feat:deadlock:impl")
+include("feat:deadlock:api")
 include(":bot:discord")
