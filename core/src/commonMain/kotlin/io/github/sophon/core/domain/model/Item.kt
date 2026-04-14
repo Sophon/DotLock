@@ -11,6 +11,8 @@ data class Item(
     val targeting: Targeting?,
 
     val bonusSet: Set<Bonus>,
+
+    val imageUrl: String?,
 ) {
     data class Timing(
         val cooldown: Double?,
