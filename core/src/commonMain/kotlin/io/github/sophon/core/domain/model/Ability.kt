@@ -114,7 +114,7 @@ data class Ability(
     )
 
     data class Upgrade(
-        val changes: Map<String, UpgradeValue>
+        val changes: Pair<String, UpgradeValue>
     ) {
         sealed class UpgradeValue {
             data class Plain(val value: Double) : UpgradeValue()

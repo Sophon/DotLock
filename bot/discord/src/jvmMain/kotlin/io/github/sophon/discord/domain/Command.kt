@@ -5,8 +5,6 @@ internal sealed class Command(
     val description: String,
     val argumentList: List<Argument> = listOf(),
 ) {
-    //TODO: ability
-    //TODO: hero
     object Item: Command(
         name = "item",
         description = "Item data",
@@ -25,6 +23,17 @@ internal sealed class Command(
             Argument(
                 name = "hero",
                 description = "hero name",
+            )
+        )
+    )
+
+    object Ability: Command(
+        name = "ability",
+        description = "Ability data",
+        argumentList = listOf(
+            Argument(
+                name = "ability",
+                description = "ability name",
             )
         )
     )
