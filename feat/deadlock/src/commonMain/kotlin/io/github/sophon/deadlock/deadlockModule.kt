@@ -12,6 +12,7 @@ import io.github.sophon.deadlock.usecase.SyncHeroesUseCase
 import io.github.sophon.deadlock.usecase.SyncItemsUseCase
 import io.github.sophon.deadlock.remote.DeadlockWikiDataSource
 import io.github.sophon.deadlock.remote.DeadlockWikiDataSourceImpl
+import io.github.sophon.deadlock.remote.ImageResolver
 import io.github.sophon.deadlock.usecase.FetchAbilityUseCase
 import io.github.sophon.deadlock.usecase.FetchHeroUseCase
 import io.github.sophon.deadlock.usecase.FetchItemUseCase
@@ -28,6 +29,7 @@ fun deadlockModule() = module {
     singleOf(::AbilityDatabaseImpl).bind<AbilityDatabase>()
     singleOf(::HeroDatabaseImpl).bind<HeroDatabase>()
     singleOf(::ItemDatabaseImpl).bind<ItemDatabase>()
+    singleOf(::ImageResolver)
 
     singleOf(::SyncAbilitiesUseCase)
     singleOf(::SyncHeroesUseCase)

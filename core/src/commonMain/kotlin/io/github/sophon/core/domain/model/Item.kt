@@ -3,6 +3,8 @@ package io.github.sophon.core.domain.model
 data class Item(
     val key: String,
     val name: String,
+    val imageUrl: String?,
+
     val description: String?,
     val isStreetBrawl: Boolean,
 
@@ -11,8 +13,6 @@ data class Item(
     val targeting: Targeting?,
 
     val bonusSet: Set<Bonus>,
-
-    val imageUrl: String?,
 ) {
     data class Timing(
         val cooldown: Double?,

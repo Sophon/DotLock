@@ -8,7 +8,7 @@ import io.github.sophon.core.util.toEnumOrDefault
 import io.github.sophon.deadlock.remote.dto.ItemDto
 import io.github.sophon.deadlock.remote.dto.ScaledValueDto
 
-internal fun Map.Entry<String, ItemDto>.toDomain(): Item {
+internal fun Map.Entry<String, ItemDto>.toDomain(imageUrls: Map<String, String>): Item {
     val dto = value
     val key = key
     val itemKey = (value.name?.formKey() ?: key)
@@ -16,6 +16,8 @@ internal fun Map.Entry<String, ItemDto>.toDomain(): Item {
     val item = Item(
         key = itemKey,
         name = dto.name ?: key,
+        imageUrl = imageUrls[itemKey],
+
         description = dto.description,
         isStreetBrawl = dto.streetBrawl ?: false,
         shop = dto.toDomainShop(),
