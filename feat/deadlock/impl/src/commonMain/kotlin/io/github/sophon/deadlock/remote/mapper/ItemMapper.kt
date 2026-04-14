@@ -1,7 +1,6 @@
 package io.github.sophon.deadlock.remote.mapper
 
 import io.github.sophon.core.domain.model.Item
-import io.github.sophon.core.domain.model.ScaledValue
 import io.github.sophon.core.domain.model.ShopInfo
 import io.github.sophon.core.util.formKey
 import io.github.sophon.deadlock.remote.dto.ItemDto

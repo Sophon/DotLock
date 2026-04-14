@@ -20,6 +20,7 @@ kotlin {
     sourceSets {
         jvmMain.dependencies {
             implementation(project(":core"))
+            implementation(project(":feat:deadlock:api"))
             implementation(project(":feat:deadlock:impl"))
 
             implementation(libs.napier)

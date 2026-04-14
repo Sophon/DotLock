@@ -15,7 +15,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core"))
-            implementation(project(":feat:deadlock:api"))
 
             implementation(libs.bundles.ktor)
             implementation(libs.napier)
@@ -36,7 +35,7 @@ kotlin {
 
 val featureVersion = "0.1.0"
 buildkonfig {
-    packageName = "io.github.sophon.deadlock.impl"
+    packageName = "io.github.sophon.deadlock.api"
 
     defaultConfigs {
         buildConfigField(STRING, "VERSION", featureVersion)
