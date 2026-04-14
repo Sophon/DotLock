@@ -6,7 +6,7 @@ import io.github.sophon.deadlock.remote.dto.ScaledValueDto
 import io.github.sophon.core.domain.model.ScaledValue
 import io.github.sophon.core.util.formKey
 
-internal fun Map.Entry<String, AbilityDto>.toDomain(): Ability {
+internal fun Map.Entry<String, AbilityDto>.toDomain(imageUrls: Map<String, String>): Ability {
     val dto = value
     val key = key
     val abilityKey = (value.name?.formKey()) ?: key
@@ -14,6 +14,7 @@ internal fun Map.Entry<String, AbilityDto>.toDomain(): Ability {
     val ability = Ability(
         key = abilityKey,
         name = dto.name ?: key,
+        imageUrl = imageUrls[abilityKey],
         timing = dto.toDomainTiming(),
         targeting = dto.toDomainTargeting(),
         propertySet = dto.toDomainPropertySet(),
