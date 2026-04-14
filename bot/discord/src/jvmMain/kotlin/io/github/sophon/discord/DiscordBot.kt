@@ -17,6 +17,7 @@ import io.github.sophon.discord.domain.BotOutput
 import io.github.sophon.discord.domain.Source
 import io.github.sophon.discord.domain.adminCommands
 import io.github.sophon.discord.featureRegistry.DiscordRegisteredFeature
+import io.github.sophon.discord.usecase.HandleButtonInteractionUseCase
 import io.github.sophon.discord.usecase.ResultToEmbedUseCase
 import io.github.sophon.discord.usecase.RouteCommandToFeatureUseCase
 import io.github.sophon.discord.util.safeRestCall
@@ -39,6 +40,7 @@ internal class DiscordBotImpl(
 
     private val routeCommandToFeatureUseCase: RouteCommandToFeatureUseCase,
     private val resultToEmbedUseCase: ResultToEmbedUseCase,
+    private val handleButtonInteractionUseCase: HandleButtonInteractionUseCase,
 ): DiscordBot {
     private val editableEmbedMap = mutableMapOf<String, BotOutput>()
 
@@ -228,10 +230,10 @@ internal class DiscordBotImpl(
             safeRestCall(TAG) { handleMessage() }
         }
         kord.on<ButtonInteractionCreateEvent> {
-//            handleButtonInteractionUseCase.invoke(interaction, editableEmbedMap, coroutineScope)
-//                .onError { error ->
-//                    Napier.e(tag = TAG) { "${interaction.data.guildId} → Button interaction: $error" }
-//                }
+            handleButtonInteractionUseCase.invoke(interaction, editableEmbedMap, coroutineScope)
+                .onError { error ->
+                    Napier.e(tag = TAG) { "${interaction.data.guildId} → Button interaction: $error" }
+                }
         }
     }
 
