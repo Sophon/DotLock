@@ -78,8 +78,3 @@ private fun AbilityDto.toDomainPropertySet(): Set<Ability.Property> {
 
     return properties
 }
-
-private fun Double.toScaledValue(): ScaledValue {
-    val result = ScaledValue(value = this, scale = null)
-    return result
-}
