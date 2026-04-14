@@ -78,18 +78,21 @@ data class Ability(
             SPREAD_ANGLE_DEGREES,
             MAX_STACKS,
             MAX_LINKS,
+            NORMAL_DPS,
+            MAX_DPS,
+            DAMAGE_HEAVY_MELEE,
         }
     }
 
     data class Timing(
         val cooldown: ScaledValue?,
-        val cooldownBetweenCharge: Double?,
-        val castDelay: Double?,
-        val postCastDuration: Double?,
+        val cooldownBetweenCharge: ScaledValue?,
+        val castDelay: ScaledValue?,
+        val postCastDuration: ScaledValue?,
         val channelTime: ScaledValue?,
-        val channelMoveSpeed: Double?,
+        val channelMoveSpeed: ScaledValue?,
         val duration: ScaledValue?,
-        val charges: Int?,
+        val charges: ScaledValue?,
     )
 
     data class Targeting(
