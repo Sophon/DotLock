@@ -11,6 +11,7 @@ import io.github.sophon.discord.usecase.CreateEmbedUseCase
 import io.github.sophon.discord.usecase.CreateErrorEmbedBuilderUseCase
 import io.github.sophon.discord.usecase.CreateMutableEmbedUseCase
 import io.github.sophon.discord.usecase.CreatePlainMessageUseCase
+import io.github.sophon.discord.usecase.HandleButtonInteractionUseCase
 import io.github.sophon.discord.usecase.ResultToEmbedUseCase
 import io.github.sophon.discord.usecase.RouteCommandToFeatureUseCase
 import kotlinx.coroutines.CoroutineScope
@@ -54,4 +55,5 @@ fun discordModule(kord: Kord) = module {
     singleOf(::CreatePlainMessageUseCase)
     singleOf(::CreateEmbedUseCase)
     singleOf(::CreateMutableEmbedUseCase)
+    singleOf(::HandleButtonInteractionUseCase)
 }
