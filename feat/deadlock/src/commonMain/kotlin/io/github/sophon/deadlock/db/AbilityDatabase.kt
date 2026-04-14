@@ -1,5 +1,6 @@
 package io.github.sophon.deadlock.db
 
+import io.github.aakira.napier.Napier
 import io.github.sophon.core.arch.EmptyResult
 import io.github.sophon.core.arch.WikiError
 import io.github.sophon.core.domain.model.Ability
@@ -20,9 +21,11 @@ internal class AbilityDatabaseImpl: AbilityDatabase {
 
     override suspend fun insert(abilityList: List<Ability>): EmptyResult<WikiError> {
         abilityList.forEach { ability ->
-            val key = ability.key
-            if (abilityMap.containsKey(key)) {
-                return Result.Error(WikiError.Duplicate("Ability already exists: ${ability.name}"))
+            val key = if (abilityMap.containsKey(ability.key)) {
+                Napier.w(tag = TAG) { "Ability already exists: ${ability.name}" }
+                ability.altKey
+            } else {
+                ability.key
             }
             abilityMap[key] = ability
         }
@@ -44,5 +47,10 @@ internal class AbilityDatabaseImpl: AbilityDatabase {
         abilityMap.clear()
         aliasMap.clear()
         return Result.Success(Unit)
+    }
+
+
+    private companion object {
+        const val TAG = "AbilityDatabase"
     }
 }

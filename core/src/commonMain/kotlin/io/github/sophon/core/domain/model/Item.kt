@@ -2,6 +2,7 @@ package io.github.sophon.core.domain.model
 
 data class Item(
     val key: String,
+    val altKey: String,
     val name: String,
     val imageUrl: String?,
 

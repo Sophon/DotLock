@@ -22,6 +22,7 @@ internal class SyncAbilitiesUseCase(
             .flatMap { map ->
                 val filtered = map.entries
                     .filter { it.value.isDisabled == false }
+                    .filter { it.value.upgrades.orEmpty().isNotEmpty() }
                     .filter { it.value.name.isNullOrBlank().not() }
                     .filter { it.value.name!!.formKey().isNotBlank() }
 

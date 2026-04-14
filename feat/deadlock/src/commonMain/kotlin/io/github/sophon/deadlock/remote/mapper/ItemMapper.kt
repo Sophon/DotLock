@@ -13,6 +13,7 @@ internal fun Map.Entry<String, ItemDto>.toDomain(imageUrls: Map<String, String>)
 
     val item = Item(
         key = itemKey,
+        altKey = key,
         name = dto.name ?: key,
         imageUrl = imageUrls[itemKey],
 

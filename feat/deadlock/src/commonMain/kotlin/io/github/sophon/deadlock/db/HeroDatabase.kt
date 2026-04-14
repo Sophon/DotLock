@@ -1,5 +1,6 @@
 package io.github.sophon.deadlock.db
 
+import io.github.aakira.napier.Napier
 import io.github.sophon.core.arch.EmptyResult
 import io.github.sophon.core.arch.Result
 import io.github.sophon.core.arch.WikiError
@@ -21,9 +22,11 @@ internal class HeroDatabaseImpl: HeroDatabase {
 
     override suspend fun insert(heroList: List<Hero>): EmptyResult<WikiError> {
         heroList.forEach { hero ->
-            val key = hero.key
-            if (heroMap.containsKey(key)) {
-                return Result.Error(WikiError.Duplicate("Hero already exists: ${hero.name}"))
+            val key = if (heroMap.containsKey(hero.key)) {
+                Napier.w(tag = TAG) { "Hero already exists: ${hero.name}" }
+                hero.altKey
+            } else {
+                hero.key
             }
             heroMap[key] = hero
         }
@@ -45,5 +48,10 @@ internal class HeroDatabaseImpl: HeroDatabase {
         heroMap.clear()
         aliasMap.clear()
         return Result.Success(Unit)
+    }
+
+
+    private companion object {
+        const val TAG = "HeroDatabase"
     }
 }

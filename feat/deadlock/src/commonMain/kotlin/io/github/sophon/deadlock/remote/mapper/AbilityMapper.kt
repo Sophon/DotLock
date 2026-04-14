@@ -1,7 +1,6 @@
 package io.github.sophon.deadlock.remote.mapper
 
 import io.github.sophon.core.domain.model.Ability
-import io.github.sophon.core.domain.model.ScaledValue
 import io.github.sophon.core.util.formKey
 import io.github.sophon.deadlock.remote.dto.AbilityDto
 
@@ -12,6 +11,7 @@ internal fun Map.Entry<String, AbilityDto>.toDomain(imageUrls: Map<String, Strin
 
     val ability = Ability(
         key = abilityKey,
+        altKey = key,
         name = dto.name ?: key,
         imageUrl = imageUrls[abilityKey],
         timing = dto.toDomainTiming(),
