@@ -20,7 +20,7 @@ internal class AbilityDatabaseImpl: AbilityDatabase {
 
     override suspend fun insert(abilityList: List<Ability>): EmptyResult<WikiError> {
         abilityList.forEach { ability ->
-            val key = ability.name.lowercase()
+            val key = ability.key
             if (abilityMap.containsKey(key)) {
                 return Result.Error(WikiError.Duplicate("Ability already exists: ${ability.name}"))
             }

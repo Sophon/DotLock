@@ -2,14 +2,16 @@ package io.github.sophon.deadlock.remote.mapper
 
 import io.github.sophon.core.domain.model.Hero
 import io.github.sophon.core.domain.model.Weapon
+import io.github.sophon.core.util.formKey
 import io.github.sophon.deadlock.remote.dto.HeroDto
 
 internal fun Map.Entry<String, HeroDto>.toDomain(): Hero {
     val dto = value
     val key = key
+    val heroKey = (value.name?.formKey() ?: key)
 
     val hero = Hero(
-        key = key,
+        key = heroKey,
         name = dto.name ?: key,
         type = dto.type?.toHeroType(),
         loreKey = dto.lore,
