@@ -2,6 +2,7 @@ package io.github.sophon.core.domain.model
 
 data class Item(
     val key: String,
+    val altKey: String,
     val name: String,
     val imageUrl: String?,
 
@@ -15,19 +16,19 @@ data class Item(
     val bonusSet: Set<Bonus>,
 ) {
     data class Timing(
-        val cooldown: Double?,
-        val cooldownBetweenCharge: Double?,
-        val castDelay: Double?,
-        val postCastDuration: Double?,
-        val channelTime: Double?,
-        val channelMoveSpeed: Double?,
-        val duration: Double?,
-        val charges: Int?,
+        val cooldown: ScaledValue?,
+        val cooldownBetweenCharge: ScaledValue?,
+        val castDelay: ScaledValue?,
+        val postCastDuration: ScaledValue?,
+        val channelTime: ScaledValue?,
+        val channelMoveSpeed: ScaledValue?,
+        val duration: ScaledValue?,
+        val charges: ScaledValue?,
     )
 
     data class Targeting(
-        val castRange: Double?,
-        val unitTargetLimit: Int?,
+        val castRange: ScaledValue?,
+        val unitTargetLimit: ScaledValue?,
     )
 
     /**
@@ -98,6 +99,9 @@ data class Item(
             FIRE_RATE_SLOW,
             BONUS_MELEE_DAMAGE_PCT,
             TECH_POWER_PCT,
+            NORMAL_DPS,
+            MAX_DPS,
+            DAMAGE_HEAVY_MELEE,
         }
     }
 }

@@ -21,12 +21,13 @@ internal class ItemDatabaseImpl : ItemDatabase {
 
     override suspend fun insert(itemList: List<Item>): EmptyResult<WikiError> {
         itemList.forEach { item ->
-            val key = item.key
-            if (itemMap.containsKey(key)) {
-                Napier.e(tag = TAG) { "Item already exists: ${item.name}" }
+            val key = if (itemMap.containsKey(item.key)) {
+                Napier.w(tag = TAG) { "Item already exists: ${item.name}" }
+                item.altKey
             } else {
-                itemMap[key] = item
+                item.key
             }
+            itemMap[key] = item
         }
         return Result.Success(Unit)
     }
