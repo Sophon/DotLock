@@ -16,13 +16,12 @@ internal class SyncAbilitiesUseCase(
     private val db: AbilityDatabase,
     private val imageResolver: ImageResolver,
 ) {
-    suspend fun invoke(): EmptyResult<WikiError> {
+    suspend fun invoke(registeredAbilitySet: Set<String>): EmptyResult<WikiError> {
         return source.downloadAbilityList()
             .mapError { it.toDomain() }
             .flatMap { map ->
                 val filtered = map.entries
-                    .filter { it.value.isDisabled == false }
-                    .filter { it.value.upgrades.orEmpty().isNotEmpty() }
+                    .filter { it.value.key != null && registeredAbilitySet.contains(it.value.key) }
                     .filter { it.value.name.isNullOrBlank().not() }
                     .filter { it.value.name!!.formKey().isNotBlank() }
 
