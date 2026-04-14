@@ -14,14 +14,22 @@ internal class SyncDataUseCase(
 ) {
     suspend fun invoke(): EmptyResult<WikiError> {
         return coroutineScope {
+            val heroResult = syncHeroesUseCase.invoke()
+            if (heroResult is Result.Error) {
+                return@coroutineScope heroResult
+            }
+
+            val registeredAbilityKeys = (heroResult as Result.Success).data
+
             val results = listOf(
-                async { syncAbilitiesUseCase.invoke() },
-                async { syncHeroesUseCase.invoke() },
+                async { syncAbilitiesUseCase.invoke(registeredAbilityKeys) },
                 async { syncItemsUseCase.invoke() },
             ).awaitAll()
 
             for (result in results) {
-                if (result is Result.Error) return@coroutineScope result
+                if (result is Result.Error) {
+                    return@coroutineScope result
+                }
             }
 
             Result.Success(Unit)
