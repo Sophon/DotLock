@@ -3,7 +3,7 @@ package io.github.sophon.deadlock.remote.dto
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ImageUrlResponseDto(
+internal data class ImageUrlResponseDto(
     val batchcomplete: String? = null,
     val query: Query? = null,
     val error: ApiError? = null

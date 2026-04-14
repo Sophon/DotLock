@@ -1,7 +1,7 @@
 package io.github.sophon.deadlock
 
 import io.github.sophon.core.domain.model.FeatureInfo
-import io.github.sophon.wikiwavu.BuildKonfig
+import io.github.sophon.deadlock.api.BuildKonfig
 
 object DeadlockFeatureInfo {
     val featureInfo = FeatureInfo(
