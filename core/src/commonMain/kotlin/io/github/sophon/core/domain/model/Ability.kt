@@ -3,6 +3,7 @@ package io.github.sophon.core.domain.model
 data class Ability(
     val key: String,
     val name: String,
+    val imageUrl: String?,
 
     val timing: Timing,
     val targeting: Targeting,

@@ -3,6 +3,8 @@ package io.github.sophon.core.domain.model
 data class Hero(
     val key: String,
     val name: String,
+    val imageUrl: String?,
+
     val type: Type?,
     val loreKey: String?,
     val playstyleKey: String?,
