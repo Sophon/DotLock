@@ -5,7 +5,7 @@ import io.github.sophon.core.domain.model.Weapon
 import io.github.sophon.core.util.formKey
 import io.github.sophon.deadlock.remote.dto.HeroDto
 
-internal fun Map.Entry<String, HeroDto>.toDomain(): Hero {
+internal fun Map.Entry<String, HeroDto>.toDomain(imageUrls: Map<String, String>): Hero {
     val dto = value
     val key = key
     val heroKey = (value.name?.formKey() ?: key)
@@ -13,6 +13,8 @@ internal fun Map.Entry<String, HeroDto>.toDomain(): Hero {
     val hero = Hero(
         key = heroKey,
         name = dto.name ?: key,
+        imageUrl = imageUrls[heroKey],
+
         type = dto.type?.toHeroType(),
         loreKey = dto.lore,
         playstyleKey = dto.playstyle,
