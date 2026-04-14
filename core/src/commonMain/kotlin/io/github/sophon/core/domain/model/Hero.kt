@@ -8,7 +8,6 @@ data class Hero(
     val playstyleKey: String?,
     val roleKey: String?,
 
-    val isDisabled: Boolean,
     val isInDevelopment: Boolean,
     val isInHeroLabs: Boolean,
     val isSelectable: Boolean,

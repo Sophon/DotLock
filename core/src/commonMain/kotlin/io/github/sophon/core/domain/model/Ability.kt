@@ -4,8 +4,6 @@ data class Ability(
     val key: String,
     val name: String,
 
-    val isDisabled: Boolean,
-
     val timing: Timing,
     val targeting: Targeting,
     val propertySet: Set<Property>,

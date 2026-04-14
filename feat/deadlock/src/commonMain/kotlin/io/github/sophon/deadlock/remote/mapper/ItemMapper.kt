@@ -15,7 +15,6 @@ internal fun Map.Entry<String, ItemDto>.toDomain(): Item {
         key = key,
         name = dto.name ?: key,
         description = dto.description,
-        isDisabled = dto.isDisabled ?: false,
         isStreetBrawl = dto.streetBrawl ?: false,
         shop = dto.toDomainShop(),
         timing = Item.Timing(
