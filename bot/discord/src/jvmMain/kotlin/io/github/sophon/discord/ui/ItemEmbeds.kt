@@ -15,6 +15,9 @@ internal fun itemEmbed(
     }
     color = Color(BEIGE)
     featureFooter(featureInfo)
+    item.imageUrl?.let { itemUrl ->
+        thumbnail { url = itemUrl }
+    }
 
     mandatoryField(
         name = "Tier",

@@ -13,6 +13,9 @@ internal fun heroEmbed(
     title = hero.name
     color = Color(BEIGE)
     featureFooter(featureInfo)
+    hero.imageUrl?.let { heroUrl ->
+        thumbnail { url = heroUrl }
+    }
 
     weaponSection(hero.weapon)
     vitalitySection(hero)

@@ -12,6 +12,9 @@ internal fun abilityEmbed(
     title = ability.name
     color = Color(BEIGE)
     featureFooter(featureInfo)
+    ability.imageUrl?.let { abilityUrl ->
+        thumbnail { url = abilityUrl }
+    }
 
     targetingSection(ability.targeting)
     timingSection(ability.timing)
