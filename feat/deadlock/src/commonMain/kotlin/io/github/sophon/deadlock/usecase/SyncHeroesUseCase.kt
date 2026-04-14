@@ -21,7 +21,6 @@ internal class SyncHeroesUseCase(
                     .filter { it.value.isDisabled == false }
                     .map { it.toDomain() }
                     .filter { it.key.isNotBlank() }
-                    .filter { it.isDisabled == false }
                 Napier.d(tag = TAG) { "${heroList.size} heroes downloaded" }
                 db.insert(heroList)
             }
