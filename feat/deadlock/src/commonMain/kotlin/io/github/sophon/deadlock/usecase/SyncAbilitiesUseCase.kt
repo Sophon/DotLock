@@ -18,6 +18,7 @@ internal class SyncAbilitiesUseCase(
             .mapError { it.toDomain() }
             .flatMap { map ->
                 val abilityList = map.entries
+                    .filter { it.value.isDisabled == false }
                     .map { it.toDomain() }
                     .filter { it.key.isNotBlank() }
                 Napier.d(tag = TAG) { "${abilityList.size} abilities downloaded" }

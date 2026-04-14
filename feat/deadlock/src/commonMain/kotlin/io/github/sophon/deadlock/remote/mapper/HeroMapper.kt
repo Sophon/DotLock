@@ -16,7 +16,6 @@ internal fun Map.Entry<String, HeroDto>.toDomain(): Hero {
         playstyleKey = dto.playstyle,
         roleKey = dto.role,
 
-        isDisabled = dto.isDisabled ?: false,
         isInDevelopment = dto.inDevelopment ?: false,
         isInHeroLabs = dto.inHeroLabs ?: false,
         isSelectable = dto.isSelectable ?: true,

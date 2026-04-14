@@ -1,5 +1,6 @@
 package io.github.sophon.deadlock.remote
 
+import io.github.aakira.napier.Napier
 import io.github.sophon.core.arch.DataError
 import io.github.sophon.core.arch.Result
 import io.github.sophon.core.network.safeCall
@@ -12,6 +13,7 @@ import io.github.sophon.deadlock.remote.dto.ItemDto
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
@@ -31,37 +33,44 @@ internal class DeadlockWikiDataSourceImpl(
      * a primitive instead of an object), so we deserialize entries individually
      * and skip any that fail to parse.
      */
+    override suspend fun downloadHeroList() = safeDownload<HeroDto>(URL_HERO, "heroes")
 
-    override suspend fun downloadHeroList(): Result<Map<String, HeroDto>, DataError.Remote> {
-//        return safeCall<Map<String, HeroDto>> { httpClient.get(URL_HERO) }
-        return safeCall {
-            val raw = httpClient.get(URL_HERO).body<JsonObject>()
+    override suspend fun downloadAbilityList() = safeDownload<AbilityDto>(URL_ABILITY, "abilities")
+
+    override suspend fun downloadItemList() = safeDownload<ItemDto>(URL_ITEM, "items")
+
+
+    private suspend inline fun <reified T> safeDownload(
+        url: String,
+        label: String,
+    ): Result<Map<String, T>, DataError.Remote> {
+        var skippedCount = 0
+
+        val result = safeCall {
+            val raw = httpClient.get(url).body<JsonObject>()
             raw.entries.mapNotNull { (key, value) ->
-                try { key to json.decodeFromJsonElement<HeroDto>(value) }
-                catch (_: Exception) { null }
+                try {
+                    key to json.decodeFromJsonElement<T>(value)
+                } catch (e: SerializationException) {
+                    Napier.e(tag = TAG) { e.toString() }
+                    skippedCount++
+                    null
+                } catch (e: Exception) {
+                    Napier.e(tag = TAG) { e.toString() }
+                    null
+                }
             }.toMap()
         }
+
+        if (skippedCount != 0) {
+            Napier.d(tag = TAG) { "Skipped $label: $skippedCount" }
+        }
+
+        return result
     }
 
-    override suspend fun downloadAbilityList(): Result<Map<String, AbilityDto>, DataError.Remote> {
-//        return safeCall<Map<String, AbilityDto>> { httpClient.get(URL_ABILITY) }
-        return safeCall {
-            val raw = httpClient.get(URL_ABILITY).body<JsonObject>()
-            raw.entries.mapNotNull { (key, value) ->
-                try { key to json.decodeFromJsonElement<AbilityDto>(value) }
-                catch (_: Exception) { null }
-            }.toMap()
-        }
-    }
 
-    override suspend fun downloadItemList(): Result<Map<String, ItemDto>, DataError.Remote> {
-//        return safeCall<Map<String, ItemDto>> { httpClient.get(URL_ITEM) }
-        return safeCall {
-            val raw = httpClient.get(URL_ITEM).body<JsonObject>()
-            raw.entries.mapNotNull { (key, value) ->
-                try { key to json.decodeFromJsonElement<ItemDto>(value) }
-                catch (_: Exception) { null }
-            }.toMap()
-        }
+    private companion object {
+        const val TAG = "DeadlockWikiDataSource"
     }
 }

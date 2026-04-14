@@ -12,7 +12,6 @@ internal fun Map.Entry<String, AbilityDto>.toDomain(): Ability {
     val ability = Ability(
         key = key,
         name = key,
-        isDisabled = dto.isDisabled ?: false,
         timing = dto.toDomainTiming(),
         targeting = dto.toDomainTargeting(),
         propertySet = dto.toDomainPropertySet(),
