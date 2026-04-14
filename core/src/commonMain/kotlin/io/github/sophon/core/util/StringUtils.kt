@@ -38,3 +38,10 @@ fun String.extractFirstWord(): String {
         .trim()
         .substringBefore(' ')
 }
+
+fun String.formKey(): String {
+    return trim()
+        .map { if (it.isWhitespace()) '_' else it }
+        .joinToString("")
+        .lowercase()
+}

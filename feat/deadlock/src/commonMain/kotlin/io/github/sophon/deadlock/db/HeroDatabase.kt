@@ -21,7 +21,7 @@ internal class HeroDatabaseImpl: HeroDatabase {
 
     override suspend fun insert(heroList: List<Hero>): EmptyResult<WikiError> {
         heroList.forEach { hero ->
-            val key = hero.name.lowercase()
+            val key = hero.key
             if (heroMap.containsKey(key)) {
                 return Result.Error(WikiError.Duplicate("Hero already exists: ${hero.name}"))
             }

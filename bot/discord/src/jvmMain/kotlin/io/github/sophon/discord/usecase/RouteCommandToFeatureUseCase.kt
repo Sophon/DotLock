@@ -2,6 +2,7 @@ package io.github.sophon.discord.usecase
 
 import io.github.sophon.core.arch.Result
 import io.github.sophon.core.util.extractFirstWord
+import io.github.sophon.core.util.formKey
 import io.github.sophon.core.util.normalizeWhiteSpace
 import io.github.sophon.core.util.removeTag
 import io.github.sophon.discord.domain.BotError
@@ -56,10 +57,11 @@ internal class RouteCommandToFeatureUseCase(
     ): Result<BotOutput, BotError> {
         val command = Command.fromStringOrNull(commandString)
             ?: return Result.Error(BotError.InvalidCommand(commandString))
+        val formattedQuery = query.formKey()
 
         for (feature in featureList) {
             if (command !in feature.supportedCommands) continue
-            val result = feature.execute(command = command, query = query, origin = source)
+            val result = feature.execute(command = command, query = formattedQuery, origin = source)
             if (result is Result.Success) return result
         }
 

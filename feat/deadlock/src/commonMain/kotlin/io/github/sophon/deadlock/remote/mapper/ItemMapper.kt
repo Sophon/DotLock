@@ -3,6 +3,7 @@ package io.github.sophon.deadlock.remote.mapper
 import io.github.sophon.core.domain.model.Item
 import io.github.sophon.core.domain.model.ScaledValue
 import io.github.sophon.core.domain.model.ShopInfo
+import io.github.sophon.core.util.formKey
 import io.github.sophon.core.util.toEnumOrDefault
 import io.github.sophon.deadlock.remote.dto.ItemDto
 import io.github.sophon.deadlock.remote.dto.ScaledValueDto
@@ -10,9 +11,10 @@ import io.github.sophon.deadlock.remote.dto.ScaledValueDto
 internal fun Map.Entry<String, ItemDto>.toDomain(): Item {
     val dto = value
     val key = key
+    val itemKey = (value.name?.formKey() ?: key)
 
     val item = Item(
-        key = key,
+        key = itemKey,
         name = dto.name ?: key,
         description = dto.description,
         isStreetBrawl = dto.streetBrawl ?: false,
