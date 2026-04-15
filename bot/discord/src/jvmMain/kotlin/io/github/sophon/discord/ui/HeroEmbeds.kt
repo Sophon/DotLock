@@ -28,7 +28,7 @@ private fun EmbedBuilder.vitalitySection(hero: Hero) {
     mandatoryField(
         name = "**General**",
         value = buildString {
-            append("- ${Emoji.HEALTH} **HP** ${hero.maxHealth}\n")
+            append("- ${Emoji.HP} **HP** ${hero.maxHealth}\n")
             append("- ${Emoji.HP_REGEN} **RGN** ${hero.baseHealthRegen}\n")
             append("- ${Emoji.SPRINT_SPEED} **STM** ${hero.stamina.stamina}\n")
             append("- ${Emoji.MOVE_SPEED} **MS** ${hero.movement.maxMoveSpeed}\n")
@@ -41,10 +41,10 @@ private fun EmbedBuilder.weaponSection(weapon: Weapon, meleeStats: Hero.MeleeSta
     mandatoryField(
         name = "**Weapon**",
         value = buildString {
-            append("- ${Emoji.CLIP_SIZE} **CLIP** ${weapon.clipSize}\n")
-            append("- ${Emoji.BULLET_SPEED} **SPD** ${weapon.bulletSpeed}\n")
-            append("- ${Emoji.BULLETS} **SHT/BRST** ${weapon.bulletsPerShot}/${weapon.bulletsPerBurst}\n")
-            append("- ${Emoji.RELOAD_TIME} **RLD** ${weapon.reloadTime}\n")
+            append("- ${Emoji.CLIP} **CLIP** ${weapon.clipSize}\n")
+            append("- ${Emoji.BULLET_VELOCITY} **SPD** ${weapon.bulletSpeed}\n")
+            append("- ${Emoji.BULLET_SPEED} **SHT/BRST** ${weapon.bulletsPerShot}/${weapon.bulletsPerBurst}\n")
+            append("- ${Emoji.BULLET_RELOAD} **RLD** ${weapon.reloadTime}\n")
             append("- ${Emoji.MELEE} **L/H** ${meleeStats.lightDamage}/${meleeStats.heavyDamage}")
         },
     )

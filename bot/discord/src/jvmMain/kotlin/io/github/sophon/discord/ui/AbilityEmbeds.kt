@@ -25,12 +25,12 @@ internal fun abilityEmbed(
 
 private fun EmbedBuilder.propertiesSection(property: Ability.Property) {
     val lines = buildList {
-        property.channelTime?.let { add("- ${Emoji.CHANNEL} **Channel time** $it") }
-        property.chargeCount?.let { add("- ${Emoji.CHARGE} **Charge count** $it") }
-        property.chargeCooldown?.let { add("- ${Emoji.CHARGE} **Charge cooldown** $it") }
-        property.cooldown?.let { add("- ${Emoji.COOLDOWN} **Cooldown** $it") }
-        property.castRange?.let { add("- ${Emoji.CAST_RANGE} **Cast range** $it") }
-        property.duration?.let { add("- ${Emoji.DURATION} **Duration** $it") }
+        property.channelTime?.let { add("- ${Emoji.CHANNEL_TIME} **Channel time** $it") }
+        property.chargeCount?.let { add("- ${Emoji.CHANNEL_TIME} **Charge count** $it") }
+        property.chargeCooldown?.let { add("- ${Emoji.CHARGE_COOLDOWN} **Charge cooldown** $it") }
+        property.cooldown?.let { add("- ${Emoji.COOLDOWN_DELAY_DURATION} **Cooldown** $it") }
+        property.castRange?.let { add("- ${Emoji.RANGE} **Cast range** $it") }
+        property.duration?.let { add("- ${Emoji.COOLDOWN_DELAY_DURATION} **Duration** $it") }
         property.radius?.let { add("- ${Emoji.RADIUS} **Radius** $it") }
     }
 
@@ -44,7 +44,7 @@ private fun EmbedBuilder.propertiesSection(property: Ability.Property) {
 private fun EmbedBuilder.bonusSection(bonusSet: Set<Bonus>) {
     val string = buildString {
         bonusSet.forEach { bonus ->
-            append("- **${bonus.type}**: ${bonus.value}\n")
+            append("- ${bonus.emojify()} **${bonus.type}**: ${bonus.value}\n")
         }
     }
 
