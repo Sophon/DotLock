@@ -24,7 +24,7 @@ internal fun abilityEmbed(
 
 private fun EmbedBuilder.targetingSection(targeting: Ability.Targeting) {
     optionalField(
-        name = "Cast range",
+        name = "${Emoji.RANGE} Cast range",
         value = targeting.castRange?.value?.toString(),
     )
     optionalField(
@@ -35,7 +35,7 @@ private fun EmbedBuilder.targetingSection(targeting: Ability.Targeting) {
 
 private fun EmbedBuilder.timingSection(timing: Ability.Timing) {
     mandatoryField(
-        name = "CD",
+        name = "${Emoji.COOLDOWN_ACTIVE} CD",
         value = timing.cooldown?.value?.toString(),
     )
 
@@ -51,7 +51,7 @@ private fun EmbedBuilder.timingSection(timing: Ability.Timing) {
         value = timing.castDelay?.toString()
     )
     optionalField(
-        name = "Charges",
+        name = "${Emoji.CHARGE} Charges",
         value = timing.charges?.toString()
     )
 }
