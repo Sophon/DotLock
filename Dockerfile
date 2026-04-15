@@ -29,4 +29,4 @@ WORKDIR /app
 COPY --from=builder /app/bot/discord/build/libs/discord-bot-all.jar /app/firefrog.jar
 
 # Run the bot
-CMD ["java", "-Xms256m", "-Xmx450m", "-jar", "firefrog.jar"]
+CMD ["java", "-Xms128m", "-Xmx192m", "-jar", "firefrog.jar"]
