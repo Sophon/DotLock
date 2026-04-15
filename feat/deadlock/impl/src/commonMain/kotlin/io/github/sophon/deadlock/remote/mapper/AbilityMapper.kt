@@ -21,10 +21,8 @@ internal fun Map.Entry<String, AbilityDto>.toDomain(imageUrls: Map<String, Strin
             chargeCooldown = dto.abilityCooldownBetweenCharge.toScaledValue(),
             cooldown = dto.abilityCooldown.toScaledValue(),
             castRange = dto.abilityCastRange.toScaledValue(),
-            castDelay = dto.abilityCastDelay.toScaledValue(),
             duration = dto.abilityDuration.toScaledValue(),
             radius = dto.radius.toScaledValue(),
-            targetUnitCount = dto.abilityUnitTargetLimit,
         )
     )
 

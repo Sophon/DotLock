@@ -4,6 +4,7 @@ import dev.kord.common.Color
 import dev.kord.rest.builder.message.EmbedBuilder
 import io.github.sophon.core.domain.model.Ability
 import io.github.sophon.core.domain.model.FeatureInfo
+import io.github.sophon.core.util.getEmptyChar
 
 internal fun abilityEmbed(
     ability: Ability,
@@ -16,66 +17,41 @@ internal fun abilityEmbed(
         thumbnail { url = abilityUrl }
     }
 
-    targetingSection(ability.targeting)
-    timingSection(ability.timing)
-    propertiesField(ability.propertySet, ability.upgrades)
+    propertiesSection(ability.property)
+    bonusSection(ability.bonusSet)
 }
 
 
-private fun EmbedBuilder.targetingSection(targeting: Ability.Targeting) {
-    optionalField(
-        name = "${Emoji.RANGE} Cast range",
-        value = targeting.castRange?.value?.toString(),
-    )
-    optionalField(
-        name = "Unit targets",
-        value = targeting.unitTargetLimit?.toString()
-    )
-}
-
-private fun EmbedBuilder.timingSection(timing: Ability.Timing) {
-    mandatoryField(
-        name = "${Emoji.COOLDOWN_ACTIVE} CD",
-        value = timing.cooldown?.value?.toString(),
-    )
-
-    if (timing.channelTime?.value != null) {
-        optionalField(
-            name = "Channel",
-            value = "${timing.channelTime?.value} (ms: ${timing.channelMoveSpeed})"
-        )
+private fun EmbedBuilder.propertiesSection(property: Ability.Property) {
+    val lines = buildList {
+        property.channelTime?.let { add("- ${Emoji.CHANNEL} **Channel time** $it") }
+        property.chargeCount?.let { add("- ${Emoji.CHARGE} **Charge count** $it") }
+        property.chargeCooldown?.let { add("- ${Emoji.CHARGE} **Charge cooldown** $it") }
+        property.cooldown?.let { add("- ${Emoji.COOLDOWN} **Cooldown** $it") }
+        property.castRange?.let { add("- ${Emoji.CAST_RANGE} **Cast range** $it") }
+        property.duration?.let { add("- ${Emoji.DURATION} **Duration** $it") }
+        property.radius?.let { add("- ${Emoji.RADIUS} **Radius** $it") }
     }
 
-    optionalField(
-        name = "Delay",
-        value = timing.castDelay?.toString()
-    )
-    optionalField(
-        name = "${Emoji.CHARGE} Charges",
-        value = timing.charges?.toString()
-    )
+    if (lines.isEmpty()) return
+
+    val mid = (lines.size + 1) / 2
+    mandatoryField(name = getEmptyChar(), value = lines.take(mid).joinToString("\n"))
+    mandatoryField(name = getEmptyChar(), value = lines.drop(mid).joinToString("\n"))
 }
 
-private fun EmbedBuilder.propertiesField(
-    propertySet: Set<Ability.Property>,
-    upgradeList: List<Ability.Upgrade>,
-) {
-    val bonuses = buildString {
-        propertySet.forEach { property ->
-            append("- ${property.type.name}: ${property.value.value}\n")
-        }
-        upgradeList.forEach { upgrade ->
-            val formattedValue: Double = when (val v = upgrade.changes.second) {
-                is Ability.Upgrade.UpgradeValue.Plain -> v.value
-                is Ability.Upgrade.UpgradeValue.Scaled -> v.scaledValue.value
-            }
-            append("- ${upgrade.changes.first}: $formattedValue")
+private fun EmbedBuilder.bonusSection(bonusSet: Set<Ability.Bonus>) {
+    val string = buildString {
+        bonusSet.forEach { bonus ->
+            append("- **${bonus.type}**: ${bonus.value}\n")
         }
     }
 
+    if (string.isBlank()) return
+
     mandatoryField(
-        name = "Bonuses",
-        value = bonuses,
+        name = "Bonus",
+        value = string,
         inline = false,
     )
 }

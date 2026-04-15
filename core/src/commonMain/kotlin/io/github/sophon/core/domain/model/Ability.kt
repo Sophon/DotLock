@@ -15,12 +15,11 @@ data class Ability(
         val chargeCooldown: ScaledValue?,
         val cooldown: ScaledValue?,
         val castRange: ScaledValue?,
-        val castDelay: ScaledValue?,
         val duration: ScaledValue?,
         val radius: ScaledValue?,
-        val targetUnitCount: Int?,
     )
 
+    //TODO: merge Ability bonus with Item bonus
     data class Bonus(
         val type: Type,
         val value: ScaledValue,
