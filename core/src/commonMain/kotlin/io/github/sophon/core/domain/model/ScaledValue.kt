@@ -25,4 +25,19 @@ data class ScaledValue(
         STATS_COUNT,
         PARRY_CD,
     }
+
+    override fun toString(): String {
+        return if (scale == null || scale.value == 0.0) {
+            value.format()
+        } else {
+            "${value.format()}×${scale.value.format()} (${scale.type})"
+        }
+    }
+
+    private fun Double.format(): String {
+        return "%.2f"
+            .format(this)
+            .trimEnd('0')
+            .trimEnd('.')
+    }
 }
