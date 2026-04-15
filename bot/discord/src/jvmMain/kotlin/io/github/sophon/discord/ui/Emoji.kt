@@ -1,8 +1,14 @@
 package io.github.sophon.discord.ui
 
-enum class Emoji(val id: String) {
+
+internal class EmojiParser {
+    //TODO: type to emoji
+}
+
+
+internal enum class Emoji(val id: String) {
     ABILITY_POINT("<:ability_point:1493764994066546830>"),
-    BULLET_DAMAGE("<:bullet_damage:1493761208518705162>"),
+    DAMAGE("<:damage:1493761208518705162>"),
     BULLET_SPEED("<:bullet_speed:1493762810558021754>"),
     BULLETS("<:bullets:1493762811699138601>"),
     CHARGE("<:charge:1493764995266379927>"),

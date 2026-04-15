@@ -5,12 +5,10 @@ data class Hero(
     val altKey: String,
     val name: String,
     val imageUrl: String?,
-
     val type: Type?,
     val loreKey: String?,
     val playstyleKey: String?,
     val roleKey: String?,
-
     val isInDevelopment: Boolean,
     val isInHeroLabs: Boolean,
     val isSelectable: Boolean,
@@ -21,6 +19,8 @@ data class Hero(
     val movement: MovementStats,
     val dash: DashStats,
     val stamina: StaminaStats,
+
+    val weapon: Weapon,
     val melee: MeleeStats,
 
     val levelScaling: LevelScaling,
@@ -34,7 +34,6 @@ data class Hero(
     val techRange: Double,
 
     val boundAbilities: List<BoundAbility>,
-    val weapon: Weapon,
 ) {
     enum class Type {
         BRAWLER,
