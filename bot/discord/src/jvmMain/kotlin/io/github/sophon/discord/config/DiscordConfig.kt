@@ -4,5 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DiscordConfig(
-    val discordBotApiKey: String
+    val discordBotAppId: String,
+    val discordBotApiKey: String,
 )

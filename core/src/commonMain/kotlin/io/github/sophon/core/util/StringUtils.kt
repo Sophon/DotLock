@@ -45,3 +45,5 @@ fun String.formKey(): String {
         .joinToString("")
         .lowercase()
 }
+
+fun getEmptyChar(): String = "\u200b"

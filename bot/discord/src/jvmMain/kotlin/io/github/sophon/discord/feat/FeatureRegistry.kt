@@ -1,6 +1,4 @@
-package io.github.sophon.discord.featureRegistry
-
-import io.github.sophon.discord.featureRegistry.DiscordRegisteredFeature
+package io.github.sophon.discord.feat
 
 internal class FeatureRegistry(
     features: List<DiscordRegisteredFeature>,

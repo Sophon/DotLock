@@ -6,14 +6,18 @@ import io.github.sophon.core.arch.mapError
 import io.github.sophon.core.domain.model.Hero
 import io.github.sophon.deadlock.DeadlockFeatureInfo
 import io.github.sophon.deadlock.DeadlockWikiClient
+import io.github.sophon.discord.EMBED_BUTTON_DURATION_INF
 import io.github.sophon.discord.data.toDomain
 import io.github.sophon.discord.domain.BotError
 import io.github.sophon.discord.domain.BotOutput
 import io.github.sophon.discord.domain.Command
+import io.github.sophon.discord.feat.emoji.Emojifier
 import io.github.sophon.discord.ui.heroEmbed
+import kotlin.time.Duration.Companion.seconds
 
 internal class FetchHeroUseCase(
     private val wikiClient: DeadlockWikiClient,
+    private val emojifier: Emojifier,
 ) {
     suspend fun invoke(heroName: String): Result<BotOutput, BotError> {
         return wikiClient.fetchHero(heroName)
@@ -26,6 +30,7 @@ internal class FetchHeroUseCase(
             primaryEmbedBuilder = heroEmbed(
                 hero = this,
                 featureInfo = DeadlockFeatureInfo.featureInfo,
+                emojifier = emojifier,
             ),
             buttons = formAbilityButtons(),
         )
@@ -42,7 +47,10 @@ internal class FetchHeroUseCase(
                 )
             }
             .toList()
-        val buttonSet = BotOutput.ButtonSet(buttonList)
+        val buttonSet = BotOutput.ButtonSet(
+            buttonList = buttonList,
+            duration = EMBED_BUTTON_DURATION_INF.seconds,
+        )
 
         return buttonSet
     }

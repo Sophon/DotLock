@@ -1,4 +1,4 @@
-package io.github.sophon.discord.featureRegistry
+package io.github.sophon.discord.feat
 
 import io.github.aakira.napier.Napier
 import io.github.sophon.core.arch.Result

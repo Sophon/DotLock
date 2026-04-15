@@ -1,8 +1,10 @@
 package io.github.sophon.deadlock.remote.mapper
 
 import io.github.sophon.core.domain.model.Hero
+import io.github.sophon.core.domain.model.Url
 import io.github.sophon.core.domain.model.Weapon
 import io.github.sophon.core.util.formKey
+import io.github.sophon.deadlock.DeadlockFeatureInfo
 import io.github.sophon.deadlock.remote.dto.HeroDto
 
 internal fun Map.Entry<String, HeroDto>.toDomain(imageUrls: Map<String, String>): Hero {
@@ -14,7 +16,10 @@ internal fun Map.Entry<String, HeroDto>.toDomain(imageUrls: Map<String, String>)
         key = heroKey,
         altKey = key,
         name = dto.name ?: key,
-        imageUrl = imageUrls[heroKey],
+        url = Url(
+            wiki = dto.name.toWikiUrl(),
+            image = imageUrls[heroKey]
+        ),
 
         type = dto.type?.toHeroType(),
         loreKey = dto.lore,
@@ -186,5 +191,11 @@ private fun String.toWeaponAttribute(): Weapon.Attribute? {
         else -> null
     }
 
+    return result
+}
+
+private fun String?.toWikiUrl(): String? {
+    if (this == null) return null
+    val result = "${DeadlockFeatureInfo.featureInfo.url}/${this.replace(" ", "_")}"
     return result
 }
