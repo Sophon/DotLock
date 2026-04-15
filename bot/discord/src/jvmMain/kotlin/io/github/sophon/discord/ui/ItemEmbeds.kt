@@ -2,6 +2,7 @@ package io.github.sophon.discord.ui
 
 import dev.kord.common.Color
 import dev.kord.rest.builder.message.EmbedBuilder
+import io.github.sophon.core.domain.model.Bonus
 import io.github.sophon.core.domain.model.FeatureInfo
 import io.github.sophon.core.domain.model.Item
 
@@ -36,7 +37,7 @@ internal fun itemEmbed(
 }
 
 
-private fun EmbedBuilder.createBonuses(bonusSet: Set<Item.Bonus>) {
+private fun EmbedBuilder.createBonuses(bonusSet: Set<Bonus>) {
     val formatted = bonusSet.joinToString("\n") { bonus ->
         val scaleSuffix = bonus.value.scale?.let { " (${it.type.name})" } ?: ""
         "${bonus.type.name}: ${bonus.value.value}$scaleSuffix"

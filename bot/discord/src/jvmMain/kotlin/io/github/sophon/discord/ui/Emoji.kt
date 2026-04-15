@@ -1,9 +1,6 @@
 package io.github.sophon.discord.ui
 
-
-internal class EmojiParser {
-    //TODO: type to emoji
-}
+import io.github.sophon.core.domain.model.Bonus
 
 
 internal enum class Emoji(val id: String) {
@@ -38,4 +35,8 @@ internal enum class Emoji(val id: String) {
     override fun toString(): String {
         return id
     }
+}
+
+fun Bonus.emojify(): String {
+    TODO()
 }

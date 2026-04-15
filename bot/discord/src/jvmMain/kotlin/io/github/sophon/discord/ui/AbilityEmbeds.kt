@@ -3,6 +3,7 @@ package io.github.sophon.discord.ui
 import dev.kord.common.Color
 import dev.kord.rest.builder.message.EmbedBuilder
 import io.github.sophon.core.domain.model.Ability
+import io.github.sophon.core.domain.model.Bonus
 import io.github.sophon.core.domain.model.FeatureInfo
 import io.github.sophon.core.util.getEmptyChar
 
@@ -40,7 +41,7 @@ private fun EmbedBuilder.propertiesSection(property: Ability.Property) {
     mandatoryField(name = getEmptyChar(), value = lines.drop(mid).joinToString("\n"))
 }
 
-private fun EmbedBuilder.bonusSection(bonusSet: Set<Ability.Bonus>) {
+private fun EmbedBuilder.bonusSection(bonusSet: Set<Bonus>) {
     val string = buildString {
         bonusSet.forEach { bonus ->
             append("- **${bonus.type}**: ${bonus.value}\n")
