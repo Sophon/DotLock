@@ -6,12 +6,22 @@ data class Ability(
     val name: String,
     val imageUrl: String?,
 
-    val timing: Timing,
-    val targeting: Targeting,
-    val propertySet: Set<Property>,
-    val upgrades: List<Upgrade>,
+    val property: Property,
+    val bonusSet: Set<Bonus>,
 ) {
     data class Property(
+        val channelTime: ScaledValue?,
+        val chargeCount: ScaledValue?,
+        val chargeCooldown: ScaledValue?,
+        val cooldown: ScaledValue?,
+        val castRange: ScaledValue?,
+        val castDelay: ScaledValue?,
+        val duration: ScaledValue?,
+        val radius: ScaledValue?,
+        val targetUnitCount: Int?,
+    )
+
+    data class Bonus(
         val type: Type,
         val value: ScaledValue,
     ) {
@@ -82,46 +92,6 @@ data class Ability(
             NORMAL_DPS,
             MAX_DPS,
             DAMAGE_HEAVY_MELEE,
-        }
-    }
-
-    data class Timing(
-        val cooldown: ScaledValue?,
-        val cooldownBetweenCharge: ScaledValue?,
-        val castDelay: ScaledValue?,
-        val postCastDuration: ScaledValue?,
-        val channelTime: ScaledValue?,
-        val channelMoveSpeed: ScaledValue?,
-        val duration: ScaledValue?,
-        val charges: ScaledValue?,
-    )
-
-    data class Targeting(
-        val castRange: ScaledValue?,
-        val unitTargetLimit: Int?,
-    )
-
-    data class ZoneStats(
-        val width: Double?,
-        val height: Double?,
-        val depth: Double?,
-        val depthVisualScale: Double?,
-        val formationTime: Double?,
-        val timeScale: Double?,
-        val timeScaleFriendly: Double?,
-        val numSegments: Int?,
-        val segmentEmitTime: Double?,
-        val timeBetweenSegments: Double?,
-        val timeToMaxDistance: Double?,
-        val impactRange: Double?,
-    )
-
-    data class Upgrade(
-        val changes: Pair<String, UpgradeValue>
-    ) {
-        sealed class UpgradeValue {
-            data class Plain(val value: Double) : UpgradeValue()
-            data class Scaled(val scaledValue: ScaledValue) : UpgradeValue()
         }
     }
 }
