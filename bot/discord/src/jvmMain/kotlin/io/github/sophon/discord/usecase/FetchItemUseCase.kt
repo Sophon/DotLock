@@ -9,10 +9,12 @@ import io.github.sophon.deadlock.DeadlockWikiClient
 import io.github.sophon.discord.data.toDomain
 import io.github.sophon.discord.domain.BotError
 import io.github.sophon.discord.domain.BotOutput
+import io.github.sophon.discord.feat.emoji.Emojifier
 import io.github.sophon.discord.ui.itemEmbed
 
 internal class FetchItemUseCase(
     private val wikiClient: DeadlockWikiClient,
+    private val emojifier: Emojifier,
 ) {
     suspend fun invoke(itemName: String): Result<BotOutput, BotError> {
         return wikiClient.fetchItem(itemName)
@@ -25,6 +27,7 @@ internal class FetchItemUseCase(
             primaryEmbedBuilder = itemEmbed(
                 item = this,
                 featureInfo = DeadlockFeatureInfo.featureInfo,
+                emojifier = emojifier,
             )
         )
         return output

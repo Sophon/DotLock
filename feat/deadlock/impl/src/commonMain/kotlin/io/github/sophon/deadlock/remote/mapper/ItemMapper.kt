@@ -2,8 +2,9 @@ package io.github.sophon.deadlock.remote.mapper
 
 import io.github.sophon.core.domain.model.Bonus
 import io.github.sophon.core.domain.model.Item
-import io.github.sophon.core.domain.model.ShopInfo
+import io.github.sophon.core.domain.model.Url
 import io.github.sophon.core.util.formKey
+import io.github.sophon.deadlock.DeadlockFeatureInfo
 import io.github.sophon.deadlock.remote.dto.ItemDto
 
 internal fun Map.Entry<String, ItemDto>.toDomain(imageUrls: Map<String, String>): Item {
@@ -15,11 +16,14 @@ internal fun Map.Entry<String, ItemDto>.toDomain(imageUrls: Map<String, String>)
         key = itemKey,
         altKey = key,
         name = dto.name ?: key,
-        imageUrl = imageUrls[itemKey],
+        url = Url(
+            image = imageUrls[itemKey],
+            wiki = dto.name.toWikiUrl(),
+        ),
 
         description = dto.description,
         isStreetBrawl = dto.streetBrawl ?: false,
-        shop = dto.toDomainShop(),
+        shopInfo = dto.toDomainShop(),
         timing = Item.Timing(
             cooldown = dto.abilityCooldown.toScaledValue(),
             cooldownBetweenCharge = dto.abilityCooldownBetweenCharge.toScaledValue(),
@@ -40,36 +44,36 @@ internal fun Map.Entry<String, ItemDto>.toDomain(imageUrls: Map<String, String>)
     return item
 }
 
-private fun ItemDto.toDomainShop(): ShopInfo {
-    val shopInfo = ShopInfo(
+private fun ItemDto.toDomainShop(): Item.ShopInfo {
+    val shopInfo = Item.ShopInfo(
         cost = this.cost ?: 0,
         tier = this.tier ?: 0,
         slot = when (this.slot.orEmpty()) {
-            "Weapon" -> ShopInfo.Slot.WEAPON
-            "Armor" -> ShopInfo.Slot.ARMOR
-            "Tech" -> ShopInfo.Slot.TECH
-            else -> ShopInfo.Slot.UNKNOWN
+            "Weapon" -> Item.ShopInfo.Slot.WEAPON
+            "Armor" -> Item.ShopInfo.Slot.ARMOR
+            "Tech" -> Item.ShopInfo.Slot.TECH
+            else -> Item.ShopInfo.Slot.UNKNOWN
         },
         activation = when (this.activation.orEmpty()) {
-            "Passive" -> ShopInfo.Activation.PASSIVE
-            "InstantCast" -> ShopInfo.Activation.INSTANT_CAST
-            "InstantCastToggle" -> ShopInfo.Activation.INSTANT_CAST_TOGGLE
-            "Press" -> ShopInfo.Activation.PRESS
-            "OnRelease" -> ShopInfo.Activation.ON_RELEASE
-            else -> ShopInfo.Activation.UNKNOWN
+            "Passive" -> Item.ShopInfo.Activation.PASSIVE
+            "InstantCast" -> Item.ShopInfo.Activation.INSTANT_CAST
+            "InstantCastToggle" -> Item.ShopInfo.Activation.INSTANT_CAST_TOGGLE
+            "Press" -> Item.ShopInfo.Activation.PRESS
+            "OnRelease" -> Item.ShopInfo.Activation.ON_RELEASE
+            else -> Item.ShopInfo.Activation.UNKNOWN
         },
         targetTypeSet = this.toTargetTypeSet(),
         shopFilters = this.shopFilters.orEmpty().map { filter ->
-            ShopInfo.ShopFilter.fromString(filter)
+            Item.ShopInfo.ShopFilter.fromString(filter)
         },
         components = this.components.orEmpty(),
     )
     return shopInfo
 }
 
-private fun ItemDto.toTargetTypeSet(): Set<ShopInfo.TargetType> {
+private fun ItemDto.toTargetTypeSet(): Set<Item.ShopInfo.TargetType> {
     val set = targetTypes
-        ?.map { ShopInfo.TargetType.fromString(it) }
+        ?.map { Item.ShopInfo.TargetType.fromString(it) }
         ?.toSet()
         ?: emptySet()
     return set
@@ -141,4 +145,10 @@ private fun ItemDto.toDomainBonus(): Set<Bonus> {
     bonusSprintSpeed.toScaledValue()?.let { bonuses.add(Bonus(Bonus.Type.BONUS_SPRINT, it)) }
 
     return bonuses.toSet()
+}
+
+private fun String?.toWikiUrl(): String? {
+    if (this == null) return null
+    val result = "${DeadlockFeatureInfo.featureInfo.url}/${this.replace(" ", "_")}"
+    return result
 }
