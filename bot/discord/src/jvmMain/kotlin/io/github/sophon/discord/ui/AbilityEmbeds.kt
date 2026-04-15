@@ -6,10 +6,12 @@ import io.github.sophon.core.domain.model.Ability
 import io.github.sophon.core.domain.model.Bonus
 import io.github.sophon.core.domain.model.FeatureInfo
 import io.github.sophon.core.util.getEmptyChar
+import io.github.sophon.discord.feat.emoji.Emojifier
 
 internal fun abilityEmbed(
     ability: Ability,
     featureInfo: FeatureInfo,
+    emojifier: Emojifier,
 ): EmbedBuilder.() -> Unit = {
     title = ability.name
     color = Color(BEIGE)
@@ -18,20 +20,20 @@ internal fun abilityEmbed(
         thumbnail { url = abilityUrl }
     }
 
-    propertiesSection(ability.property)
-    bonusSection(ability.bonusSet)
+    propertiesSection(ability.property, emojifier)
+    bonusSection(ability.bonusSet, emojifier)
 }
 
 
-private fun EmbedBuilder.propertiesSection(property: Ability.Property) {
+private fun EmbedBuilder.propertiesSection(property: Ability.Property, emojifier: Emojifier) {
     val lines = buildList {
-        property.channelTime?.let { add("- ${Emoji.CHANNEL_TIME} **Channel time** $it") }
-        property.chargeCount?.let { add("- ${Emoji.CHANNEL_TIME} **Charge count** $it") }
-        property.chargeCooldown?.let { add("- ${Emoji.CHARGE_COOLDOWN} **Charge cooldown** $it") }
-        property.cooldown?.let { add("- ${Emoji.COOLDOWN_DELAY_DURATION} **Cooldown** $it") }
-        property.castRange?.let { add("- ${Emoji.RANGE} **Cast range** $it") }
-        property.duration?.let { add("- ${Emoji.COOLDOWN_DELAY_DURATION} **Duration** $it") }
-        property.radius?.let { add("- ${Emoji.RADIUS} **Radius** $it") }
+        property.channelTime?.let { add("- ${emojifier.emojify(Emojifier.Emoji.CHANNEL_TIME)} **Channel time** $it") }
+        property.chargeCount?.let { add("- ${emojifier.emojify(Emojifier.Emoji.CHANNEL_TIME)} **Charge count** $it") }
+        property.chargeCooldown?.let { add("- ${emojifier.emojify(Emojifier.Emoji.CHARGE_COOLDOWN)} **Charge cooldown** $it") }
+        property.cooldown?.let { add("- ${emojifier.emojify(Emojifier.Emoji.COOLDOWN_DELAY_DURATION)} **Cooldown** $it") }
+        property.castRange?.let { add("- ${emojifier.emojify(Emojifier.Emoji.RANGE)} **Cast range** $it") }
+        property.duration?.let { add("- ${emojifier.emojify(Emojifier.Emoji.COOLDOWN_DELAY_DURATION)} **Duration** $it") }
+        property.radius?.let { add("- ${emojifier.emojify(Emojifier.Emoji.RADIUS)} **Radius** $it") }
     }
 
     if (lines.isEmpty()) return
@@ -41,10 +43,10 @@ private fun EmbedBuilder.propertiesSection(property: Ability.Property) {
     mandatoryField(name = getEmptyChar(), value = lines.drop(mid).joinToString("\n"))
 }
 
-private fun EmbedBuilder.bonusSection(bonusSet: Set<Bonus>) {
+private fun EmbedBuilder.bonusSection(bonusSet: Set<Bonus>, emojifier: Emojifier) {
     val string = buildString {
         bonusSet.forEach { bonus ->
-            append("- ${bonus.emojify()} **${bonus.type}**: ${bonus.value}\n")
+            append("- ${emojifier.emojify(bonus)} **${bonus.type}**: ${bonus.value}\n")
         }
     }
 

@@ -1,11 +1,11 @@
-package io.github.sophon.discord.featureRegistry
+package io.github.sophon.discord.feat
 
 import io.github.sophon.discord.config.ConfigLoader
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import io.github.sophon.core.arch.Result
 import io.github.sophon.discord.config.BotConfig
-import io.github.sophon.discord.featureRegistry.DiscordRegisteredFeature
+import io.github.sophon.discord.feat.emoji.Emojifier
 import io.github.sophon.discord.usecase.FetchAbilityUseCase
 import io.github.sophon.discord.usecase.FetchHeroUseCase
 import io.github.sophon.discord.usecase.FetchItemUseCase
@@ -20,6 +20,7 @@ internal fun featureModule() = module {
         }
     }
     single< BotConfig.AdminConfig> { get<BotConfig>().adminConfig!! }
+    singleOf(::Emojifier)
 
     single {
         FeatureRegistry(

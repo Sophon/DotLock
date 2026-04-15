@@ -1,4 +1,4 @@
-package io.github.sophon.discord.featureRegistry
+package io.github.sophon.discord.feat
 
 import io.github.sophon.core.arch.Result
 import io.github.sophon.core.domain.model.FeatureInfo
