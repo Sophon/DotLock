@@ -20,3 +20,4 @@ internal const val BUILD_KEY_ENV = "ENV"
 internal const val BUILD_VAL_PROD = "production"
 
 internal const val ENV_API_DISCORD = "discordBotApiKey"
+internal const val ENV_APP_ID_DISCORD = "discordBotAppId"

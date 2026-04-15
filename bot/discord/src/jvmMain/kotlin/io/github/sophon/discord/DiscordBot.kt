@@ -16,7 +16,8 @@ import io.github.sophon.discord.config.BotConfig
 import io.github.sophon.discord.domain.BotOutput
 import io.github.sophon.discord.domain.Source
 import io.github.sophon.discord.domain.adminCommands
-import io.github.sophon.discord.featureRegistry.DiscordRegisteredFeature
+import io.github.sophon.discord.feat.DiscordRegisteredFeature
+import io.github.sophon.discord.feat.emoji.Emojifier
 import io.github.sophon.discord.usecase.HandleButtonInteractionUseCase
 import io.github.sophon.discord.usecase.ResultToEmbedUseCase
 import io.github.sophon.discord.usecase.RouteCommandToFeatureUseCase
@@ -36,6 +37,7 @@ internal class DiscordBotImpl(
     private val coroutineScope: CoroutineScope,
 
     private val featureList: List<DiscordRegisteredFeature>,
+    private val emojifier: Emojifier,
     private val adminConfig: BotConfig.AdminConfig,
 
     private val routeCommandToFeatureUseCase: RouteCommandToFeatureUseCase,
@@ -66,6 +68,7 @@ internal class DiscordBotImpl(
                 }
             }
         }
+        emojifier.load()
     }
 
     private fun startTracking() {

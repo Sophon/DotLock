@@ -3,10 +3,12 @@ package io.github.sophon.discord
 import dev.kord.core.Kord
 import io.github.sophon.core.coreModule
 import io.github.sophon.deadlock.deadlockModule
+import io.github.sophon.discord.config.DiscordConfig
 import io.github.sophon.discord.data.FileManager
 import io.github.sophon.discord.data.FileManagerImpl
 import io.github.sophon.discord.domain.DiscordButtonBuilder
-import io.github.sophon.discord.featureRegistry.featureModule
+import io.github.sophon.discord.feat.emoji.DiscordEmojiSource
+import io.github.sophon.discord.feat.featureModule
 import io.github.sophon.discord.usecase.CreateEmbedUseCase
 import io.github.sophon.discord.usecase.CreateErrorEmbedBuilderUseCase
 import io.github.sophon.discord.usecase.CreateMutableEmbedUseCase
@@ -25,12 +27,13 @@ import org.koin.dsl.module
 
 fun initKoin(
     kord: Kord,
+    discordConfig: DiscordConfig,
     config: KoinAppDeclaration? = null,
 ) = startKoin {
     config?.invoke(this)
 
     modules(
-        discordModule(kord),
+        discordModule(kord, discordConfig),
         coreModule(),
 
         featureModule(),
@@ -38,11 +41,18 @@ fun initKoin(
     )
 }
 
-fun discordModule(kord: Kord) = module {
+fun discordModule(kord: Kord, discordConfig: DiscordConfig) = module {
     single {
         CoroutineScope(SupervisorJob() + Dispatchers.Default)
     }
     single { kord }
+    single {
+        DiscordEmojiSource(
+            client = get(),
+            appId = discordConfig.discordBotAppId,
+            apiToken = discordConfig.discordBotApiKey,
+        )
+    }
 
     singleOf(::DiscordBotImpl).bind<DiscordBot>()
 

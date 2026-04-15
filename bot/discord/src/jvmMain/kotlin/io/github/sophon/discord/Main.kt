@@ -18,12 +18,12 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import org.koin.java.KoinJavaComponent.getKoin
 import java.io.EOFException
-import java.io.File
 
 suspend fun main() = coroutineScope {
     initLogging()
-    val kord = createKord()
-    initKoin(kord)
+    val config = getConfig()
+    val kord = createKord(config)
+    initKoin(kord, config)
 
     val discordBot = getKoin().get<DiscordBot>()
 
@@ -57,8 +57,10 @@ private fun initLogging() {
     }
 }
 
-private suspend fun createKord(): Kord {
-    return Kord(token = getApiKey()) {
+private suspend fun createKord(config: DiscordConfig): Kord {
+    return Kord(
+        token = config.discordBotApiKey
+    ) {
         httpClient = HttpClient(Java) {
             install(ContentNegotiation) {
                 json(
@@ -81,27 +83,18 @@ private suspend fun createKord(): Kord {
     }
 }
 
-private fun getApiKey(): String {
-    // env var first (for production/Docker)
-    System.getenv(ENV_API_DISCORD)?.let { apiKey ->
-        Napier.i(tag = TAG) { "API from env: ${apiKey.maskSecret()}" }
-        return apiKey
-    }
+private fun getConfig(): DiscordConfig {
+    val apiKey = System.getenv(ENV_API_DISCORD)
+        ?: throw IllegalStateException("Missing env var: $ENV_API_DISCORD")
+    val appId = System.getenv(ENV_APP_ID_DISCORD)
+        ?: throw IllegalStateException("Missing env var: $ENV_APP_ID_DISCORD")
 
-    // fall back to config file (for local development)
-    val configFile = File(CONFIG_FILE_NAME)
-    if (configFile.exists().not()) {
-        throw IllegalStateException("No API key found. Set $ENV_API_DISCORD env var or create $CONFIG_FILE_NAME")
-    }
+    Napier.i(tag = TAG) { "Config from env: ${apiKey.maskSecret()}" }
 
-    val json = Json {
-        ignoreUnknownKeys = true
-    }
-    val discordConfig = json.decodeFromString<DiscordConfig>(configFile.readText())
-
-    return discordConfig.discordBotApiKey.also { apiKey ->
-        Napier.d(tag = TAG) { "API from file: $apiKey" }
-    }
+    return DiscordConfig(
+        discordBotAppId = appId,
+        discordBotApiKey = apiKey,
+    )
 }
 
 private fun isDebugBuild(): Boolean {
