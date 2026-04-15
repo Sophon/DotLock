@@ -1,0 +1,31 @@
+# flyctl launch added from .gitignore
+**/*.iml
+**/.kotlin
+**/.gradle
+**/**/build
+**/xcuserdata
+!**/core/**/build
+**/local.properties
+**/.idea
+**/.DS_Store
+**/captures
+**/.externalNativeBuild
+**/.cxx
+**/*.xcodeproj/*
+!**/*.xcodeproj/project.pbxproj
+!**/*.xcodeproj/xcshareddata
+!**/*.xcodeproj/project.xcworkspace
+!**/*.xcworkspace/contents.xcworkspacedata
+**/**/xcshareddata/WorkspaceSettings.xcsettings
+**/node_modules
+
+core/build/*
+
+# flyctl launch added from .idea/.gitignore
+# Default ignored files
+.idea/shelf
+.idea/workspace.xml
+
+# flyctl launch added from feat/deadlock/api/.gitignore
+feat/deadlock/api/build
+fly.toml
