@@ -27,16 +27,16 @@ private fun EmbedBuilder.weaponSection(weapon: Weapon) {
     mandatoryField(
         name = "Bullets",
         value = buildString {
-            append("- DMG: ${weapon.bulletDamage}\n")
-            append("- SPD: ${weapon.bulletSpeed}\n")
+            append("- ${Emoji.BULLET_DAMAGE} DMG: ${weapon.bulletDamage}\n")
+            append("- ${Emoji.BULLET_SPEED} SPD: ${weapon.bulletSpeed}\n")
             append("- pSHT: ${weapon.bulletsPerShot}; pBRST: ${weapon.bulletsPerBurst}\n")
         },
     )
     mandatoryField(
         name = "Clip",
         value = buildString {
-            append("- Size: ${weapon.clipSize}\n")
-            append("- Reload: ${weapon.reloadTime}\n")
+            append("- ${Emoji.CLIP_SIZE} Size: ${weapon.clipSize}\n")
+            append("- ${Emoji.RELOAD_TIME} Reload: ${weapon.reloadTime}\n")
         }
     )
 }
@@ -45,18 +45,18 @@ private fun EmbedBuilder.vitalitySection(hero: Hero) {
     mandatoryField(
         name = "HP",
         value = buildString {
-            append("- HP: ${hero.maxHealth}\n")
-            append("- regen: ${hero.baseHealthRegen}\n")
-            append("- Stamina: ${hero.stamina.stamina}\n")
-            append("- Stamina CD: ${hero.stamina.cooldown}\n")
+            append("- ${Emoji.HEALTH} HP: ${hero.maxHealth}\n")
+            append("- ${Emoji.HP_REGEN} regen: ${hero.baseHealthRegen}\n")
+            append("- ${Emoji.SPRINT_SPEED} Stamina: ${hero.stamina.stamina}\n")
+            append("- ${Emoji.COOLDOWN} Stamina CD: ${hero.stamina.cooldown}\n")
         }
     )
     mandatoryField(
         name = "Movement",
         value = buildString {
-            append("- Move: ${hero.movement.maxMoveSpeed}\n")
-            append("- Sprint: ${hero.movement.sprintSpeedMultiplier}\n")
-            append("- Dash: ${hero.dash.groundDashSpeed} (gnd); ${hero.dash.airDashSpeed} (air)\n")
+            append("- ${Emoji.MOVE_SPEED} Move: ${hero.movement.maxMoveSpeed}\n")
+            append("- ${Emoji.SPRINT_SPEED} Sprint: ${hero.movement.sprintSpeedMultiplier}\n")
+            append("- ${Emoji.DASH} Dash: ${hero.dash.groundDashSpeed} (gnd); ${hero.dash.airDashSpeed} (air)\n")
         }
     )
 }
