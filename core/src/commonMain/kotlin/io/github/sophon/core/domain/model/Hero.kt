@@ -4,7 +4,7 @@ data class Hero(
     val key: String,
     val altKey: String,
     val name: String,
-    val imageUrl: String?,
+    val url: Url,
     val type: Type?,
     val loreKey: String?,
     val playstyleKey: String?,
