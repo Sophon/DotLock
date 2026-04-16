@@ -116,6 +116,7 @@ data class Property(
         STOMP_DAMAGE,
         STUN_DURATION,
         SWAP_DAMAGE,
+        TECH_DAMAGE,
         TECH_POWER,
         TECH_POWER_PCT,
         TECH_RADIUS_MULT,
@@ -127,6 +128,17 @@ data class Property(
         WALL_IMPACT_DAMAGE,
         WEAPON_POWER_DEBUFF,
 
-        UNKNOWN,
+        UNKNOWN;
+
+        override fun toString(): String {
+            return name
+                .split("_")
+                .joinToString(" ") { word ->
+                    when (word) {
+                        "PCT" -> "%"
+                        else -> word.lowercase().replaceFirstChar { it.uppercase() }
+                    }
+                }
+        }
     }
 }

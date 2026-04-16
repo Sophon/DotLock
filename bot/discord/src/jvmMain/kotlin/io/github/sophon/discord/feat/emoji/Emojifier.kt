@@ -2,6 +2,7 @@ package io.github.sophon.discord.feat.emoji
 
 import io.github.aakira.napier.Napier
 import io.github.sophon.core.domain.model.Property
+import io.github.sophon.core.domain.model.ScaledValue
 import io.github.sophon.discord.feat.emoji.data.DiscordEmojiSource
 import io.github.sophon.discord.feat.emoji.data.toFormatted
 
@@ -19,7 +20,8 @@ internal class Emojifier(
 
     fun emojify(property: Property): String {
         val key = emojify(property.key) ?: return ""
-        return emojiMap[key.name.lowercase()] ?: ""
+        val emoji = emojiMap[key.name.lowercase()] ?: ""
+        return emoji
     }
 
     fun emojify(emoji: Emoji): String {
@@ -95,7 +97,9 @@ internal class Emojifier(
             Property.Key.BONUS_DAMAGE,
             Property.Key.DAMAGE_BASE_ATTACK_PCT,
             Property.Key.WEAPON_POWER_DEBUFF,
-                -> Emoji.BULLET_WEAPON_DAMAGE
+                -> {
+                Emoji.BULLET_WEAPON_DAMAGE
+            }
 
             Property.Key.BONUS_CLIP_SIZE,
             Property.Key.BONUS_CLIP_SIZE_PCT,
@@ -173,6 +177,7 @@ internal class Emojifier(
             Property.Key.SLOW_DURATION,
             Property.Key.SLOW_PCT,
             Property.Key.SLOW_PERCENT,
+            Property.Key.MAX_SLOW_PERCENT,
                 -> Emoji.MOVEMENT_SLOW
 
             Property.Key.RADIUS,
@@ -185,6 +190,7 @@ internal class Emojifier(
             Property.Key.SILENCE_DURATION,
                 -> Emoji.SILENCE
 
+            Property.Key.TECH_DAMAGE,
             Property.Key.DAMAGE_SPIRIT,
             Property.Key.OUTGOING_TECH_DAMAGE_PERCENT,
                 -> Emoji.SPIRIT_DAMAGE
