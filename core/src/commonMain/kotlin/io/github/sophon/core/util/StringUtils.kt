@@ -53,3 +53,50 @@ fun String.toSnakeCase(): String {
 }
 
 fun getEmptyChar(): String = "\u200b"
+
+fun String.cleanHtml(): String {
+    return this
+        .decodeHtmlEntities()
+        .removeHtmlTags()
+        .replace("'''", "") //wiki bolt
+        .replace(Regex("\\*\\s*\\n"), "* ")
+        .trim()
+}
+
+private fun String.decodeHtmlEntities(): String {
+    return this
+        // Decode &amp; FIRST so double-encoded entities work
+        .replace("&amp;", "&")
+        // NOW handle numeric entities
+        .replace(Regex("&#(\\d+);")) { matchResult ->
+            matchResult.groupValues[1].toInt().toChar().toString()
+        }
+        .replace(Regex("&#x([0-9A-Fa-f]+);")) { matchResult ->
+            matchResult.groupValues[1].toInt(16).toChar().toString()
+        }
+        // Then other named entities
+        .replace("&gt;", ">")
+        .replace("&lt;", "<")
+        .replace("&quot;", "\"")
+        .replace("&#039;", "'")
+        .replace("&nbsp;", " ")
+        .replace("&apos;", "'")
+}
+
+private fun String.removeHtmlTags(): String {
+    return this
+        .replace(Regex("<br\\s*/?>"), "\n")
+        .replace(Regex("<[^>]*>"), "")
+}
+
+fun String.cleanItemDescription(): String {
+    return cleanHtml()
+        .replace(Regex("\\{[^}]*\\}")) { match ->
+            match.value
+                .substringAfterLast(':')
+                .trim('\'', '}')
+                .replace(Regex("([a-z])([A-Z])"), "$1 $2")
+        }
+        .normalizeWhiteSpace()
+        .trim()
+}
