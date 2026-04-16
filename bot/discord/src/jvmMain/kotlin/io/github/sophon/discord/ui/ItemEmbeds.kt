@@ -7,7 +7,6 @@ import io.github.sophon.core.domain.model.FeatureInfo
 import io.github.sophon.core.domain.model.Item
 import io.github.sophon.core.util.getEmptyChar
 import io.github.sophon.discord.feat.emoji.Emojifier
-import kotlin.collections.forEach
 
 internal fun itemEmbed(
     item: Item,
@@ -25,57 +24,38 @@ internal fun itemEmbed(
     }
     item.url.wiki?.let { wikiUrl -> url = wikiUrl }
 
-    generalSection(item, emojifier)
-    item.description?.let { description ->
+    mandatoryField(
+        name = "${emojifier.emojify(Emojifier.Emoji.SOULS)} **${item.cost}** (${item.tier})",
+        value = item.description,
+        inline = false,
+    )
+
+    bonusSection(bonusList = item.bonusList, emojifier)
+}
+
+private fun EmbedBuilder.bonusSection(bonusList: List<Bonus>, emojifier: Emojifier) {
+    for (bonus in bonusList) {
+        val title = buildString {
+            var string = bonus.type.toString()
+            bonus.cooldown?.let { string += " - ${Emojifier.Emoji.COOLDOWN_DELAY_DURATION} $it" }
+            bonus.chargeUp?.let { string += " - ${Emojifier.Emoji.CHANNEL_TIME} $it" }
+            append(string)
+        }
+
+        val properties = buildString {
+            bonus.descKey?.let { append("$it\n") }
+
+            for (property in bonus.properties) {
+                append("- ${emojifier.emojify(property)} ${property.key}: ${property.value}\n")
+            }
+        }
+
         mandatoryField(
-            name = getEmptyChar(),
-            value = description,
+            name = title,
+            value = properties,
             inline = false,
         )
     }
-    bonusSection(item.bonusSet, emojifier)
-}
-
-private fun EmbedBuilder.generalSection(item: Item, emojifier: Emojifier) {
-    mandatoryField(
-        name = "Cost (tier)",
-        value = "${emojifier.emojify(Emojifier.Emoji.SOULS)} **${item.shopInfo.cost}** (${item.shopInfo.tier})"
-    )
-
-    val timing = item.timing ?: return
-
-    val lines = buildList {
-        timing.cooldown?.let { add("- ${emojifier.emojify(Emojifier.Emoji.COOLDOWN_DELAY_DURATION)} **Cooldown** $it") }
-        timing.cooldownBetweenCharge?.let { add("- ${emojifier.emojify(Emojifier.Emoji.CHARGE_COOLDOWN)} **Charge cooldown** $it") }
-        timing.castDelay?.let { add("- ${emojifier.emojify(Emojifier.Emoji.COOLDOWN_DELAY_DURATION)} **Cast delay** $it") }
-        timing.postCastDuration?.let { add("- ${emojifier.emojify(Emojifier.Emoji.COOLDOWN_DELAY_DURATION)} **Post cast duration** $it") }
-        timing.channelTime?.let { add("- ${emojifier.emojify(Emojifier.Emoji.CHANNEL_TIME)} **Channel time** $it") }
-        timing.channelMoveSpeed?.let { add("- ${emojifier.emojify(Emojifier.Emoji.MOVE_SPEED)} **Channel move speed** $it") }
-        timing.duration?.let { add("- ${emojifier.emojify(Emojifier.Emoji.COOLDOWN_DELAY_DURATION)} **Duration** $it") }
-        timing.charges?.let { add("- ${emojifier.emojify(Emojifier.Emoji.CHARGE_COOLDOWN)} **Charges** $it") }
-    }
-
-    if (lines.isEmpty()) return
-
-    val mid = (lines.size + 1) / 2
-    mandatoryField(name = getEmptyChar(), value = lines.take(mid).joinToString("\n"))
-    mandatoryField(name = getEmptyChar(), value = lines.drop(mid).joinToString("\n"))
-}
-
-private fun EmbedBuilder.bonusSection(bonusSet: Set<Bonus>, emojifier: Emojifier) {
-    val string = buildString {
-        bonusSet.forEach { bonus ->
-            append("- ${emojifier.emojify(bonus)} **${bonus.type}**: ${bonus.value}\n")
-        }
-    }
-
-    if (string.isBlank()) return
-
-    mandatoryField(
-        name = "Bonus",
-        value = string,
-        inline = false,
-    )
 }
 
 

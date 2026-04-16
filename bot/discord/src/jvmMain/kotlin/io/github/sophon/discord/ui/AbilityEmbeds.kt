@@ -3,7 +3,7 @@ package io.github.sophon.discord.ui
 import dev.kord.common.Color
 import dev.kord.rest.builder.message.EmbedBuilder
 import io.github.sophon.core.domain.model.Ability
-import io.github.sophon.core.domain.model.Bonus
+import io.github.sophon.core.domain.model.Property
 import io.github.sophon.core.domain.model.FeatureInfo
 import io.github.sophon.core.util.getEmptyChar
 import io.github.sophon.discord.feat.emoji.Emojifier
@@ -43,10 +43,10 @@ private fun EmbedBuilder.propertiesSection(property: Ability.Property, emojifier
     mandatoryField(name = getEmptyChar(), value = lines.drop(mid).joinToString("\n"))
 }
 
-private fun EmbedBuilder.bonusSection(bonusSet: Set<Bonus>, emojifier: Emojifier) {
+private fun EmbedBuilder.bonusSection(bonusSet: Set<Property>, emojifier: Emojifier) {
     val string = buildString {
         bonusSet.forEach { bonus ->
-            append("- ${emojifier.emojify(bonus)} **${bonus.type}**: ${bonus.value}\n")
+            append("- ${emojifier.emojify(bonus)} **${bonus.key}**: ${bonus.value}\n")
         }
     }
 
