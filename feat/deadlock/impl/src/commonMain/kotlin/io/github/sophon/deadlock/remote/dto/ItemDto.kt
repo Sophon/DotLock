@@ -19,6 +19,9 @@ internal data class ItemDto(
     @SerialName("IsDisabled") val isDisabled: Boolean?,
     @SerialName("StreetBrawl") val streetBrawl: Boolean?,
     @SerialName("Info1") val info1: ItemInfoDto? = null,
+    @SerialName("Info2") val info2: ItemInfoDto? = null,
+    @SerialName("Info3") val info3: ItemInfoDto? = null,
+    @SerialName("Info4") val info4: ItemInfoDto? = null,
     @SerialName("Upgrades") val upgrades: Map<String, JsonElement>? = null,
     @SerialName("Other") val other: Map<String, OtherDto>? = null,
 )
@@ -46,6 +49,6 @@ internal data class ItemPropDto(
 @Serializable
 internal data class OtherDto(
     @SerialName("Key") val key: String,
-    @SerialName("Value") val value: JsonElement,
+    @SerialName("Value") val value: JsonElement? = null,
     @SerialName("Type") val type: String? = null,
 )

@@ -7,7 +7,7 @@ data class Ability(
     val imageUrl: String?,
 
     val property: Property,
-    val bonusSet: Set<Bonus>,
+    val bonusSet: Set<io.github.sophon.core.domain.model.Property>,
 ) {
     data class Property(
         val channelTime: ScaledValue?,

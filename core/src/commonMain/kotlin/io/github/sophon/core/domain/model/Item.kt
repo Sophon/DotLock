@@ -18,11 +18,7 @@ data class Item(
     val cooldown: Double,
     val chargeUp: Double,
 
-    val mainPropertyList: List<Property>,
-    val altPropertyList: List<Property>,
-    val upgradeList: List<Property>,
-
-    val bonusSet: Set<Bonus>,
+    val bonusList: List<Bonus>,
 ) {
     enum class Activation {
         PASSIVE,
@@ -39,13 +35,6 @@ data class Item(
         TECH,
         UNKNOWN,
     }
-
-    data class Property(
-        val key: String,
-        val value: String,
-        val type: String? = null,
-        val scale: Scale? = null,
-    )
 
     enum class ShopFilter {
         WEAPON_DAMAGE,
