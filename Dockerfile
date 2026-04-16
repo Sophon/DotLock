@@ -28,9 +28,5 @@ WORKDIR /app
 # Copy the fat JAR from builder
 COPY --from=builder /app/bot/discord/build/libs/discord-bot-all.jar /app/firefrog.jar
 
-# Create /res directory for config volume
-RUN mkdir -p /app/res
-COPY res/config.json /app/res/config.json
-
 # Run the bot
 CMD ["java", "-Xms128m", "-Xmx192m", "-jar", "firefrog.jar"]
