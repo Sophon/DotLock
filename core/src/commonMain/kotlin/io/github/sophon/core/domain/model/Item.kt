@@ -8,6 +8,7 @@ data class Item(
     val url: Url,
 
     val cost: Int,
+    val tier: Int,
     val componentList: List<String>,
     val shopFilterList: List<ShopFilter>,
 
@@ -15,8 +16,6 @@ data class Item(
     val slot: Slot,
     val activation: Activation,
     val targetTypeList: List<String>,
-    val cooldown: Double,
-    val chargeUp: Double,
 
     val bonusList: List<Bonus>,
 ) {

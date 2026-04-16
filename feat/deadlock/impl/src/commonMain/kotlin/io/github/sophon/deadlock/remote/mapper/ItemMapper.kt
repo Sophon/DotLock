@@ -22,35 +22,42 @@ import kotlin.collections.orEmpty
 internal fun Map.Entry<String, ItemDto>.toDomain(imageUrls: Map<String, String>): Item {
     val dto = value
     val key = key
-    val itemKey = (value.name?.formKey() ?: key)
 
-    val item = Item(
+    val item = dto.toDomain(key, imageUrls)
+
+    return item
+}
+
+internal fun ItemDto.toDomain(
+    key: String,
+    imageUrls: Map<String, String>,
+): Item {
+    val itemKey = (name?.formKey() ?: key)
+
+    return Item(
         key = itemKey,
-        name = dto.name ?: key,
+        name = name ?: key,
         url = Url(
             image = imageUrls[itemKey],
-            wiki = dto.name.toWikiUrl(),
+            wiki = name.toWikiUrl(),
         ),
 
-        cost = dto.cost ?: 0,
-        componentList = dto.components.orEmpty(),
-        shopFilterList = dto.shopFilters.orEmpty().map { filter ->
+        cost = cost ?: 0,
+        tier = tier ?: 0,
+        componentList = components.orEmpty(),
+        shopFilterList = shopFilters.orEmpty().map { filter ->
             Item.ShopFilter.fromString(filter)
         },
 
-        description = dto.description.orEmpty(),
-        slot = dto.slot.toDomainSlot(),
-        activation = dto.activation.toDomainActivation(),
-        targetTypeList = dto.targetTypes.orEmpty(),
-        cooldown = dto.info1?.cooldown ?: 0.0,
-        chargeUp = dto.info1?.chargeUp ?: 0.0,
+        description = description.orEmpty(),
+        slot = slot.toDomainSlot(),
+        activation = activation.toDomainActivation(),
+        targetTypeList = targetTypes.orEmpty(),
 
         bonusList = listOf(
-            dto.info1, dto.info2, dto.info3, dto.info4
+            info1, info2, info3, info4
         ).toDomainBonusList(),
     )
-
-    return item
 }
 
 
