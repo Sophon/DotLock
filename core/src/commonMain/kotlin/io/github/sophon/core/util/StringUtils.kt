@@ -46,4 +46,10 @@ fun String.formKey(): String {
         .lowercase()
 }
 
+fun String.toSnakeCase(): String {
+    return replace(Regex("([a-z])([A-Z])")) { "${it.groupValues[1]}_${it.groupValues[2]}" }
+        .replace(Regex("([A-Z]+)([A-Z][a-z])")) { "${it.groupValues[1]}_${it.groupValues[2]}" }
+        .uppercase()
+}
+
 fun getEmptyChar(): String = "\u200b"
