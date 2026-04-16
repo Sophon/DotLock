@@ -122,5 +122,7 @@ data class Bonus(
         VULNERABILITY_PER_STACK,
         WALL_IMPACT_DAMAGE,
         WEAPON_POWER_DEBUFF,
+
+        UNKNOWN,
     }
 }

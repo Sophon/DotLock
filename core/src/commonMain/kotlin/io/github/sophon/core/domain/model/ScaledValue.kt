@@ -1,14 +1,11 @@
 package io.github.sophon.core.domain.model
 
+import io.github.sophon.core.domain.model.ScaledValue.ScaleType
+
 data class ScaledValue(
     val value: Double,
     val scale: Scale? = null
 ) {
-    data class Scale(
-        val value: Double,
-        val type: ScaleType
-    )
-
     enum class ScaleType {
         SPIRIT,
         WEAPON_DAMAGE,
@@ -41,3 +38,8 @@ data class ScaledValue(
             .trimEnd('.')
     }
 }
+
+data class Scale(
+    val value: Double,
+    val type: ScaleType
+)
