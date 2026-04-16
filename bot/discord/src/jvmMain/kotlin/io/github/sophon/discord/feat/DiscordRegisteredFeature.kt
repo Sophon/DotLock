@@ -3,10 +3,10 @@ package io.github.sophon.discord.feat
 import io.github.sophon.core.arch.Result
 import io.github.sophon.core.domain.model.FeatureInfo
 import io.github.sophon.core.domain.model.Game
-import io.github.sophon.discord.domain.BotError
-import io.github.sophon.discord.domain.BotOutput
-import io.github.sophon.discord.domain.Command
-import io.github.sophon.discord.domain.Source
+import io.github.sophon.discord.domain.model.BotError
+import io.github.sophon.discord.domain.model.BotOutput
+import io.github.sophon.discord.domain.model.Command
+import io.github.sophon.discord.domain.model.Source
 
 internal interface DiscordRegisteredFeature {
     val featureInfo: FeatureInfo

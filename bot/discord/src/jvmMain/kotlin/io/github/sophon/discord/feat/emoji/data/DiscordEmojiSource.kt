@@ -1,4 +1,4 @@
-package io.github.sophon.discord.feat.emoji
+package io.github.sophon.discord.feat.emoji.data
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body

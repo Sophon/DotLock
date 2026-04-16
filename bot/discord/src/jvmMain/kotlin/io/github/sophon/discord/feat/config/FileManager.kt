@@ -1,8 +1,8 @@
-package io.github.sophon.discord.data
+package io.github.sophon.discord.feat.config
 
 import io.github.sophon.core.arch.EmptyResult
 import io.github.sophon.core.arch.Result
-import io.github.sophon.discord.domain.BotError
+import io.github.sophon.discord.domain.model.BotError
 import java.io.File
 
 internal interface FileManager {
