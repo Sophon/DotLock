@@ -1,7 +1,8 @@
 package io.github.sophon.discord.feat.emoji
 
 import io.github.aakira.napier.Napier
-import io.github.sophon.core.domain.model.Bonus
+import io.github.sophon.core.domain.model.Property
+import io.github.sophon.core.domain.model.ScaledValue
 import io.github.sophon.discord.feat.emoji.data.DiscordEmojiSource
 import io.github.sophon.discord.feat.emoji.data.toFormatted
 
@@ -17,9 +18,10 @@ internal class Emojifier(
         Napier.d(tag = TAG) { "Emojis: ${emojiMap.keys.size}" }
     }
 
-    fun emojify(bonus: Bonus): String {
-        val key = emojify(bonus.type) ?: return ""
-        return emojiMap[key.name.lowercase()] ?: ""
+    fun emojify(property: Property): String {
+        val key = emojify(property.key) ?: return ""
+        val emoji = emojiMap[key.name.lowercase()] ?: ""
+        return emoji
     }
 
     fun emojify(emoji: Emoji): String {
@@ -67,144 +69,148 @@ internal class Emojifier(
     }
 
 
-    private fun emojify(type: Bonus.Type): Emoji? {
-        return when (type) {
-            Bonus.Type.ABILITY_CD,
-            Bonus.Type.CD_REDUCTION,
+    private fun emojify(key: Property.Key): Emoji? {
+        return when (key) {
+            Property.Key.ABILITY_CD,
+            Property.Key.CD_REDUCTION,
                 -> Emoji.ABILITY_CD
 
-            Bonus.Type.BONUS_ABILITY_CHARGE,
+            Property.Key.BONUS_ABILITY_CHARGE,
                 -> Emoji.ABILITY_POINT
 
-            Bonus.Type.COMBAT_BARRIER,
-            Bonus.Type.COMBAT_BARRIER_PER_STACK,
-            Bonus.Type.VEX_BARRIER_COMBAT_BARRIER,
+            Property.Key.COMBAT_BARRIER,
+            Property.Key.COMBAT_BARRIER_PER_STACK,
+            Property.Key.VEX_BARRIER_COMBAT_BARRIER,
                 -> Emoji.BARRIER
 
-            Bonus.Type.BONUS_FIRE_RATE,
-            Bonus.Type.FIRE_RATE_SLOW,
+            Property.Key.BONUS_FIRE_RATE,
+            Property.Key.FIRE_RATE_SLOW,
                 -> Emoji.BULLET_FIRE_RATE
 
-            Bonus.Type.ARMOR_REDUCTION_BULLET,
-            Bonus.Type.BULLET_RESIST,
+            Property.Key.ARMOR_REDUCTION_BULLET,
+            Property.Key.BULLET_RESIST,
                 -> Emoji.BULLET_RESIST
 
-            Bonus.Type.BONUS_BULLET_SPEED_PCT,
+            Property.Key.BONUS_BULLET_SPEED_PCT,
                 -> Emoji.BULLET_SPEED
 
-            Bonus.Type.BONUS_DAMAGE,
-            Bonus.Type.DAMAGE_BASE_ATTACK_PCT,
-            Bonus.Type.WEAPON_POWER_DEBUFF,
-                -> Emoji.BULLET_WEAPON_DAMAGE
+            Property.Key.BONUS_DAMAGE,
+            Property.Key.DAMAGE_BASE_ATTACK_PCT,
+            Property.Key.WEAPON_POWER_DEBUFF,
+                -> {
+                Emoji.BULLET_WEAPON_DAMAGE
+            }
 
-            Bonus.Type.BONUS_CLIP_SIZE,
-            Bonus.Type.BONUS_CLIP_SIZE_PCT,
-            Bonus.Type.CLIP_SIZE_OVERRIDE,
+            Property.Key.BONUS_CLIP_SIZE,
+            Property.Key.BONUS_CLIP_SIZE_PCT,
+            Property.Key.CLIP_SIZE_OVERRIDE,
                 -> Emoji.CLIP
 
-            Bonus.Type.BONUS_ABILITY_DUR_PCT,
-            Bonus.Type.BUFF_DURATION,
-            Bonus.Type.BURN_DURATION,
-            Bonus.Type.DEBUFF_DURATION,
+            Property.Key.BONUS_ABILITY_DUR_PCT,
+            Property.Key.BUFF_DURATION,
+            Property.Key.BURN_DURATION,
+            Property.Key.DEBUFF_DURATION,
                 -> Emoji.COOLDOWN_DELAY_DURATION
 
-            Bonus.Type.DAMAGE_AMPLIFICATION_PER_STACK,
-            Bonus.Type.VULNERABILITY_PER_STACK,
+            Property.Key.DAMAGE_AMPLIFICATION_PER_STACK,
+            Property.Key.VULNERABILITY_PER_STACK,
                 -> Emoji.DAMAGE_AMPLIFY
 
-            Bonus.Type.STATUS_RESIST_PCT,
+            Property.Key.STATUS_RESIST_PCT,
                 -> Emoji.DAMAGE_RESIST
 
-            Bonus.Type.DISARM_DURATION,
+            Property.Key.DISARM_DURATION,
                 -> Emoji.DISARM
 
-            Bonus.Type.PUSH_FORCE,
+            Property.Key.PUSH_FORCE,
                 -> Emoji.DISPLACEMENT
 
-            Bonus.Type.DPS,
-            Bonus.Type.DPS_INCREASE,
-            Bonus.Type.DPS_MAX,
-            Bonus.Type.MAX_DPS,
-            Bonus.Type.NORMAL_DPS,
+            Property.Key.DPS,
+            Property.Key.DPS_INCREASE,
+            Property.Key.DPS_MAX,
+            Property.Key.MAX_DPS,
+            Property.Key.NORMAL_DPS,
                 -> Emoji.DPS
 
-            Bonus.Type.ABILITY_LIFE_STEAL_HERO_PCT,
-            Bonus.Type.BULLET_LIFE_STEAL_PCT,
-            Bonus.Type.FLAT_HEALTH_HEALING,
-            Bonus.Type.HEAL_AMOUNT,
-            Bonus.Type.HEAL_AMP_RECEIVE_PENALTY_PCT,
-            Bonus.Type.HEAL_AMP_REGEN_PENALTY_PCT,
-            Bonus.Type.HEAL_LIFE_STEAL,
-            Bonus.Type.HEAL_LIFE_STEAL_PCT,
-            Bonus.Type.HEAL_LIFE_STRIKE,
-            Bonus.Type.HEAL_ON_VEIL,
-            Bonus.Type.HEAL_P_CAST,
-            Bonus.Type.HEAL_P_HEADSHOT_PCT,
-            Bonus.Type.HEAL_P_STACK,
-            Bonus.Type.HEALING_PER_SECOND,
-            Bonus.Type.LIFE_DRAIN_PER_SECOND,
+            Property.Key.ABILITY_LIFE_STEAL_HERO_PCT,
+            Property.Key.BULLET_LIFE_STEAL_PCT,
+            Property.Key.FLAT_HEALTH_HEALING,
+            Property.Key.HEAL_AMOUNT,
+            Property.Key.HEAL_AMP_RECEIVE_PENALTY_PCT,
+            Property.Key.HEAL_AMP_REGEN_PENALTY_PCT,
+            Property.Key.HEAL_LIFE_STEAL,
+            Property.Key.HEAL_LIFE_STEAL_PCT,
+            Property.Key.HEAL_LIFE_STRIKE,
+            Property.Key.HEAL_ON_VEIL,
+            Property.Key.HEAL_P_CAST,
+            Property.Key.HEAL_P_HEADSHOT_PCT,
+            Property.Key.HEAL_P_STACK,
+            Property.Key.HEALING_PER_SECOND,
+            Property.Key.LIFE_DRAIN_PER_SECOND,
                 -> Emoji.HEAL_LIFESTEAL
 
-            Bonus.Type.HEALTH_TO_DAMAGE,
-            Bonus.Type.HP_BONUS,
+            Property.Key.HEALTH_TO_DAMAGE,
+            Property.Key.HP_BONUS,
                 -> Emoji.HP
 
-            Bonus.Type.BONUS_HEALTH_REGEN,
-            Bonus.Type.BONUS_HP_REG,
-            Bonus.Type.HP_REGEN_TOTAL,
-            Bonus.Type.OOC_HP_REG,
-            Bonus.Type.REGEN,
+            Property.Key.BONUS_HEALTH_REGEN,
+            Property.Key.BONUS_HP_REG,
+            Property.Key.HP_REGEN_TOTAL,
+            Property.Key.OOC_HP_REG,
+            Property.Key.REGEN,
                 -> Emoji.HP_REGEN
 
-            Bonus.Type.IMMOBILIZE_DURATION,
+            Property.Key.IMMOBILIZE_DURATION,
                 -> Emoji.IMMOBILIZE
 
-            Bonus.Type.BONUS_MELEE_DAMAGE_PCT,
-            Bonus.Type.DAMAGE_HEAVY_MELEE,
+            Property.Key.BONUS_MELEE_DAMAGE_PCT,
+            Property.Key.DAMAGE_HEAVY_MELEE,
                 -> Emoji.MELEE_DAMAGE
 
-            Bonus.Type.BONUS_MOVE_SPEED,
-            Bonus.Type.BONUS_MS,
+            Property.Key.BONUS_MOVE_SPEED,
+            Property.Key.BONUS_MS,
                 -> Emoji.MOVE_SPEED
 
-            Bonus.Type.MOVE_SPEED_PENALTY_PER_STACK,
-            Bonus.Type.MOVE_SPEED_SLOW_PCT,
-            Bonus.Type.MOVEMENT_SLOW_PCT,
-            Bonus.Type.SLOW_DURATION,
-            Bonus.Type.SLOW_PCT,
-            Bonus.Type.SLOW_PERCENT,
+            Property.Key.MOVE_SPEED_PENALTY_PER_STACK,
+            Property.Key.MOVE_SPEED_SLOW_PCT,
+            Property.Key.MOVEMENT_SLOW_PCT,
+            Property.Key.SLOW_DURATION,
+            Property.Key.SLOW_PCT,
+            Property.Key.SLOW_PERCENT,
+            Property.Key.MAX_SLOW_PERCENT,
                 -> Emoji.MOVEMENT_SLOW
 
-            Bonus.Type.RADIUS,
-            Bonus.Type.TECH_RADIUS_MULT,
+            Property.Key.RADIUS,
+            Property.Key.TECH_RADIUS_MULT,
                 -> Emoji.RADIUS
 
-            Bonus.Type.TECH_RANGE_MULT,
+            Property.Key.TECH_RANGE_MULT,
                 -> Emoji.RANGE
 
-            Bonus.Type.SILENCE_DURATION,
+            Property.Key.SILENCE_DURATION,
                 -> Emoji.SILENCE
 
-            Bonus.Type.DAMAGE_SPIRIT,
-            Bonus.Type.OUTGOING_TECH_DAMAGE_PERCENT,
+            Property.Key.TECH_DAMAGE,
+            Property.Key.DAMAGE_SPIRIT,
+            Property.Key.OUTGOING_TECH_DAMAGE_PERCENT,
                 -> Emoji.SPIRIT_DAMAGE
 
-            Bonus.Type.TECH_POWER,
-            Bonus.Type.TECH_POWER_PCT,
+            Property.Key.TECH_POWER,
+            Property.Key.TECH_POWER_PCT,
                 -> Emoji.SPIRIT_POWER
 
-            Bonus.Type.MAGIC_RESIST_RED,
-            Bonus.Type.TECH_RESIST,
+            Property.Key.MAGIC_RESIST_RED,
+            Property.Key.TECH_RESIST,
                 -> Emoji.SPIRIT_RESIST
 
-            Bonus.Type.BONUS_SPRINT,
-            Bonus.Type.STAMINA,
-            Bonus.Type.STAMINA_CD_RED,
+            Property.Key.BONUS_SPRINT,
+            Property.Key.STAMINA,
+            Property.Key.STAMINA_CD_RED,
                 -> Emoji.SPRINT_SPEED
 
-            Bonus.Type.PETRIFY_DURATION,
-            Bonus.Type.SLEEP_DURATION,
-            Bonus.Type.STUN_DURATION,
+            Property.Key.PETRIFY_DURATION,
+            Property.Key.SLEEP_DURATION,
+            Property.Key.STUN_DURATION,
                 -> Emoji.STUN
 
             else -> null

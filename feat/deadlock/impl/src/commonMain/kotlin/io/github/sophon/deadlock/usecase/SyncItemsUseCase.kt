@@ -18,10 +18,13 @@ internal class SyncItemsUseCase(
 ) {
     suspend fun invoke(): EmptyResult<WikiError> {
         return source.downloadItemList()
-            .mapError { it.toDomain() }
+            .mapError {
+                it.toDomain() 
+            }
             .flatMap { map ->
                 val filtered = map.entries
                     .filter { it.value.isDisabled == false }
+                    .filter { it.value.slot != null }
                     .filter { it.value.name.isNullOrBlank().not() }
                     .filter { it.value.name!!.formKey().isNotBlank() }
 

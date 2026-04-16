@@ -1,5 +1,6 @@
 package io.github.sophon.deadlock.remote.mapper
 
+import io.github.sophon.core.domain.model.Scale
 import io.github.sophon.core.domain.model.ScaledValue
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.JsonObject
@@ -33,7 +34,7 @@ internal fun JsonElement?.toScaledValue(): ScaledValue? {
                 val scaleValue = scaleObj["Value"]?.jsonPrimitive?.doubleOrNull ?: return@let null
                 val scaleType = scaleObj["Type"]?.jsonPrimitive?.contentOrNull?.toScaleType() ?: return@let null
 
-                ScaledValue.Scale(
+                Scale(
                     value = scaleValue,
                     type = scaleType,
                 )

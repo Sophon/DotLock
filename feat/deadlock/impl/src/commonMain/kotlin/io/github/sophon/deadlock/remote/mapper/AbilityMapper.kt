@@ -1,7 +1,7 @@
 package io.github.sophon.deadlock.remote.mapper
 
 import io.github.sophon.core.domain.model.Ability
-import io.github.sophon.core.domain.model.Bonus
+import io.github.sophon.core.domain.model.Property
 import io.github.sophon.core.util.formKey
 import io.github.sophon.deadlock.remote.dto.AbilityDto
 
@@ -31,34 +31,34 @@ internal fun Map.Entry<String, AbilityDto>.toDomain(imageUrls: Map<String, Strin
 }
 
 
-private fun AbilityDto.toDomainPropertySet(): Set<Bonus> {
-    val properties = mutableSetOf<Bonus>()
+private fun AbilityDto.toDomainPropertySet(): Set<Property> {
+    val properties = mutableSetOf<Property>()
 
-    damage.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.DAMAGE, it)) }
-    dps.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.DPS, it)) }
-    normalDps.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.NORMAL_DPS, it)) }
-    maxDps.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.MAX_DPS, it)) }
-    damageHeavyMelee.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.DAMAGE_HEAVY_MELEE, it)) }
-    bonusDamage.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.BONUS_DAMAGE, it)) }
-    combatBarrier.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.COMBAT_BARRIER, it)) }
-    healAmount.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.HEAL_AMOUNT, it)) }
-    impactDamage.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.IMPACT_DAMAGE, it)) }
-    explosionDamage.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.EXPLOSION_DAMAGE, it)) }
-    maxDamage.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.MAX_DAMAGE, it)) }
-    minDamage.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.MIN_DAMAGE, it)) }
-    radius.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.RADIUS, it)) }
-    tickRate.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.TICK_RATE, it)) }
-    slowPercent.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.SLOW_PERCENT, it)) }
-    slowDuration.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.SLOW_DURATION, it)) }
-    stunDuration.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.STUN_DURATION, it)) }
-    debuffDuration.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.DEBUFF_DURATION, it)) }
-    buffDuration.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.BUFF_DURATION, it)) }
-    immobilizeDuration.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.IMMOBILIZE_DURATION, it)) }
-    bonusMoveSpeed.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.BONUS_MOVE_SPEED, it)) }
-    bonusFireRate.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.BONUS_FIRE_RATE, it)) }
-    bulletResist.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.BULLET_RESIST, it)) }
-    techResist.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.TECH_RESIST, it)) }
-    maxStacks.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.MAX_STACKS, it)) }
+//    damage.toScaledValue()?.let { properties.add(Property(Property.Key.DAMAGE, it)) }
+//    dps.toScaledValue()?.let { properties.add(Property(Property.Key.DPS, it)) }
+//    normalDps.toScaledValue()?.let { properties.add(Property(Property.Key.NORMAL_DPS, it)) }
+//    maxDps.toScaledValue()?.let { properties.add(Property(Property.Key.MAX_DPS, it)) }
+//    damageHeavyMelee.toScaledValue()?.let { properties.add(Property(Property.Key.DAMAGE_HEAVY_MELEE, it)) }
+//    bonusDamage.toScaledValue()?.let { properties.add(Property(Property.Key.BONUS_DAMAGE, it)) }
+//    combatBarrier.toScaledValue()?.let { properties.add(Property(Property.Key.COMBAT_BARRIER, it)) }
+//    healAmount.toScaledValue()?.let { properties.add(Property(Property.Key.HEAL_AMOUNT, it)) }
+//    impactDamage.toScaledValue()?.let { properties.add(Property(Property.Key.IMPACT_DAMAGE, it)) }
+//    explosionDamage.toScaledValue()?.let { properties.add(Property(Property.Key.EXPLOSION_DAMAGE, it)) }
+//    maxDamage.toScaledValue()?.let { properties.add(Property(Property.Key.MAX_DAMAGE, it)) }
+//    minDamage.toScaledValue()?.let { properties.add(Property(Property.Key.MIN_DAMAGE, it)) }
+//    radius.toScaledValue()?.let { properties.add(Property(Property.Key.RADIUS, it)) }
+//    tickRate.toScaledValue()?.let { properties.add(Property(Property.Key.TICK_RATE, it)) }
+//    slowPercent.toScaledValue()?.let { properties.add(Property(Property.Key.SLOW_PERCENT, it)) }
+//    slowDuration.toScaledValue()?.let { properties.add(Property(Property.Key.SLOW_DURATION, it)) }
+//    stunDuration.toScaledValue()?.let { properties.add(Property(Property.Key.STUN_DURATION, it)) }
+//    debuffDuration.toScaledValue()?.let { properties.add(Property(Property.Key.DEBUFF_DURATION, it)) }
+//    buffDuration.toScaledValue()?.let { properties.add(Property(Property.Key.BUFF_DURATION, it)) }
+//    immobilizeDuration.toScaledValue()?.let { properties.add(Property(Property.Key.IMMOBILIZE_DURATION, it)) }
+//    bonusMoveSpeed.toScaledValue()?.let { properties.add(Property(Property.Key.BONUS_MOVE_SPEED, it)) }
+//    bonusFireRate.toScaledValue()?.let { properties.add(Property(Property.Key.BONUS_FIRE_RATE, it)) }
+//    bulletResist.toScaledValue()?.let { properties.add(Property(Property.Key.BULLET_RESIST, it)) }
+//    techResist.toScaledValue()?.let { properties.add(Property(Property.Key.TECH_RESIST, it)) }
+//    maxStacks.toScaledValue()?.let { properties.add(Property(Property.Key.MAX_STACKS, it)) }
 
     return properties
 }
