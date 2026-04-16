@@ -5,12 +5,12 @@ import io.github.sophon.core.util.extractFirstWord
 import io.github.sophon.core.util.formKey
 import io.github.sophon.core.util.normalizeWhiteSpace
 import io.github.sophon.core.util.removeTag
-import io.github.sophon.discord.domain.BotError
-import io.github.sophon.discord.domain.BotOutput
-import io.github.sophon.discord.domain.Command
-import io.github.sophon.discord.domain.Command.Companion.fromStringOrNull
+import io.github.sophon.discord.domain.model.BotError
+import io.github.sophon.discord.domain.model.BotOutput
+import io.github.sophon.discord.domain.model.Command
+import io.github.sophon.discord.domain.model.Command.Companion.fromStringOrNull
 import io.github.sophon.discord.feat.DiscordRegisteredFeature
-import io.github.sophon.discord.domain.Source
+import io.github.sophon.discord.domain.model.Source
 
 internal class RouteCommandToFeatureUseCase(
     private val featureList: List<DiscordRegisteredFeature>,

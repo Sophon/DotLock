@@ -3,11 +3,11 @@ package io.github.sophon.discord
 import dev.kord.core.Kord
 import io.github.sophon.core.coreModule
 import io.github.sophon.deadlock.deadlockModule
-import io.github.sophon.discord.config.DiscordConfig
-import io.github.sophon.discord.data.FileManager
-import io.github.sophon.discord.data.FileManagerImpl
-import io.github.sophon.discord.domain.DiscordButtonBuilder
-import io.github.sophon.discord.feat.emoji.DiscordEmojiSource
+import io.github.sophon.discord.feat.config.DiscordConfig
+import io.github.sophon.discord.feat.config.FileManager
+import io.github.sophon.discord.feat.config.FileManagerImpl
+import io.github.sophon.discord.ui.DiscordButtonBuilder
+import io.github.sophon.discord.feat.emoji.data.DiscordEmojiSource
 import io.github.sophon.discord.feat.featureModule
 import io.github.sophon.discord.usecase.CreateEmbedUseCase
 import io.github.sophon.discord.usecase.CreateErrorEmbedBuilderUseCase
@@ -56,7 +56,6 @@ fun discordModule(kord: Kord, discordConfig: DiscordConfig) = module {
 
     singleOf(::DiscordBotImpl).bind<DiscordBot>()
 
-    singleOf(::FileManagerImpl).bind<FileManager>()
     singleOf(::DiscordButtonBuilder)
 
     singleOf(::RouteCommandToFeatureUseCase)

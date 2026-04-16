@@ -2,6 +2,8 @@ package io.github.sophon.discord.feat.emoji
 
 import io.github.aakira.napier.Napier
 import io.github.sophon.core.domain.model.Bonus
+import io.github.sophon.discord.feat.emoji.data.DiscordEmojiSource
+import io.github.sophon.discord.feat.emoji.data.toFormatted
 
 internal class Emojifier(
     private val source: DiscordEmojiSource,

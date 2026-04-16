@@ -1,4 +1,4 @@
-package io.github.sophon.discord.domain
+package io.github.sophon.discord.ui
 
 import dev.kord.common.entity.ButtonStyle
 import dev.kord.rest.builder.component.ActionRowComponentBuilder
@@ -6,10 +6,8 @@ import dev.kord.rest.builder.component.ButtonBuilder
 import dev.kord.rest.builder.message.MessageBuilder
 import dev.kord.rest.builder.message.actionRow
 import io.github.sophon.discord.EMBED_MAX_BUTTONS
+import io.github.sophon.discord.domain.model.BotOutput
 import io.github.sophon.discord.domain.model.DiscordButton
-import io.github.sophon.discord.domain.model.DiscordButton.Companion.KEY_EDIT
-import io.github.sophon.discord.domain.model.DiscordButton.Companion.KEY_QUERY
-import io.github.sophon.discord.domain.model.DiscordButton.Companion.KEY_REDIRECT
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -22,9 +20,9 @@ internal class DiscordButtonBuilder {
             ?: return null
 
         return when (key) {
-            KEY_QUERY -> DiscordButton.Query(value)
-            KEY_EDIT -> DiscordButton.Edit(value)
-            KEY_REDIRECT -> DiscordButton.Redirect(value)
+            DiscordButton.Companion.KEY_QUERY -> DiscordButton.Query(value)
+            DiscordButton.Companion.KEY_EDIT -> DiscordButton.Edit(value)
+            DiscordButton.Companion.KEY_REDIRECT -> DiscordButton.Redirect(value)
             else -> null
         }
     }

@@ -12,9 +12,9 @@ import dev.kord.rest.request.RestRequestException
 import io.github.sophon.core.util.rollChance
 import io.github.sophon.discord.EMBED_BUTTON_DURATION_INF
 import io.github.sophon.discord.URL_KOFI
-import io.github.sophon.discord.domain.BotError
-import io.github.sophon.discord.domain.BotOutput
-import io.github.sophon.discord.domain.DiscordButtonBuilder
+import io.github.sophon.discord.domain.model.BotError
+import io.github.sophon.discord.domain.model.BotOutput
+import io.github.sophon.discord.ui.DiscordButtonBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch

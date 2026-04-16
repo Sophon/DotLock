@@ -1,11 +1,10 @@
-package io.github.sophon.discord.config
+package io.github.sophon.discord.feat.config
 
 import io.github.aakira.napier.Napier
 import io.github.sophon.core.arch.Result
 import io.github.sophon.core.arch.map
 import io.github.sophon.core.util.getGame
-import io.github.sophon.discord.data.FileManager
-import io.github.sophon.discord.domain.BotError
+import io.github.sophon.discord.domain.model.BotError
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 
