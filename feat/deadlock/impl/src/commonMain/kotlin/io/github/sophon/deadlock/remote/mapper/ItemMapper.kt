@@ -8,6 +8,8 @@ import io.github.sophon.core.domain.model.Item
 import io.github.sophon.core.domain.model.Scale
 import io.github.sophon.core.domain.model.ScaledValue
 import io.github.sophon.core.domain.model.Url
+import io.github.sophon.core.util.cleanHtml
+import io.github.sophon.core.util.cleanItemDescription
 import io.github.sophon.core.util.formKey
 import io.github.sophon.core.util.toSnakeCase
 import io.github.sophon.deadlock.DeadlockFeatureInfo
@@ -49,7 +51,9 @@ internal fun ItemDto.toDomain(
             Item.ShopFilter.fromString(filter)
         },
 
-        description = description.orEmpty(),
+        description = description.orEmpty()
+            .cleanHtml()
+            .cleanItemDescription(),
         slot = slot.toDomainSlot(),
         activation = activation.toDomainActivation(),
         targetTypeList = targetTypes.orEmpty(),

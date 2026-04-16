@@ -136,7 +136,20 @@ internal class ItemMapperTest {
         assertThat(result.shopFilterList).isEqualTo(expectedShopFilters)
     }
 
-    //TODO: description formatting
+    @Test
+    fun `toDomain formats description`() {
+        // given
+        val item = ItemSource.mercurialMagnum
+        val expected = "Your imbued ability charges up over time with Bonus Spirit Damage," +
+                " Bonus Fire Rate, and reloads bullets on use. Until your next reload, " +
+                "your bullets deal Bonus Spirit Damage based on your Spirit Power."
+
+        // when
+        val result = item.toDomain("", emptyMap())
+
+        //then
+        assertThat(result.description).isEqualTo(expected)
+    }
 }
 
 
