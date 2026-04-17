@@ -2,20 +2,12 @@ package io.github.sophon.core.domain.model
 
 data class Ability(
     val key: String,
-    val altKey: String, //data is shit, we need to do this
+    val heroName: String,
     val name: String,
+    val description: String,
     val imageUrl: String?,
 
-    val property: Property,
-    val bonusSet: Set<io.github.sophon.core.domain.model.Property>,
-) {
-    data class Property(
-        val channelTime: ScaledValue?,
-        val chargeCount: ScaledValue?,
-        val chargeCooldown: ScaledValue?,
-        val cooldown: ScaledValue?,
-        val castRange: ScaledValue?,
-        val duration: ScaledValue?,
-        val radius: ScaledValue?,
-    )
-}
+    val upgradeList: List<Map<String, Double>>,
+    val propertyMap: Map<String, Property>,
+    val bonusSet: Set<Property>,
+)

@@ -5,57 +5,61 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
+internal data class HeroAbilitiesDto(
+    @SerialName("Name") val heroName: String,
+    @SerialName("1") val ability1: AbilityDto,
+    @SerialName("2") val ability2: AbilityDto,
+    @SerialName("3") val ability3: AbilityDto,
+    @SerialName("4") val ability4: AbilityDto,
+) {
+    fun abilities(): List<AbilityDto> {
+        return listOf(ability1, ability2, ability3, ability4)
+    }
+}
+
+@Serializable
 internal data class AbilityDto(
+    @SerialName("Key") val key: String,
+    @SerialName("Name") val name: String,
+    @SerialName("DescKey") val descKey: String? = null,
+    @SerialName("Info1") val info1: InfoDto? = null,
+    @SerialName("Info2") val info2: InfoDto? = null,
+    @SerialName("Info3") val info3: InfoDto? = null,
+    @SerialName("Upgrades") val upgrades: List<Map<String, JsonElement>> = emptyList(),
+    @SerialName("Move") val move: Map<String, PropDto>? = null,
+    @SerialName("Other") val other: Map<String, PropDto>? = null,
+    @SerialName("Range") val range: Map<String, PropDto>? = null,
+    @SerialName("Duration") val duration: Map<String, PropDto>? = null,
+    @SerialName("Cooldown") val cooldown: Map<String, PropDto>? = null,
+    @SerialName("AbilityCastDelay") val abilityCastDelay: PropDto? = null,
+    @SerialName("AbilityCastRange") val abilityCastRange: PropDto? = null,
+    @SerialName("AbilityCharges") val abilityCharges: PropDto? = null,
+    @SerialName("AbilityChannelTime") val abilityChannelTime: PropDto? = null,
+    @SerialName("AbilityCooldown") val abilityCooldown: PropDto? = null,
+    @SerialName("AbilityCooldownBetweenCharge") val abilityCooldownBetweenCharge: PropDto? = null,
+    @SerialName("AbilityDuration") val abilityDuration: PropDto? = null,
+    @SerialName("Radius") val radius: PropDto? = null,
+)
+
+@Serializable
+internal data class InfoDto(
+    @SerialName("Main") val main: MainDto? = null,
+    @SerialName("Alt") val alt: List<PropDto> = emptyList(),
+    @SerialName("DescKey") val descKey: String? = null,
+)
+
+@Serializable
+internal data class MainDto(
+    @SerialName("Props") val props: List<PropDto> = emptyList(),
+)
+
+@Serializable
+internal data class PropDto(
     @SerialName("Key") val key: String? = null,
     @SerialName("Name") val name: String? = null,
-    @SerialName("IsDisabled") val isDisabled: Boolean? = null,
-
-    @SerialName("AbilityCooldown") val abilityCooldown: JsonElement? = null,
-    @SerialName("AbilityCooldownBetweenCharge") val abilityCooldownBetweenCharge: JsonElement? = null,
-    @SerialName("AbilityCastDelay") val abilityCastDelay: JsonElement? = null,
-    @SerialName("AbilityCastRange") val abilityCastRange: JsonElement? = null,
-    @SerialName("AbilityChannelTime") val abilityChannelTime: JsonElement? = null,
-    @SerialName("AbilityDuration") val abilityDuration: JsonElement? = null,
-    @SerialName("AbilityPostCastDuration") val abilityPostCastDuration: JsonElement? = null,
-    @SerialName("AbilityUnitTargetLimit") val abilityUnitTargetLimit: Int? = null,
-    @SerialName("AbilityCharges") val abilityCharges: JsonElement? = null,
-    @SerialName("AbilityChargesConditionally") val abilityChargesConditionally: Int? = null,
-    @SerialName("AbilityLifestealPercentHero") val abilityLifestealPercentHero: JsonElement? = null,
-    @SerialName("AbilitySpeedPct") val abilitySpeedPct: JsonElement? = null,
-
-    @SerialName("ChannelMoveSpeed") val channelMoveSpeed: JsonElement? = null,
-
-    @SerialName("Damage") val damage: JsonElement? = null,
-    @SerialName("DPS") val dps: JsonElement? = null,
-    @SerialName("NormalDPS") val normalDps: JsonElement? = null,
-    @SerialName("MaxDPS") val maxDps: JsonElement? = null,
-    @SerialName("DamageHeavyMelee") val damageHeavyMelee: JsonElement? = null,
-    @SerialName("HealAmount") val healAmount: JsonElement? = null,
-    @SerialName("BonusDamage") val bonusDamage: JsonElement? = null,
-    @SerialName("CombatBarrier") val combatBarrier: JsonElement? = null,
-    @SerialName("ImpactDamage") val impactDamage: JsonElement? = null,
-    @SerialName("ExplosionDamage") val explosionDamage: JsonElement? = null,
-    @SerialName("LandingDamage") val landingDamage: JsonElement? = null,
-    @SerialName("MaxDamage") val maxDamage: JsonElement? = null,
-    @SerialName("MinDamage") val minDamage: JsonElement? = null,
-
-    @SerialName("Radius") val radius: JsonElement? = null,
-    @SerialName("ExplosionRadius") val explosionRadius: JsonElement? = null,
-    @SerialName("TickRate") val tickRate: JsonElement? = null,
-
-    @SerialName("SlowPercent") val slowPercent: JsonElement? = null,
-    @SerialName("SlowDuration") val slowDuration: JsonElement? = null,
-    @SerialName("StunDuration") val stunDuration: JsonElement? = null,
-    @SerialName("DebuffDuration") val debuffDuration: JsonElement? = null,
-    @SerialName("BuffDuration") val buffDuration: JsonElement? = null,
-    @SerialName("ImmobilizeDuration") val immobilizeDuration: JsonElement? = null,
-
-    @SerialName("BonusMoveSpeed") val bonusMoveSpeed: JsonElement? = null,
-    @SerialName("BonusFireRate") val bonusFireRate: JsonElement? = null,
-    @SerialName("BulletResist") val bulletResist: JsonElement? = null,
-    @SerialName("TechResist") val techResist: JsonElement? = null,
-
-    @SerialName("MaxStacks") val maxStacks: JsonElement? = null,
-
-    @SerialName("Upgrades") val upgrades: List<Map<String, JsonElement>>? = null,
+    @SerialName("Title") val title: String? = null,
+    @SerialName("Value") val value: JsonElement? = null,
+    @SerialName("Scale") val scale: ScaleDto? = null,
+    @SerialName("Type") val type: String? = null,
+    @SerialName("StatusEffect") val statusEffect: String? = null,
 )

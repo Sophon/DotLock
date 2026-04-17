@@ -3,7 +3,7 @@ package io.github.sophon.core.domain.model
 data class Property(
     val key: Key,
     val value: ScaledValue,
-    val type: String,
+    val type: String?,
 ) {
     enum class Key {
         ABILITY_CD,
