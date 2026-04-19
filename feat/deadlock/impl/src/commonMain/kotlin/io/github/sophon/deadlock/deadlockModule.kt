@@ -9,7 +9,7 @@ import io.github.sophon.deadlock.db.ItemDatabaseImpl
 import io.github.sophon.deadlock.usecase.SyncAbilitiesUseCase
 import io.github.sophon.deadlock.usecase.SyncDataUseCase
 import io.github.sophon.deadlock.usecase.SyncHeroesUseCase
-import io.github.sophon.deadlock.usecase.SyncItemsUseCase
+import io.github.sophon.deadlock.usecase.DownloadItemsUseCase
 import io.github.sophon.deadlock.remote.DeadlockWikiDataSource
 import io.github.sophon.deadlock.remote.DeadlockWikiDataSourceImpl
 import io.github.sophon.deadlock.remote.ImageResolver
@@ -34,7 +34,7 @@ fun deadlockModule() = module {
 
     singleOf(::SyncAbilitiesUseCase)
     singleOf(::SyncHeroesUseCase)
-    singleOf(::SyncItemsUseCase)
+    singleOf(::DownloadItemsUseCase)
     singleOf(::SyncDataUseCase)
     singleOf(::FetchItemUseCase)
     singleOf(::FetchHeroUseCase)
