@@ -5,7 +5,6 @@ import dev.kord.rest.builder.message.EmbedBuilder
 import io.github.sophon.core.domain.model.Bonus
 import io.github.sophon.core.domain.model.FeatureInfo
 import io.github.sophon.core.domain.model.Item
-import io.github.sophon.core.util.getEmptyChar
 import io.github.sophon.discord.feat.emoji.Emojifier
 
 internal fun itemEmbed(
@@ -29,24 +28,23 @@ internal fun itemEmbed(
         value = item.description,
         inline = false,
     )
-
-    bonusSection(bonusList = item.bonusList, emojifier)
+    bonusSection(item.effectSet, emojifier)
 }
 
-private fun EmbedBuilder.bonusSection(bonusList: List<Bonus>, emojifier: Emojifier) {
-    for (bonus in bonusList) {
+private fun EmbedBuilder.bonusSection(effectSet: Set<Bonus>, emojifier: Emojifier) {
+    for (effect in effectSet) {
         val title = buildString {
-            var string = bonus.type.toString()
-            bonus.cooldown?.let { string += " - ${Emojifier.Emoji.COOLDOWN_DELAY_DURATION} $it" }
-            bonus.chargeUp?.let { string += " - ${Emojifier.Emoji.CHANNEL_TIME} $it" }
+            var string = effect.type.toString()
+            effect.cooldown?.let { string += " - ${Emojifier.Emoji.COOLDOWN_DELAY_DURATION} $it" }
+            effect.chargeUp?.let { string += " - ${Emojifier.Emoji.CHANNEL_TIME} $it" }
             append(string)
         }
 
         val properties = buildString {
-            bonus.descKey?.let { append("$it\n") }
+            effect.description?.let { append("$it\n") }
 
-            for (property in bonus.properties) {
-                append("- ${emojifier.emojify(property)} ${property.key}: ${property.value}\n")
+            for (property in effect.properties) {
+                append("- **${property.key}**: ${property.value}\n")
             }
         }
 

@@ -38,7 +38,7 @@ internal fun AbilityDto.toDomain(
         imageUrl = imageUrlMap[abilityKey],
         upgradeList = upgradeList,
         propertyMap = propertyMap,
-        effectsSet = listOf(
+        effectSet = listOf(
             info1, info2, info3,
         ).toDomainBonusList(),
     )

@@ -17,7 +17,7 @@ data class Item(
     val activation: Activation,
     val targetTypeList: List<String>,
 
-    val bonusList: List<Bonus>,
+    val effectSet: Set<Bonus>,
 ) {
     enum class Activation {
         PASSIVE,

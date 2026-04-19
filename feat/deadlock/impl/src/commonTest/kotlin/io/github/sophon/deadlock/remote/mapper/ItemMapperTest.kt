@@ -96,7 +96,7 @@ internal class ItemMapperTest {
         val result = item.toDomain("", emptyMap())
 
         //then
-        assertThat(result.bonusList).isEqualTo(expected)
+        assertThat(result.effectSet).isEqualTo(expected)
     }
     
     @Test

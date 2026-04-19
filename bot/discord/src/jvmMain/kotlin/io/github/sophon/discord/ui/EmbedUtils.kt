@@ -7,8 +7,8 @@ import io.github.sophon.core.util.truncate
 import io.github.sophon.discord.EMBED_MAX_LENGTH
 
 internal fun EmbedBuilder.mandatoryField(
-    name: String,
     value: String?,
+    name: String? = null,
     inline: Boolean = true,
     escapeAsterisks: Boolean = false,
 ) {
@@ -21,7 +21,7 @@ internal fun EmbedBuilder.mandatoryField(
         .truncate(EMBED_MAX_LENGTH)
 
     field {
-        this.name = name
+        this.name = name ?: ""
         this.value = formatted
         this.inline = inline
     }

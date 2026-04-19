@@ -9,5 +9,5 @@ data class Ability(
 
     val upgradeList: List<Map<String, Double>>,
     val propertyMap: Map<String, Property>,
-    val effectsSet: Set<Property>,
+    val effectSet: Set<Property>,
 )

@@ -60,7 +60,7 @@ internal fun ItemDto.toDomain(
         activation = activation.toDomainActivation(),
         targetTypeList = targetTypes.orEmpty(),
 
-        bonusList = listOf(
+        effectSet = listOf(
             info1, info2, info3, info4
         ).toDomainBonusList(descriptionMap),
     )
@@ -103,7 +103,7 @@ private fun String?.toScaleType(): ScaledValue.ScaleType {
     }
 }
 
-private fun List<ItemInfoDto?>.toDomainBonusList(descriptionMap: Map<String, String>): List<Bonus> {
+private fun List<ItemInfoDto?>.toDomainBonusList(descriptionMap: Map<String, String>): Set<Bonus> {
     return filterNotNull().map { dto ->
         val descriptionKey = dto.descKey.orEmpty().replace("#", "")
         Bonus(
@@ -113,7 +113,7 @@ private fun List<ItemInfoDto?>.toDomainBonusList(descriptionMap: Map<String, Str
             chargeUp = dto.chargeUp,
             properties = (dto.main + dto.alt).toDomainPropertyList(),
         )
-    }
+    }.toSet()
 }
 
 private fun String?.toActivationType(): ActivationType {
