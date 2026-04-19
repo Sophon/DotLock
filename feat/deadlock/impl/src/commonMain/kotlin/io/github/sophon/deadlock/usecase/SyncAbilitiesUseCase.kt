@@ -16,7 +16,10 @@ internal class SyncAbilitiesUseCase(
     private val db: AbilityDatabase,
     private val imageResolver: ImageResolver,
 ) {
-    suspend fun invoke(registeredAbilitySet: Set<String>): EmptyResult<WikiError> {
+    suspend fun invoke(
+        heroNameSet: Set<String>,
+        descriptionMap: Map<String, String>,
+    ): EmptyResult<WikiError> {
         return source.downloadAbilityList()
             .mapError { it.toDomain() }
             .flatMap { map ->
@@ -27,7 +30,7 @@ internal class SyncAbilitiesUseCase(
                         heroAbilities.abilities().asSequence().map { heroName to it }
                     }
                     .filter { (_, dto) -> dto.key != null }
-                    .filter { (_, dto) -> registeredAbilitySet.contains(dto.key) }
+                    .filter { (_, dto) -> heroNameSet.contains(dto.key) }
                     .filter { (_, dto) -> dto.name.isNullOrBlank().not() }
                     .filter { (_, dto) -> dto.name!!.formKey().isNotBlank() }
                     .toList()
@@ -38,7 +41,7 @@ internal class SyncAbilitiesUseCase(
                     .mapError { it.toDomain() }
                     .flatMap { imageUrls ->
                         val abilityList = filtered.map { (heroName, dto) ->
-                            dto.toDomain(heroName, imageUrls)
+                            dto.toDomain(heroName, imageUrls, descriptionMap)
                         }
                         Napier.d(tag = TAG) { "${abilityList.size} abilities downloaded" }
                         db.insert(abilityList)

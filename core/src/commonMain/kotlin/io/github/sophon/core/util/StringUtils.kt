@@ -89,7 +89,7 @@ private fun String.removeHtmlTags(): String {
         .replace(Regex("<[^>]*>"), "")
 }
 
-fun String.cleanItemDescription(): String {
+fun String.cleanDescription(): String {
     return cleanHtml()
         .replace(Regex("\\{[^}]*\\}")) { match ->
             match.value

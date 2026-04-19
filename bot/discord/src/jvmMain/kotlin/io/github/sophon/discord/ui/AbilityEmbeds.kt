@@ -3,9 +3,8 @@ package io.github.sophon.discord.ui
 import dev.kord.common.Color
 import dev.kord.rest.builder.message.EmbedBuilder
 import io.github.sophon.core.domain.model.Ability
-import io.github.sophon.core.domain.model.Property
 import io.github.sophon.core.domain.model.FeatureInfo
-import io.github.sophon.core.util.getEmptyChar
+import io.github.sophon.core.domain.model.Property
 import io.github.sophon.discord.feat.emoji.Emojifier
 
 internal fun abilityEmbed(
@@ -21,7 +20,10 @@ internal fun abilityEmbed(
     }
 
     propertiesSection(ability.propertyMap, emojifier)
-    bonusSection(ability.effectsSet, emojifier)
+    ability.description?.let {
+        mandatoryField(value = it, inline = false)
+    }
+    effectsSection(ability.effectSet, emojifier)
 }
 
 
@@ -35,24 +37,20 @@ private fun EmbedBuilder.propertiesSection(propertyMap: Map<String, Property>, e
     if (lines.isEmpty()) return
 
     val mid = (lines.size + 1) / 2
-    mandatoryField(name = "", value = lines.take(mid).joinToString("\n"))
-    mandatoryField(name = "", value = lines.drop(mid).joinToString("\n"))
+    mandatoryField(value = lines.take(mid).joinToString("\n"))
+    mandatoryField(value = lines.drop(mid).joinToString("\n"))
 }
 
-private fun EmbedBuilder.bonusSection(bonusSet: Set<Property>, emojifier: Emojifier) {
+private fun EmbedBuilder.effectsSection(effectSet: Set<Property>, emojifier: Emojifier) {
     val string = buildString {
-        bonusSet.forEach { bonus ->
+        effectSet.forEach { bonus ->
             append("- **${bonus.key}**: ${bonus.value}\n")
         }
     }
 
     if (string.isBlank()) return
 
-    mandatoryField(
-        name = "",
-        value = string,
-        inline = false,
-    )
+    mandatoryField(value = string, inline = false)
 }
 
 

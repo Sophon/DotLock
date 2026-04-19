@@ -22,15 +22,15 @@ internal class ItemMapperTest {
     fun `toDomain handles basic bonus structure`() {
         // given
         val item = ItemSource.capacitor
-        val expected = listOf(
+        val expected = setOf(
             Bonus(
                 type = ActivationType.INNATE,
-                descKey = null,
+                description = null,
                 cooldown = null,
                 chargeUp = null,
                 properties = listOf(
                     Property(
-                        key = Property.Key.BONUS_FIRE_RATE,
+                        key = "BONUS_FIRE_RATE",
                         value = ScaledValue(value = 5.0, scale = null),
                         type = "fire_rate",
                     ),
@@ -38,12 +38,12 @@ internal class ItemMapperTest {
             ),
             Bonus(
                 type = ActivationType.PASSIVE,
-                descKey = "#upgrade_chain_lightning_desc",
+                description = null,
                 cooldown = 0.25,
                 chargeUp = null,
                 properties = listOf(
                     Property(
-                        key = Property.Key.DAMAGE_PER_CHAIN,
+                        key = "DAMAGE_PER_CHAIN",
                         value = ScaledValue(
                             value = 43.0,
                             scale = Scale(value = 0.19, type = ScaledValue.ScaleType.SPIRIT),
@@ -51,17 +51,17 @@ internal class ItemMapperTest {
                         type = "tech_damage",
                     ),
                     Property(
-                        key = Property.Key.PROC_CHANCE,
+                        key = "PROC_CHANCE",
                         value = ScaledValue(value = 20.0, scale = null),
                         type = "",
                     ),
                     Property(
-                        key = Property.Key.CHAIN_COUNT,
+                        key = "CHAIN_COUNT",
                         value = ScaledValue(value = 6.0, scale = null),
                         type = "",
                     ),
                     Property(
-                        key = Property.Key.CHAIN_RADIUS,
+                        key = "CHAIN_RADIUS",
                         value = ScaledValue(value = 0.0, scale = null),
                         type = "distance",
                     ),
@@ -69,22 +69,22 @@ internal class ItemMapperTest {
             ),
             Bonus(
                 type = ActivationType.ACTIVE,
-                descKey = "#upgrade_capacitor_desc",
+                description = null,
                 cooldown = 40.0,
                 chargeUp = null,
                 properties = listOf(
                     Property(
-                        key = Property.Key.DAMAGE,
+                        key = "DAMAGE",
                         value = ScaledValue(value = 100.0, scale = null),
                         type = "tech_damage",
                     ),
                     Property(
-                        key = Property.Key.MAX_SLOW_PERCENT,
+                        key = "MAX_SLOW_PERCENT",
                         value = ScaledValue(value = 75.0, scale = null),
                         type = "slow",
                     ),
                     Property(
-                        key = Property.Key.SLOW_DURATION,
+                        key = "SLOW_DURATION",
                         value = ScaledValue(value = 3.0, scale = null),
                         type = "duration",
                     ),
@@ -93,10 +93,10 @@ internal class ItemMapperTest {
         )
 
         // when
-        val result = item.toDomain("", emptyMap())
+        val result = item.toDomain("", emptyMap(),emptyMap())
 
         //then
-        assertThat(result.bonusList).isEqualTo(expected)
+        assertThat(result.effectSet).isEqualTo(expected)
     }
     
     @Test
@@ -106,7 +106,7 @@ internal class ItemMapperTest {
         val expected = "https://deadlock.wiki/Mercurial_Magnum"
         
         // when
-        val result = item.toDomain("", emptyMap())
+        val result = item.toDomain("", emptyMap(), emptyMap())
 
         //then
         assertThat(result.url.wiki).isEqualTo(expected)
@@ -126,7 +126,7 @@ internal class ItemMapperTest {
         )
 
         // when
-        val result = item.toDomain("", emptyMap())
+        val result = item.toDomain("", emptyMap(), emptyMap())
 
         //then
         assertThat(result.cost).isEqualTo(expectedCost)
@@ -145,7 +145,7 @@ internal class ItemMapperTest {
                 "your bullets deal Bonus Spirit Damage based on your Spirit Power."
 
         // when
-        val result = item.toDomain("", emptyMap())
+        val result = item.toDomain("", emptyMap(), emptyMap())
 
         //then
         assertThat(result.description).isEqualTo(expected)

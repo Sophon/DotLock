@@ -5,6 +5,7 @@ import io.github.sophon.core.domain.model.Ability
 import io.github.sophon.core.domain.model.Property
 import io.github.sophon.core.domain.model.Scale
 import io.github.sophon.core.domain.model.ScaledValue
+import io.github.sophon.core.util.cleanDescription
 import io.github.sophon.deadlock.remote.dto.AbilityDto
 import io.github.sophon.deadlock.remote.dto.InfoDto
 import io.github.sophon.deadlock.remote.dto.PropDto
@@ -16,7 +17,8 @@ import kotlinx.serialization.json.doubleOrNull
 
 internal fun AbilityDto.toDomain(
     heroName: String,
-    imageUrls: Map<String, String>,
+    imageUrlMap: Map<String, String>,
+    descriptionMap: Map<String, String>,
 ): Ability {
     val upgradeList = upgrades.map { it.toUpgradeMap() }
     val propertyMap = collectProperties().toPropertyMap()
@@ -32,11 +34,11 @@ internal fun AbilityDto.toDomain(
         key = abilityKey,
         heroName = heroName,
         name = abilityName,
-        description = descKey ?: "TODO: from dictionary",
-        imageUrl = imageUrls[abilityKey],
+        description = descriptionMap[descKey]?.cleanDescription(),
+        imageUrl = imageUrlMap[abilityKey],
         upgradeList = upgradeList,
         propertyMap = propertyMap,
-        effectsSet = listOf(
+        effectSet = listOf(
             info1, info2, info3,
         ).toDomainBonusList(),
     )

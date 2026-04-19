@@ -3,13 +3,13 @@ package io.github.sophon.deadlock.remote.mapper
 import io.github.aakira.napier.Napier
 import io.github.sophon.core.domain.model.ActivationType
 import io.github.sophon.core.domain.model.Bonus
-import io.github.sophon.core.domain.model.Property
 import io.github.sophon.core.domain.model.Item
+import io.github.sophon.core.domain.model.Property
 import io.github.sophon.core.domain.model.Scale
 import io.github.sophon.core.domain.model.ScaledValue
 import io.github.sophon.core.domain.model.Url
+import io.github.sophon.core.util.cleanDescription
 import io.github.sophon.core.util.cleanHtml
-import io.github.sophon.core.util.cleanItemDescription
 import io.github.sophon.core.util.formKey
 import io.github.sophon.core.util.toSnakeCase
 import io.github.sophon.deadlock.DeadlockFeatureInfo
@@ -18,29 +18,31 @@ import io.github.sophon.deadlock.remote.dto.ItemInfoDto
 import io.github.sophon.deadlock.remote.dto.ItemPropDto
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.jsonPrimitive
-import kotlin.collections.map
-import kotlin.collections.orEmpty
 
-internal fun Map.Entry<String, ItemDto>.toDomain(imageUrls: Map<String, String>): Item {
+internal fun Map.Entry<String, ItemDto>.toDomain(
+    imageUrlMap: Map<String, String>,
+    descriptionMap: Map<String, String>,
+): Item {
     val dto = value
     val key = key
 
-    val item = dto.toDomain(key, imageUrls)
+    val item = dto.toDomain(key, imageUrlMap, descriptionMap)
 
     return item
 }
 
 internal fun ItemDto.toDomain(
     key: String,
-    imageUrls: Map<String, String>,
+    imageUrlMap: Map<String, String>,
+    descriptionMap: Map<String, String>,
 ): Item {
     val itemKey = (name?.formKey() ?: key)
 
-    return Item(
+    val item = Item(
         key = itemKey,
         name = name ?: key,
         url = Url(
-            image = imageUrls[itemKey],
+            image = imageUrlMap[itemKey],
             wiki = name.toWikiUrl(),
         ),
 
@@ -53,15 +55,17 @@ internal fun ItemDto.toDomain(
 
         description = description.orEmpty()
             .cleanHtml()
-            .cleanItemDescription(),
+            .cleanDescription(),
         slot = slot.toDomainSlot(),
         activation = activation.toDomainActivation(),
         targetTypeList = targetTypes.orEmpty(),
 
-        bonusList = listOf(
+        effectSet = listOf(
             info1, info2, info3, info4
-        ).toDomainBonusList(),
+        ).toDomainBonusList(descriptionMap),
     )
+
+    return item
 }
 
 
@@ -99,16 +103,17 @@ private fun String?.toScaleType(): ScaledValue.ScaleType {
     }
 }
 
-private fun List<ItemInfoDto?>.toDomainBonusList(): List<Bonus> {
+private fun List<ItemInfoDto?>.toDomainBonusList(descriptionMap: Map<String, String>): Set<Bonus> {
     return filterNotNull().map { dto ->
+        val descriptionKey = dto.descKey.orEmpty().replace("#", "")
         Bonus(
             type = dto.type.toActivationType(),
-            descKey = dto.descKey,
+            description = descriptionMap[descriptionKey]?.cleanDescription(),
             cooldown = dto.cooldown,
             chargeUp = dto.chargeUp,
             properties = (dto.main + dto.alt).toDomainPropertyList(),
         )
-    }
+    }.toSet()
 }
 
 private fun String?.toActivationType(): ActivationType {
