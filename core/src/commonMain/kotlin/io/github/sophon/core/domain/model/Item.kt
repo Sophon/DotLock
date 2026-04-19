@@ -6,6 +6,7 @@ data class Item(
     val key: String,
     val name: String,
     val url: Url,
+    val aliasList: List<String> = emptyList(),
 
     val cost: Int,
     val tier: Int,

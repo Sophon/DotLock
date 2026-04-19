@@ -28,6 +28,10 @@ internal class ItemDatabaseImpl : ItemDatabase {
                 item.key
             }
             itemMap[key] = item
+
+            item.aliasList.forEach { alias ->
+                aliasMap[alias] = key
+            }
         }
         return Result.Success(Unit)
     }

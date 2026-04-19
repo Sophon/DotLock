@@ -45,6 +45,7 @@ internal fun ItemDto.toDomain(
             image = imageUrlMap[itemKey],
             wiki = name.toWikiUrl(),
         ),
+        aliasList = key.formAliasList(),
 
         cost = cost ?: 0,
         tier = tier ?: 0,
@@ -141,6 +142,11 @@ private fun List<ItemPropDto>.toDomainPropertyList(): List<Property> {
             type = dto.type ?: "",
         )
     }
+}
+
+private fun String.formAliasList(): List<String> {
+    val alias = this.removePrefix("upgrade_")
+    return listOf(alias)
 }
 
 
