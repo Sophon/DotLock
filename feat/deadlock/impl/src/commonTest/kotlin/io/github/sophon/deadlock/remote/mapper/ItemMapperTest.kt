@@ -25,7 +25,7 @@ internal class ItemMapperTest {
         val expected = listOf(
             Bonus(
                 type = ActivationType.INNATE,
-                descKey = null,
+                description = null,
                 cooldown = null,
                 chargeUp = null,
                 properties = listOf(
@@ -38,7 +38,7 @@ internal class ItemMapperTest {
             ),
             Bonus(
                 type = ActivationType.PASSIVE,
-                descKey = "#upgrade_chain_lightning_desc",
+                description = "#upgrade_chain_lightning_desc",
                 cooldown = 0.25,
                 chargeUp = null,
                 properties = listOf(
@@ -69,7 +69,7 @@ internal class ItemMapperTest {
             ),
             Bonus(
                 type = ActivationType.ACTIVE,
-                descKey = "#upgrade_capacitor_desc",
+                description = "#upgrade_capacitor_desc",
                 cooldown = 40.0,
                 chargeUp = null,
                 properties = listOf(
@@ -157,7 +157,7 @@ private object ItemSource {
     val capacitor = ItemDto(
         key = "upgrade_capacitor",
         name = "Capacitor",
-        description = "Launch a projectile that deals <span class=\"highlight\">{g:citadel_inline_attribute:'SpiritIcon'}damage</span>, applies a strong slow that recovers over time, <span class=\"highlight\">prevents Stamina usage</span> and <span class=\"highlight\">Silences</span> their <span class=\"highlight\">movement-based items and abilities</span>.",
+        descriptionKey = "Launch a projectile that deals <span class=\"highlight\">{g:citadel_inline_attribute:'SpiritIcon'}damage</span>, applies a strong slow that recovers over time, <span class=\"highlight\">prevents Stamina usage</span> and <span class=\"highlight\">Silences</span> their <span class=\"highlight\">movement-based items and abilities</span>.",
         cost = 6400,
         tier = 4,
         slot = "Weapon",
@@ -277,7 +277,7 @@ private object ItemSource {
     val mercurialMagnum = ItemDto(
         key = "upgrade_ethereal_bullets",
         name = "Mercurial Magnum",
-        description = "Your imbued ability charges up over time with {g:citadel_inline_attribute:'BonusSpiritDamage'}, {g:citadel_inline_attribute:'BonusFireRate'}, and <span class=\"highlight\">reloads bullets</span> on use. Until your next reload, your <span class=\"highlight\">bullets deal {g:citadel_inline_attribute:'BonusSpiritDamage'}</span> based on your Spirit Power.",
+        descriptionKey = "Your imbued ability charges up over time with {g:citadel_inline_attribute:'BonusSpiritDamage'}, {g:citadel_inline_attribute:'BonusFireRate'}, and <span class=\"highlight\">reloads bullets</span> on use. Until your next reload, your <span class=\"highlight\">bullets deal {g:citadel_inline_attribute:'BonusSpiritDamage'}</span> based on your Spirit Power.",
         cost = 6400,
         tier = 4,
         slot = "Tech",

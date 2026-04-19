@@ -20,11 +20,14 @@ internal class SyncDataUseCase(
                 is Result.Error -> return@coroutineScope result
             }
 
-            val registeredAbilityKeys = (heroResult as Result.Success).data
+            val heroNameSet = when (val result = syncHeroesUseCase.invoke()) {
+                is Result.Success -> result.data
+                is Result.Error -> return@coroutineScope result
+            }
 
             val results = listOf(
-                async { syncAbilitiesUseCase.invoke(registeredAbilityKeys) },
-                async { syncItemsUseCase.invoke() },
+                async { syncAbilitiesUseCase.invoke(heroNameSet =  heroNameSet, descriptionMap = descriptionMap) },
+                async { syncItemsUseCase.invoke(descriptionMap) },
             ).awaitAll()
 
             for (result in results) {

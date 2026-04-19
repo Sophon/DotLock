@@ -12,7 +12,7 @@ data class Item(
     val componentList: List<String>,
     val shopFilterList: List<ShopFilter>,
 
-    val description: String,
+    val description: String?,
     val slot: Slot,
     val activation: Activation,
     val targetTypeList: List<String>,

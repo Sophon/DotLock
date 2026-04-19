@@ -16,7 +16,7 @@ internal class SyncItemsUseCase(
     private val db: ItemDatabase,
     private val imageResolver: ImageResolver,
 ) {
-    suspend fun invoke(): EmptyResult<WikiError> {
+    suspend fun invoke(descriptionMap: Map<String, String>): EmptyResult<WikiError> {
         return source.downloadItemList()
             .mapError {
                 it.toDomain() 
@@ -32,8 +32,8 @@ internal class SyncItemsUseCase(
 
                 imageResolver.resolveImageUrl(names)
                     .mapError { it.toDomain() }
-                    .flatMap { imageUrls ->
-                        val itemList = filtered.map { it.toDomain(imageUrls) }
+                    .flatMap { imageUrlMap ->
+                        val itemList = filtered.map { it.toDomain(imageUrlMap, descriptionMap) }
                         Napier.d(tag = TAG) { "${itemList.size} items downloaded" }
                         db.insert(itemList)
                     }
