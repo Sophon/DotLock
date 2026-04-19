@@ -5,7 +5,6 @@ import io.github.sophon.core.domain.model.Ability
 import io.github.sophon.core.domain.model.Property
 import io.github.sophon.core.domain.model.Scale
 import io.github.sophon.core.domain.model.ScaledValue
-import io.github.sophon.core.util.toSnakeCase
 import io.github.sophon.deadlock.remote.dto.AbilityDto
 import io.github.sophon.deadlock.remote.dto.InfoDto
 import io.github.sophon.deadlock.remote.dto.PropDto
@@ -21,24 +20,23 @@ internal fun AbilityDto.toDomain(
 ): Ability {
     val upgradeList = upgrades.map { it.toUpgradeMap() }
     val propertyMap = collectProperties().toPropertyMap()
-    val abilityKey = if (key == null) {
-        Napier.e(tag = TAG) { "null key in $heroName" }
-        ""
-    } else key
     val abilityName = if (name == null) {
         Napier.e(tag = TAG) { "null name in $heroName" }
         ""
     } else name
+    val abilityKey = abilityName
+        .lowercase()
+        .replace(" ", "_")
 
     val ability = Ability(
         key = abilityKey,
         heroName = heroName,
         name = abilityName,
         description = descKey ?: "TODO: from dictionary",
-        imageUrl = imageUrls[key],
+        imageUrl = imageUrls[abilityKey],
         upgradeList = upgradeList,
         propertyMap = propertyMap,
-        bonusSet = listOf(
+        effectsSet = listOf(
             info1, info2, info3,
         ).toDomainBonusList(),
     )

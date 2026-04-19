@@ -18,7 +18,7 @@ internal interface AbilityDatabase {
 internal class AbilityDatabaseImpl: AbilityDatabase {
     private val abilityMap = mutableMapOf<String, Ability>()
     private val aliasMap = mutableMapOf<String, String>()
-    private val heroMap = mutableMapOf<String, String>()
+    private val heroMap = mutableMapOf<String, String>() //TODO: dictionary
 
     override suspend fun insert(abilityList: List<Ability>): EmptyResult<WikiError> {
         abilityList.forEach { ability ->
