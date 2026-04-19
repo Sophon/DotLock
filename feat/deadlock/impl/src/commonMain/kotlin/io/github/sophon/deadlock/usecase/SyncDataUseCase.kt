@@ -11,12 +11,13 @@ internal class SyncDataUseCase(
     private val syncAbilitiesUseCase: SyncAbilitiesUseCase,
     private val syncHeroesUseCase: SyncHeroesUseCase,
     private val syncItemsUseCase: SyncItemsUseCase,
+    private val downloadDescriptionsUseCase: DownloadDescriptionsUseCase,
 ) {
     suspend fun invoke(): EmptyResult<WikiError> {
         return coroutineScope {
-            val heroResult = syncHeroesUseCase.invoke()
-            if (heroResult is Result.Error) {
-                return@coroutineScope heroResult
+            val descriptionMap = when (val result = downloadDescriptionsUseCase.invoke()) {
+                is Result.Success -> result.data
+                is Result.Error -> return@coroutineScope result
             }
 
             val registeredAbilityKeys = (heroResult as Result.Success).data

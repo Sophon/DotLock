@@ -7,6 +7,7 @@ import io.github.sophon.core.arch.map
 import io.github.sophon.core.network.safeCall
 import io.github.sophon.deadlock.BASE_URL
 import io.github.sophon.deadlock.URL_ABILITY
+import io.github.sophon.deadlock.URL_DESCRIPTION
 import io.github.sophon.deadlock.URL_HERO
 import io.github.sophon.deadlock.URL_ITEM
 import io.github.sophon.deadlock.remote.dto.HeroAbilitiesDto
@@ -23,6 +24,7 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
 
 internal interface DeadlockWikiDataSource {
+    suspend fun downloadDescriptions(): Result<Map<String, String>, DataError.Remote>
     suspend fun downloadHeroList(): Result<Map<String, HeroDto>, DataError.Remote>
     suspend fun downloadAbilityList(): Result<Map<String, HeroAbilitiesDto>, DataError.Remote>
     suspend fun downloadItemList(): Result<Map<String, ItemDto>, DataError.Remote>
@@ -33,6 +35,10 @@ internal class DeadlockWikiDataSourceImpl(
     private val httpClient: HttpClient,
     private val json: Json,
 ): DeadlockWikiDataSource {
+    override suspend fun downloadDescriptions(): Result<Map<String, String>, DataError.Remote> {
+        return safeDownload(URL_DESCRIPTION, "descriptions")
+    }
+
     /**
      * Deadlock wiki data has type inconsistencies (e.g. fields are sometimes
      * a primitive instead of an object), so we deserialize entries individually
