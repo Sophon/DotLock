@@ -18,16 +18,11 @@ internal interface AbilityDatabase {
 internal class AbilityDatabaseImpl: AbilityDatabase {
     private val abilityMap = mutableMapOf<String, Ability>()
     private val aliasMap = mutableMapOf<String, String>()
+    private val heroMap = mutableMapOf<String, String>() //TODO: dictionary
 
     override suspend fun insert(abilityList: List<Ability>): EmptyResult<WikiError> {
         abilityList.forEach { ability ->
-            val key = if (abilityMap.containsKey(ability.key)) {
-                Napier.w(tag = TAG) { "Ability already exists: ${ability.name}" }
-                ability.altKey
-            } else {
-                ability.key
-            }
-            abilityMap[key] = ability
+            abilityMap[ability.key] = ability
         }
         return Result.Success(Unit)
     }
