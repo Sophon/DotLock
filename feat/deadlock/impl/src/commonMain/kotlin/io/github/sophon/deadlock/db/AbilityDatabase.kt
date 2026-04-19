@@ -22,13 +22,7 @@ internal class AbilityDatabaseImpl: AbilityDatabase {
 
     override suspend fun insert(abilityList: List<Ability>): EmptyResult<WikiError> {
         abilityList.forEach { ability ->
-            val key = if (abilityMap.containsKey(ability.key)) {
-                Napier.w(tag = TAG) { "Ability already exists: ${ability.name}" }
-                ability.altKey
-            } else {
-                ability.key
-            }
-            abilityMap[key] = ability
+            abilityMap[ability.key] = ability
         }
         return Result.Success(Unit)
     }

@@ -6,14 +6,19 @@ import kotlinx.serialization.json.JsonElement
 
 @Serializable
 internal data class HeroAbilitiesDto(
-    @SerialName("Name") val heroName: String,
-    @SerialName("1") val ability1: AbilityDto,
-    @SerialName("2") val ability2: AbilityDto,
-    @SerialName("3") val ability3: AbilityDto,
-    @SerialName("4") val ability4: AbilityDto,
+    @SerialName("Name") val heroName: String? = null,
+    @SerialName("1") val ability1: AbilityDto? = null,
+    @SerialName("2") val ability2: AbilityDto? = null,
+    @SerialName("3") val ability3: AbilityDto? = null,
+    @SerialName("4") val ability4: AbilityDto? = null,
 ) {
     fun abilities(): List<AbilityDto> {
-        return listOf(ability1, ability2, ability3, ability4)
+        return buildList {
+            ability1?.let { add(it) }
+            ability2?.let { add(it) }
+            ability3?.let { add(it) }
+            ability4?.let { add(it) }
+        }
     }
 }
 
