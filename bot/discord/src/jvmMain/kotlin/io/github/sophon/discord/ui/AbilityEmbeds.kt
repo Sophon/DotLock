@@ -20,40 +20,36 @@ internal fun abilityEmbed(
         thumbnail { url = abilityUrl }
     }
 
-    propertiesSection(ability.property, emojifier)
-    bonusSection(ability.bonusSet, emojifier)
+    propertiesSection(ability.propertyMap, emojifier)
+    bonusSection(ability.effectsSet, emojifier)
 }
 
 
-private fun EmbedBuilder.propertiesSection(property: Ability.Property, emojifier: Emojifier) {
+private fun EmbedBuilder.propertiesSection(propertyMap: Map<String, Property>, emojifier: Emojifier) {
     val lines = buildList {
-        property.channelTime?.let { add("- ${emojifier.emojify(Emojifier.Emoji.CHANNEL_TIME)} **Channel time** $it") }
-        property.chargeCount?.let { add("- ${emojifier.emojify(Emojifier.Emoji.CHANNEL_TIME)} **Charge count** $it") }
-        property.chargeCooldown?.let { add("- ${emojifier.emojify(Emojifier.Emoji.CHARGE_COOLDOWN)} **Charge cooldown** $it") }
-        property.cooldown?.let { add("- ${emojifier.emojify(Emojifier.Emoji.COOLDOWN_DELAY_DURATION)} **Cooldown** $it") }
-        property.castRange?.let { add("- ${emojifier.emojify(Emojifier.Emoji.RANGE)} **Cast range** $it") }
-        property.duration?.let { add("- ${emojifier.emojify(Emojifier.Emoji.COOLDOWN_DELAY_DURATION)} **Duration** $it") }
-        property.radius?.let { add("- ${emojifier.emojify(Emojifier.Emoji.RADIUS)} **Radius** $it") }
+        propertyMap.forEach { (key, property) ->
+            add("- **${key}**: ${property.value}")
+        }
     }
 
     if (lines.isEmpty()) return
 
     val mid = (lines.size + 1) / 2
-    mandatoryField(name = getEmptyChar(), value = lines.take(mid).joinToString("\n"))
-    mandatoryField(name = getEmptyChar(), value = lines.drop(mid).joinToString("\n"))
+    mandatoryField(name = "", value = lines.take(mid).joinToString("\n"))
+    mandatoryField(name = "", value = lines.drop(mid).joinToString("\n"))
 }
 
 private fun EmbedBuilder.bonusSection(bonusSet: Set<Property>, emojifier: Emojifier) {
     val string = buildString {
         bonusSet.forEach { bonus ->
-            append("- ${emojifier.emojify(bonus)} **${bonus.key}**: ${bonus.value}\n")
+            append("- **${bonus.key}**: ${bonus.value}\n")
         }
     }
 
     if (string.isBlank()) return
 
     mandatoryField(
-        name = "Bonus",
+        name = "",
         value = string,
         inline = false,
     )
