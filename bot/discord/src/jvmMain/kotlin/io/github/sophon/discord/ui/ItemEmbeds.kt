@@ -28,10 +28,11 @@ internal fun itemEmbed(
         value = item.description,
         inline = false,
     )
-    bonusSection(item.effectSet, emojifier)
+    effectsSection(item.effectSet, emojifier)
+    upgradeSection(item.upgradePath)
 }
 
-private fun EmbedBuilder.bonusSection(effectSet: Set<Bonus>, emojifier: Emojifier) {
+private fun EmbedBuilder.effectsSection(effectSet: Set<Bonus>, emojifier: Emojifier) {
     for (effect in effectSet) {
         val title = buildString {
             var string = effect.type.toString()
@@ -52,6 +53,34 @@ private fun EmbedBuilder.bonusSection(effectSet: Set<Bonus>, emojifier: Emojifie
             name = title,
             value = properties,
             inline = false,
+        )
+    }
+}
+
+private fun EmbedBuilder.upgradeSection(upgradePath: Item.UpgradePath) {
+    var index = 1
+
+    val from = buildString {
+        upgradePath.from.forEach { item ->
+            appendLine("${index++}. $item")
+        }
+    }
+    if (from.isNotBlank()) {
+        mandatoryField(
+            name = "From:",
+            value = from,
+        )
+    }
+
+    val to = buildString {
+        upgradePath.to.forEach { item ->
+            appendLine("${index++}. $item")
+        }
+    }
+    if (to.isNotBlank()) {
+        mandatoryField(
+            name = "To:",
+            value = to,
         )
     }
 }
