@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.2.0] - 2026-04-19
+- rework Item and Ability data structures
+  - better data and with descriptions
+
 ## [v0.1.2] - 2026-04-16
 - increased memory heap size
 

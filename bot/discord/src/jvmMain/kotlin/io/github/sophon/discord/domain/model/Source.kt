@@ -1,4 +1,4 @@
-package io.github.sophon.discord.domain
+package io.github.sophon.discord.domain.model
 
 data class Source(
     val username: String,

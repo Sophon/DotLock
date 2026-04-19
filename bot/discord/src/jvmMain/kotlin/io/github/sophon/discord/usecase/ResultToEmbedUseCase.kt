@@ -4,7 +4,7 @@ import dev.kord.core.event.interaction.GuildChatInputCommandInteractionCreateEve
 import dev.kord.core.event.message.MessageCreateEvent
 import io.github.aakira.napier.Napier
 import io.github.sophon.discord.EMBED_BUTTON_DURATION_INF
-import io.github.sophon.discord.domain.Source
+import io.github.sophon.discord.domain.model.Source
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -13,8 +13,8 @@ import io.github.sophon.core.arch.Result
 import io.github.sophon.core.arch.onError
 import io.github.sophon.core.arch.onSuccess
 import io.github.sophon.discord.TIME_AUTO_EDIT_EMBED_S
-import io.github.sophon.discord.domain.BotError
-import io.github.sophon.discord.domain.BotOutput
+import io.github.sophon.discord.domain.model.BotError
+import io.github.sophon.discord.domain.model.BotOutput
 
 /**
  * TODO: we shouldn't be using embedBuilders here, we should receive the embed already

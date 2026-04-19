@@ -1,7 +1,7 @@
 package io.github.sophon.discord.data
 
 import io.github.sophon.core.arch.WikiError
-import io.github.sophon.discord.domain.BotError
+import io.github.sophon.discord.domain.model.BotError
 
 internal fun WikiError.toDomain(input: String): BotError {
     return when (this) {

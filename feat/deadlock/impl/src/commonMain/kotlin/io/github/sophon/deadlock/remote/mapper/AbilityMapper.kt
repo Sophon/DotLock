@@ -1,64 +1,131 @@
 package io.github.sophon.deadlock.remote.mapper
 
+import io.github.aakira.napier.Napier
 import io.github.sophon.core.domain.model.Ability
-import io.github.sophon.core.domain.model.Bonus
-import io.github.sophon.core.util.formKey
+import io.github.sophon.core.domain.model.Property
+import io.github.sophon.core.domain.model.Scale
+import io.github.sophon.core.domain.model.ScaledValue
+import io.github.sophon.core.util.cleanDescription
 import io.github.sophon.deadlock.remote.dto.AbilityDto
+import io.github.sophon.deadlock.remote.dto.InfoDto
+import io.github.sophon.deadlock.remote.dto.PropDto
+import io.github.sophon.deadlock.remote.dto.ScaleDto
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.doubleOrNull
 
-internal fun Map.Entry<String, AbilityDto>.toDomain(imageUrls: Map<String, String>): Ability {
-    val dto = value
-    val key = key
-    val abilityKey = (value.name?.formKey()) ?: key
+internal fun AbilityDto.toDomain(
+    heroName: String,
+    imageUrlMap: Map<String, String>,
+    descriptionMap: Map<String, String>,
+): Ability {
+    val upgradeList = upgrades.map { it.toUpgradeMap() }
+    val propertyMap = collectProperties().toPropertyMap()
+    val abilityName = if (name == null) {
+        Napier.e(tag = TAG) { "null name in $heroName" }
+        ""
+    } else name
+    val abilityKey = abilityName
+        .lowercase()
+        .replace(" ", "_")
 
     val ability = Ability(
         key = abilityKey,
-        altKey = key,
-        name = dto.name ?: key,
-        imageUrl = imageUrls[abilityKey],
-        bonusSet = dto.toDomainPropertySet(),
-        property = Ability.Property(
-            channelTime = dto.abilityChannelTime.toScaledValue(),
-            chargeCount = dto.abilityCharges.toScaledValue(),
-            chargeCooldown = dto.abilityCooldownBetweenCharge.toScaledValue(),
-            cooldown = dto.abilityCooldown.toScaledValue(),
-            castRange = dto.abilityCastRange.toScaledValue(),
-            duration = dto.abilityDuration.toScaledValue(),
-            radius = dto.radius.toScaledValue(),
-        )
+        heroName = heroName,
+        name = abilityName,
+        description = descriptionMap[descKey]?.cleanDescription(),
+        imageUrl = imageUrlMap[abilityKey],
+        upgradeList = upgradeList,
+        propertyMap = propertyMap,
+        effectSet = listOf(
+            info1, info2, info3,
+        ).toDomainBonusList(),
     )
 
     return ability
 }
 
-
-private fun AbilityDto.toDomainPropertySet(): Set<Bonus> {
-    val properties = mutableSetOf<Bonus>()
-
-    damage.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.DAMAGE, it)) }
-    dps.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.DPS, it)) }
-    normalDps.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.NORMAL_DPS, it)) }
-    maxDps.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.MAX_DPS, it)) }
-    damageHeavyMelee.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.DAMAGE_HEAVY_MELEE, it)) }
-    bonusDamage.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.BONUS_DAMAGE, it)) }
-    combatBarrier.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.COMBAT_BARRIER, it)) }
-    healAmount.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.HEAL_AMOUNT, it)) }
-    impactDamage.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.IMPACT_DAMAGE, it)) }
-    explosionDamage.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.EXPLOSION_DAMAGE, it)) }
-    maxDamage.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.MAX_DAMAGE, it)) }
-    minDamage.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.MIN_DAMAGE, it)) }
-    radius.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.RADIUS, it)) }
-    tickRate.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.TICK_RATE, it)) }
-    slowPercent.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.SLOW_PERCENT, it)) }
-    slowDuration.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.SLOW_DURATION, it)) }
-    stunDuration.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.STUN_DURATION, it)) }
-    debuffDuration.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.DEBUFF_DURATION, it)) }
-    buffDuration.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.BUFF_DURATION, it)) }
-    immobilizeDuration.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.IMMOBILIZE_DURATION, it)) }
-    bonusMoveSpeed.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.BONUS_MOVE_SPEED, it)) }
-    bonusFireRate.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.BONUS_FIRE_RATE, it)) }
-    bulletResist.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.BULLET_RESIST, it)) }
-    techResist.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.TECH_RESIST, it)) }
-    maxStacks.toScaledValue()?.let { properties.add(Bonus(Bonus.Type.MAX_STACKS, it)) }
-
-    return properties
+private fun AbilityDto.collectProperties(): Map<String, PropDto> {
+    return buildMap {
+        abilityCastDelay?.let { put("AbilityCastDelay", it) }
+        abilityCastRange?.let { put("AbilityCastRange", it) }
+        abilityCharges?.let { put("AbilityCharges", it) }
+        abilityChannelTime?.let { put("AbilityChannelTime", it) }
+        abilityCooldown?.let { put("AbilityCooldown", it) }
+        abilityCooldownBetweenCharge?.let { put("AbilityCooldownBetweenCharge", it) }
+        abilityDuration?.let { put("AbilityDuration", it) }
+        radius?.let { put("Radius", it) }
+    }
 }
+
+private fun Map<String, JsonElement>.toUpgradeMap(): Map<String, Double> {
+    return buildMap {
+        for ((k, element) in this@toUpgradeMap) {
+            if (k == "DescKey") continue
+            val numeric = element.toNumericValue() ?: continue
+            put(k, numeric)
+        }
+    }
+}
+
+private fun Map<String, PropDto>.toPropertyMap(): Map<String, Property> {
+    return buildMap {
+        for ((pascalKey, prop) in this@toPropertyMap) {
+            val scaledValue = prop.toScaledValue() ?: continue
+            val displayName = prop.name ?: pascalKey
+            val property = Property(
+                key = pascalKey,
+                value = scaledValue,
+                type = prop.type,
+            )
+            put(displayName, property)
+        }
+    }
+}
+
+private fun PropDto.toScaledValue(): ScaledValue? {
+    val baseValue = value?.toNumericValue() ?: return null
+    val mappedScale = scale?.toDomainScale()
+    return ScaledValue(value = baseValue, scale = mappedScale)
+}
+
+private fun ScaleDto.toDomainScale(): Scale? {
+    val mappedType = type?.toScaleType() ?: return null
+    return Scale(value = value ?: 0.0, type = mappedType)
+}
+
+private fun String.toScaleType(): ScaledValue.ScaleType? {
+    val upper = uppercase()
+    return ScaledValue.ScaleType.entries.find { it.name == upper }
+}
+
+private fun JsonElement.toNumericValue(): Double? {
+    return when (this) {
+        is JsonPrimitive -> if (isString) null else doubleOrNull
+        is JsonObject -> (get("Value") as? JsonPrimitive)?.doubleOrNull
+        else -> null
+    }
+}
+
+private fun List<InfoDto?>.toDomainBonusList(): Set<Property> {
+    return filterNotNull()
+        .flatMap { it.main?.props.orEmpty() + it.alt }
+        .mapNotNull { prop ->
+            val pascalKey = prop.key ?: return@mapNotNull null
+            prop.toProperty(pascalKey)
+        }
+        .toSet()
+}
+
+private fun PropDto.toProperty(pascalKey: String): Property? {
+    val scaledValue = toScaledValue() ?: return null
+    return Property(
+        key = pascalKey,
+        value = scaledValue,
+        type = type,
+    )
+}
+
+
+private const val TAG = "AbilityMapper"

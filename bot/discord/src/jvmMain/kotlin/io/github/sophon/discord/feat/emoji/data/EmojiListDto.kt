@@ -1,4 +1,4 @@
-package io.github.sophon.discord.feat.emoji
+package io.github.sophon.discord.feat.emoji.data
 
 import kotlinx.serialization.Serializable
 

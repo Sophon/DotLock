@@ -23,7 +23,7 @@ internal class ItemDatabaseImpl : ItemDatabase {
         itemList.forEach { item ->
             val key = if (itemMap.containsKey(item.key)) {
                 Napier.w(tag = TAG) { "Item already exists: ${item.name}" }
-                item.altKey
+                item.key
             } else {
                 item.key
             }

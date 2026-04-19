@@ -14,10 +14,10 @@ import dev.kord.rest.request.KtorRequestException
 import io.github.sophon.core.arch.EmptyResult
 import io.github.sophon.core.arch.onError
 import io.github.sophon.discord.EMBED_BUTTON_DURATION_INF
-import io.github.sophon.discord.domain.BotError
-import io.github.sophon.discord.domain.BotOutput
-import io.github.sophon.discord.domain.DiscordButtonBuilder
-import io.github.sophon.discord.domain.Source
+import io.github.sophon.discord.domain.model.BotError
+import io.github.sophon.discord.domain.model.BotOutput
+import io.github.sophon.discord.ui.DiscordButtonBuilder
+import io.github.sophon.discord.domain.model.Source
 import io.github.sophon.discord.domain.model.DiscordButton
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay

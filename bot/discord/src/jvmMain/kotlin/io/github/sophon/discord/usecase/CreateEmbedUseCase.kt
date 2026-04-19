@@ -23,10 +23,10 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 import io.github.sophon.core.arch.Result
-import io.github.sophon.discord.domain.BotError
-import io.github.sophon.discord.domain.BotOutput
-import io.github.sophon.discord.domain.DiscordButtonBuilder
-import io.github.sophon.discord.domain.Source
+import io.github.sophon.discord.domain.model.BotError
+import io.github.sophon.discord.domain.model.BotOutput
+import io.github.sophon.discord.ui.DiscordButtonBuilder
+import io.github.sophon.discord.domain.model.Source
 
 
 /**

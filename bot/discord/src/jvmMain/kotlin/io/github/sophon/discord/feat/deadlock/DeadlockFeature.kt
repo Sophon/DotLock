@@ -1,17 +1,18 @@
-package io.github.sophon.discord.feat
+package io.github.sophon.discord.feat.deadlock
 
 import io.github.aakira.napier.Napier
 import io.github.sophon.core.arch.Result
 import io.github.sophon.core.domain.model.FeatureInfo
 import io.github.sophon.deadlock.DeadlockFeatureInfo
 import io.github.sophon.deadlock.DeadlockWikiClient
-import io.github.sophon.discord.domain.BotError
-import io.github.sophon.discord.domain.BotOutput
-import io.github.sophon.discord.domain.Command
-import io.github.sophon.discord.domain.Source
-import io.github.sophon.discord.usecase.FetchAbilityUseCase
-import io.github.sophon.discord.usecase.FetchHeroUseCase
-import io.github.sophon.discord.usecase.FetchItemUseCase
+import io.github.sophon.discord.domain.model.BotError
+import io.github.sophon.discord.domain.model.BotOutput
+import io.github.sophon.discord.domain.model.Command
+import io.github.sophon.discord.domain.model.Source
+import io.github.sophon.discord.feat.DiscordRegisteredFeature
+import io.github.sophon.discord.feat.deadlock.usecase.FetchAbilityUseCase
+import io.github.sophon.discord.feat.deadlock.usecase.FetchHeroUseCase
+import io.github.sophon.discord.feat.deadlock.usecase.FetchItemUseCase
 
 internal class DeadlockFeature(
     deadlockFeatureInfo: DeadlockFeatureInfo,

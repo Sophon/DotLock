@@ -4,8 +4,8 @@ import dev.kord.common.Color
 import dev.kord.rest.builder.message.EmbedBuilder
 import io.github.sophon.core.util.truncate
 import io.github.sophon.discord.EMBED_MAX_LENGTH
-import io.github.sophon.discord.domain.BotError
-import io.github.sophon.discord.domain.BotOutput
+import io.github.sophon.discord.domain.model.BotError
+import io.github.sophon.discord.domain.model.BotOutput
 
 internal class CreateErrorEmbedBuilderUseCase {
     fun invoke(error: BotError): Pair<BotOutput.MutableEmbedBuilder, BotOutput.ButtonSet?> {

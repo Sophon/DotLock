@@ -7,9 +7,10 @@ import io.github.sophon.core.arch.map
 import io.github.sophon.core.network.safeCall
 import io.github.sophon.deadlock.BASE_URL
 import io.github.sophon.deadlock.URL_ABILITY
+import io.github.sophon.deadlock.URL_DESCRIPTION
 import io.github.sophon.deadlock.URL_HERO
 import io.github.sophon.deadlock.URL_ITEM
-import io.github.sophon.deadlock.remote.dto.AbilityDto
+import io.github.sophon.deadlock.remote.dto.HeroAbilitiesDto
 import io.github.sophon.deadlock.remote.dto.HeroDto
 import io.github.sophon.deadlock.remote.dto.ImageUrlResponseDto
 import io.github.sophon.deadlock.remote.dto.ItemDto
@@ -21,11 +22,11 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.decodeFromJsonElement
-import kotlin.collections.emptyMap
 
 internal interface DeadlockWikiDataSource {
+    suspend fun downloadDescriptions(): Result<Map<String, String>, DataError.Remote>
     suspend fun downloadHeroList(): Result<Map<String, HeroDto>, DataError.Remote>
-    suspend fun downloadAbilityList(): Result<Map<String, AbilityDto>, DataError.Remote>
+    suspend fun downloadAbilityList(): Result<Map<String, HeroAbilitiesDto>, DataError.Remote>
     suspend fun downloadItemList(): Result<Map<String, ItemDto>, DataError.Remote>
     suspend fun getImageUrl(fileNames: List<String>): Result<Map<String, String>, DataError.Remote>
 }
@@ -34,6 +35,10 @@ internal class DeadlockWikiDataSourceImpl(
     private val httpClient: HttpClient,
     private val json: Json,
 ): DeadlockWikiDataSource {
+    override suspend fun downloadDescriptions(): Result<Map<String, String>, DataError.Remote> {
+        return safeDownload(URL_DESCRIPTION, "descriptions")
+    }
+
     /**
      * Deadlock wiki data has type inconsistencies (e.g. fields are sometimes
      * a primitive instead of an object), so we deserialize entries individually
@@ -41,7 +46,7 @@ internal class DeadlockWikiDataSourceImpl(
      */
     override suspend fun downloadHeroList() = safeDownload<HeroDto>(URL_HERO, "heroes")
 
-    override suspend fun downloadAbilityList() = safeDownload<AbilityDto>(URL_ABILITY, "abilities")
+    override suspend fun downloadAbilityList() = safeDownload<HeroAbilitiesDto>(URL_ABILITY, "abilities")
 
     override suspend fun downloadItemList() = safeDownload<ItemDto>(URL_ITEM, "items")
 

@@ -12,10 +12,10 @@ import dev.kord.core.on
 import dev.kord.rest.builder.interaction.string
 import io.github.aakira.napier.Napier
 import io.github.sophon.core.arch.onError
-import io.github.sophon.discord.config.BotConfig
-import io.github.sophon.discord.domain.BotOutput
-import io.github.sophon.discord.domain.Source
-import io.github.sophon.discord.domain.adminCommands
+import io.github.sophon.discord.feat.config.BotConfig
+import io.github.sophon.discord.domain.model.BotOutput
+import io.github.sophon.discord.domain.model.Source
+import io.github.sophon.discord.domain.model.adminCommands
 import io.github.sophon.discord.feat.DiscordRegisteredFeature
 import io.github.sophon.discord.feat.emoji.Emojifier
 import io.github.sophon.discord.usecase.HandleButtonInteractionUseCase
