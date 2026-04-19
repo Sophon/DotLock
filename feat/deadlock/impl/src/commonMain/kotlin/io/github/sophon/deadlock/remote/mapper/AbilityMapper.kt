@@ -7,7 +7,6 @@ import io.github.sophon.core.domain.model.Scale
 import io.github.sophon.core.domain.model.ScaledValue
 import io.github.sophon.core.util.toSnakeCase
 import io.github.sophon.deadlock.remote.dto.AbilityDto
-import io.github.sophon.deadlock.remote.dto.HeroAbilitiesDto
 import io.github.sophon.deadlock.remote.dto.InfoDto
 import io.github.sophon.deadlock.remote.dto.PropDto
 import io.github.sophon.deadlock.remote.dto.ScaleDto
@@ -16,27 +15,25 @@ import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.doubleOrNull
 
-internal fun HeroAbilitiesDto.toDomain(
-    imageUrls: Map<String, String>,
-): List<Ability> {
-    val abilityList = abilities().map {
-        it.toDomain(heroName, imageUrls)
-    }
-
-    return abilityList
-}
-
-private fun AbilityDto.toDomain(
+internal fun AbilityDto.toDomain(
     heroName: String,
     imageUrls: Map<String, String>,
 ): Ability {
     val upgradeList = upgrades.map { it.toUpgradeMap() }
     val propertyMap = collectProperties().toPropertyMap()
+    val abilityKey = if (key == null) {
+        Napier.e(tag = TAG) { "null key in $heroName" }
+        ""
+    } else key
+    val abilityName = if (name == null) {
+        Napier.e(tag = TAG) { "null name in $heroName" }
+        ""
+    } else name
 
-    return Ability(
-        key = key,
+    val ability = Ability(
+        key = abilityKey,
         heroName = heroName,
-        name = name,
+        name = abilityName,
         description = descKey ?: "TODO: from dictionary",
         imageUrl = imageUrls[key],
         upgradeList = upgradeList,
@@ -45,6 +42,8 @@ private fun AbilityDto.toDomain(
             info1, info2, info3,
         ).toDomainBonusList(),
     )
+
+    return ability
 }
 
 private fun AbilityDto.collectProperties(): Map<String, PropDto> {
@@ -54,6 +53,9 @@ private fun AbilityDto.collectProperties(): Map<String, PropDto> {
         putAll(range.orEmpty())
         putAll(duration.orEmpty())
         putAll(cooldown.orEmpty())
+        putAll(debuff.orEmpty())
+        putAll(health.orEmpty())
+        putAll(damage.orEmpty())
         abilityCastDelay?.let { put("AbilityCastDelay", it) }
         abilityCastRange?.let { put("AbilityCastRange", it) }
         abilityCharges?.let { put("AbilityCharges", it) }
@@ -81,7 +83,7 @@ private fun Map<String, PropDto>.toPropertyMap(): Map<String, Property> {
             val scaledValue = prop.toScaledValue() ?: continue
             val displayName = prop.name ?: pascalKey
             val property = Property(
-                key = pascalKey.toPropertyKey(),
+                key = pascalKey,
                 value = scaledValue,
                 type = prop.type,
             )
@@ -106,18 +108,6 @@ private fun String.toScaleType(): ScaledValue.ScaleType? {
     return ScaledValue.ScaleType.entries.find { it.name == upper }
 }
 
-private fun String.toPropertyKey(): Property.Key {
-    val snakeCased = toSnakeCase()
-    val result = Property.Key.entries.find { it.name == snakeCased }
-
-    return if (result == null) {
-        Napier.e(tag = TAG) { "toPropertyKey: $this" }
-        Property.Key.UNKNOWN
-    } else {
-        result
-    }
-}
-
 private fun JsonElement.toNumericValue(): Double? {
     return when (this) {
         is JsonPrimitive -> if (isString) null else doubleOrNull
@@ -139,7 +129,7 @@ private fun List<InfoDto?>.toDomainBonusList(): Set<Property> {
 private fun PropDto.toProperty(pascalKey: String): Property? {
     val scaledValue = toScaledValue() ?: return null
     return Property(
-        key = pascalKey.toPropertyKey(),
+        key = pascalKey,
         value = scaledValue,
         type = type,
     )

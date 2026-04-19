@@ -123,7 +123,7 @@ private fun String?.toActivationType(): ActivationType {
 private fun List<ItemPropDto>.toDomainPropertyList(): List<Property> {
     return map { dto ->
         Property(
-            key = dto.key.toSnakeCase().toPropertyKey(),
+            key = dto.key.toSnakeCase(),
             value = ScaledValue(
                 value = dto.value.jsonPrimitive.doubleOrNull ?: 0.0,
                 scale = dto.scaleDto?.let {
@@ -137,15 +137,6 @@ private fun List<ItemPropDto>.toDomainPropertyList(): List<Property> {
         )
     }
 }
-
-private fun String.toPropertyKey(): Property.Key {
-    return try {
-        Property.Key.valueOf(this)
-    } catch (_: IllegalArgumentException) {
-        Property.Key.UNKNOWN
-    }
-}
-
 
 
 private fun String?.toWikiUrl(): String? {

@@ -19,8 +19,8 @@ internal data class HeroAbilitiesDto(
 
 @Serializable
 internal data class AbilityDto(
-    @SerialName("Key") val key: String,
-    @SerialName("Name") val name: String,
+    @SerialName("Name") val name: String? = null,
+    @SerialName("Key") val key: String? = null,
     @SerialName("DescKey") val descKey: String? = null,
     @SerialName("Info1") val info1: InfoDto? = null,
     @SerialName("Info2") val info2: InfoDto? = null,
@@ -39,6 +39,9 @@ internal data class AbilityDto(
     @SerialName("AbilityCooldownBetweenCharge") val abilityCooldownBetweenCharge: PropDto? = null,
     @SerialName("AbilityDuration") val abilityDuration: PropDto? = null,
     @SerialName("Radius") val radius: PropDto? = null,
+    @SerialName("Debuff") val debuff: Map<String, PropDto>? = null,
+    @SerialName("Health") val health: Map<String, PropDto>? = null,
+    @SerialName("Damage") val damage: Map<String, PropDto>? = null,
 )
 
 @Serializable
