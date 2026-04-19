@@ -48,14 +48,6 @@ internal fun AbilityDto.toDomain(
 
 private fun AbilityDto.collectProperties(): Map<String, PropDto> {
     return buildMap {
-        putAll(move.orEmpty())
-        putAll(other.orEmpty())
-        putAll(range.orEmpty())
-        putAll(duration.orEmpty())
-        putAll(cooldown.orEmpty())
-        putAll(debuff.orEmpty())
-        putAll(health.orEmpty())
-        putAll(damage.orEmpty())
         abilityCastDelay?.let { put("AbilityCastDelay", it) }
         abilityCastRange?.let { put("AbilityCastRange", it) }
         abilityCharges?.let { put("AbilityCharges", it) }
