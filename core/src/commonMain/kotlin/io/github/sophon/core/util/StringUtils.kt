@@ -41,7 +41,7 @@ fun String.extractFirstWord(): String {
 
 fun String.formKey(): String {
     return trim()
-        .map { if (it.isWhitespace()) '_' else it }
+        .map { if (it.isWhitespace() || it == '-') '_' else it }
         .joinToString("")
         .lowercase()
 }

@@ -45,10 +45,14 @@ internal fun ItemDto.toDomain(
             image = imageUrlMap[itemKey],
             wiki = name.toWikiUrl(),
         ),
+        aliasList = listOf(key),
 
         cost = cost ?: 0,
         tier = tier ?: 0,
-        componentList = components.orEmpty(),
+        upgradePath = Item.UpgradePath(
+            from = components ?: emptyList(),
+            to = emptyList(), //TODO: figure out how to do upgradeTo
+        ),
         shopFilterList = shopFilters.orEmpty().map { filter ->
             Item.ShopFilter.fromString(filter)
         },

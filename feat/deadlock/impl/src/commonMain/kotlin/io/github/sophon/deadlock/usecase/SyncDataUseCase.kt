@@ -10,7 +10,7 @@ import kotlinx.coroutines.coroutineScope
 internal class SyncDataUseCase(
     private val syncAbilitiesUseCase: SyncAbilitiesUseCase,
     private val syncHeroesUseCase: SyncHeroesUseCase,
-    private val syncItemsUseCase: SyncItemsUseCase,
+    private val downloadItemsUseCase: DownloadItemsUseCase,
     private val downloadDescriptionsUseCase: DownloadDescriptionsUseCase,
 ) {
     suspend fun invoke(): EmptyResult<WikiError> {
@@ -27,7 +27,7 @@ internal class SyncDataUseCase(
 
             val results = listOf(
                 async { syncAbilitiesUseCase.invoke(heroNameSet =  heroNameSet, descriptionMap = descriptionMap) },
-                async { syncItemsUseCase.invoke(descriptionMap) },
+                async { downloadItemsUseCase.invoke(descriptionMap) },
             ).awaitAll()
 
             for (result in results) {
