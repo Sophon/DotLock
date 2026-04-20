@@ -1,9 +1,10 @@
 package io.github.sophon.deadlock.usecase
 
 import io.github.aakira.napier.Napier
-import io.github.sophon.core.arch.EmptyResult
+import io.github.sophon.core.arch.Result
 import io.github.sophon.core.arch.WikiError
 import io.github.sophon.core.arch.flatMap
+import io.github.sophon.core.arch.map
 import io.github.sophon.core.arch.mapError
 import io.github.sophon.core.domain.model.Item
 import io.github.sophon.core.util.formKey
@@ -17,7 +18,7 @@ internal class DownloadItemsUseCase(
     private val db: ItemDatabase,
     private val imageResolver: ImageResolver,
 ) {
-    suspend fun invoke(descriptionMap: Map<String, String>): EmptyResult<WikiError> {
+    suspend fun invoke(descriptionMap: Map<String, String>): Result<List<Item>, WikiError> {
         return source.downloadItemList()
             .mapError {
                 it.toDomain() 
@@ -39,7 +40,8 @@ internal class DownloadItemsUseCase(
                             .resolveUpgradeKeys()
                         Napier.d(tag = TAG) { "${itemList.size} items downloaded" }
 
-                        db.insert(itemList)
+                        return db.insert(itemList)
+                            .map { itemList }
                     }
             }
     }
