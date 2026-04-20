@@ -62,7 +62,7 @@ private fun EmbedBuilder.upgradeSection(upgradePath: Item.UpgradePath) {
 
     val from = buildString {
         upgradePath.from.forEach { item ->
-            appendLine("${index++}. $item")
+            appendLine("${index++}. **$item**")
         }
     }
     if (from.isNotBlank()) {
@@ -74,7 +74,7 @@ private fun EmbedBuilder.upgradeSection(upgradePath: Item.UpgradePath) {
 
     val to = buildString {
         upgradePath.to.forEach { item ->
-            appendLine("${index++}. $item")
+            appendLine("${index++}. **$item**")
         }
     }
     if (to.isNotBlank()) {
