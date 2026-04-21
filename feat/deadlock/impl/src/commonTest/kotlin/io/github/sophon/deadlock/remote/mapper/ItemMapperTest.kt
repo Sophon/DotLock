@@ -4,7 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import io.github.sophon.core.domain.model.ActivationType
 import io.github.sophon.core.domain.model.Bonus
-import io.github.sophon.core.domain.model.Property
+import io.github.sophon.core.domain.model.Effect
 import io.github.sophon.core.domain.model.Scale
 import io.github.sophon.core.domain.model.ScaledValue
 import io.github.sophon.deadlock.ItemSource
@@ -22,8 +22,8 @@ internal class ItemMapperTest {
                 description = null,
                 cooldown = null,
                 chargeUp = null,
-                properties = listOf(
-                    Property(
+                effectList = listOf(
+                    Effect(
                         key = "BONUS_FIRE_RATE",
                         value = ScaledValue(value = 5.0, scale = null),
                         type = "fire_rate",
@@ -35,8 +35,8 @@ internal class ItemMapperTest {
                 description = null,
                 cooldown = 0.25,
                 chargeUp = null,
-                properties = listOf(
-                    Property(
+                effectList = listOf(
+                    Effect(
                         key = "DAMAGE_PER_CHAIN",
                         value = ScaledValue(
                             value = 43.0,
@@ -44,17 +44,17 @@ internal class ItemMapperTest {
                         ),
                         type = "tech_damage",
                     ),
-                    Property(
+                    Effect(
                         key = "PROC_CHANCE",
                         value = ScaledValue(value = 20.0, scale = null),
                         type = "",
                     ),
-                    Property(
+                    Effect(
                         key = "CHAIN_COUNT",
                         value = ScaledValue(value = 6.0, scale = null),
                         type = "",
                     ),
-                    Property(
+                    Effect(
                         key = "CHAIN_RADIUS",
                         value = ScaledValue(value = 0.0, scale = null),
                         type = "distance",
@@ -66,18 +66,18 @@ internal class ItemMapperTest {
                 description = null,
                 cooldown = 40.0,
                 chargeUp = null,
-                properties = listOf(
-                    Property(
+                effectList = listOf(
+                    Effect(
                         key = "DAMAGE",
                         value = ScaledValue(value = 100.0, scale = null),
                         type = "tech_damage",
                     ),
-                    Property(
+                    Effect(
                         key = "MAX_SLOW_PERCENT",
                         value = ScaledValue(value = 75.0, scale = null),
                         type = "slow",
                     ),
-                    Property(
+                    Effect(
                         key = "SLOW_DURATION",
                         value = ScaledValue(value = 3.0, scale = null),
                         type = "duration",
@@ -90,7 +90,7 @@ internal class ItemMapperTest {
         val result = item.toDomain("", emptyMap(),emptyMap())
 
         //then
-        assertThat(result.effectSet).isEqualTo(expected)
+        assertThat(result.bonusSet).isEqualTo(expected)
     }
     
     @Test

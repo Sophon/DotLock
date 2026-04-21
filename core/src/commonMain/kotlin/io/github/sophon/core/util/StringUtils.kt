@@ -53,7 +53,7 @@ fun String.toSnakeCase(): String {
 }
 
 fun String.toTitleCase(): String {
-    return split("_", " ")
+    return split("_")
         .joinToString(" ") { it.lowercase().replaceFirstChar(Char::uppercaseChar) }
 }
 

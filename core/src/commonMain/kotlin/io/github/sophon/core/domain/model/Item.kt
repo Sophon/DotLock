@@ -18,7 +18,7 @@ data class Item(
     val activation: Activation,
     val targetTypeList: List<String>,
 
-    val effectSet: Set<Bonus>,
+    val bonusSet: Set<Bonus>,
 ) {
     data class UpgradePath(
         val from: List<String>,

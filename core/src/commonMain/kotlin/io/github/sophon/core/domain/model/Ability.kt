@@ -8,6 +8,6 @@ data class Ability(
     val imageUrl: String?,
 
     val upgradeList: List<Map<String, Double>>,
-    val propertyMap: Map<String, Property>,
-    val effectSet: Set<Property>,
+    val castMap: Map<String, Effect>,
+    val effectSet: Set<Effect>,
 )
