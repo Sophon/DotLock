@@ -120,6 +120,7 @@ private fun List<InfoDto?>.toDomainBonusList(): Set<Effect> {
 
 private fun PropDto.toProperty(): Effect? {
     val scaledValue = toScaledValue() ?: return null
+    if (scaledValue.value == 0.0) return null
 
     return Effect(
         key = name.orEmpty().replace(" ", "_"),

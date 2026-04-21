@@ -18,6 +18,7 @@ internal class Emojifier(
     }
 
     fun emojify(effect: Effect): String {
+        //TODO: purely relying on Type won't work, we need to combine both
         val emoji = when (effect.type) {
             "fire_rate" -> Emoji.BULLET_SPEED
             "health" -> Emoji.HP
