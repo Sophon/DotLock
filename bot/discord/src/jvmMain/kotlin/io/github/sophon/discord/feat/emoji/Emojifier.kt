@@ -19,9 +19,39 @@ internal class Emojifier(
     }
 
     fun emojify(property: Property): String {
-        //TODO: implement String.emojify(): Emoji
+        val emoji = when (property.type) {
+            "fire_rate" -> Emoji.BULLET_SPEED
+            "health" -> Emoji.HP
+            "healing" -> Emoji.HEAL_LIFESTEAL
+            "clipsize" -> Emoji.CLIP
+            "duration" -> Emoji.COOLDOWN_DELAY_DURATION
+            "cooldown" -> Emoji.ABILITY_CD
+            "sprint" -> Emoji.SPRINT_SPEED
+            "move_speed" -> Emoji.MOVE_SPEED
 
-        return property.type ?: ""
+            "tech_armor_up" -> Emoji.SPIRIT_RESIST
+            "bullet_armor_up",
+            "bullet_armor_down",
+                -> Emoji.BULLET_RESIST
+
+            "tech_damage" -> Emoji.SPIRIT_DAMAGE
+            "melee_damage" -> Emoji.MELEE_DAMAGE
+            "bullet_damage" -> Emoji.BULLET_WEAPON_DAMAGE
+
+            "distance" -> Emoji.RANGE
+            "slow" -> Emoji.MOVEMENT_SLOW
+
+            else -> {
+                if (property.type.isNullOrBlank()) {
+                    Napier.i(tag = TAG) { "unhandled: ${property.type}" }
+                }
+                null
+            }
+        }
+
+        val result = emoji?.let { emojify(it) } ?: ""
+
+        return result
     }
 
     fun emojify(emoji: Emoji): String {

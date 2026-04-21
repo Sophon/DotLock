@@ -5,6 +5,7 @@ import dev.kord.rest.builder.message.EmbedBuilder
 import io.github.sophon.core.domain.model.Bonus
 import io.github.sophon.core.domain.model.FeatureInfo
 import io.github.sophon.core.domain.model.Item
+import io.github.sophon.core.util.toTitleCase
 import io.github.sophon.discord.feat.emoji.Emojifier
 
 internal fun itemEmbed(
@@ -36,8 +37,8 @@ private fun EmbedBuilder.effectsSection(effectSet: Set<Bonus>, emojifier: Emojif
     for (effect in effectSet) {
         val title = buildString {
             var string = effect.type.toString()
-            effect.cooldown?.let { string += " - ${Emojifier.Emoji.COOLDOWN_DELAY_DURATION} $it" }
-            effect.chargeUp?.let { string += " - ${Emojifier.Emoji.CHANNEL_TIME} $it" }
+            effect.cooldown?.let { string += " - ${emojifier.emojify(Emojifier.Emoji.ABILITY_CD)} $it" }
+            effect.chargeUp?.let { string += " - ${emojifier.emojify(Emojifier.Emoji.CHANNEL_TIME)} $it" }
             append(string)
         }
 
@@ -45,7 +46,7 @@ private fun EmbedBuilder.effectsSection(effectSet: Set<Bonus>, emojifier: Emojif
             effect.description?.let { append("$it\n") }
 
             for (property in effect.properties) {
-                append("- **${property.key}**: ${property.value}\n")
+                append("- ${emojifier.emojify(property)} **${property.key.toTitleCase()}**: ${property.value}\n")
             }
         }
 
