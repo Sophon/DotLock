@@ -5,6 +5,7 @@ import dev.kord.rest.builder.message.EmbedBuilder
 import io.github.sophon.core.domain.model.Bonus
 import io.github.sophon.core.domain.model.FeatureInfo
 import io.github.sophon.core.domain.model.Item
+import io.github.sophon.core.util.toTitleCase
 import io.github.sophon.discord.feat.emoji.Emojifier
 
 internal fun itemEmbed(
@@ -28,30 +29,30 @@ internal fun itemEmbed(
         value = item.description,
         inline = false,
     )
-    effectsSection(item.effectSet, emojifier)
+    effectsSection(item.bonusSet, emojifier)
     upgradeSection(item.upgradePath)
 }
 
-private fun EmbedBuilder.effectsSection(effectSet: Set<Bonus>, emojifier: Emojifier) {
-    for (effect in effectSet) {
+private fun EmbedBuilder.effectsSection(bonusSet: Set<Bonus>, emojifier: Emojifier) {
+    for (bonus in bonusSet) {
         val title = buildString {
-            var string = effect.type.toString()
-            effect.cooldown?.let { string += " - ${Emojifier.Emoji.COOLDOWN_DELAY_DURATION} $it" }
-            effect.chargeUp?.let { string += " - ${Emojifier.Emoji.CHANNEL_TIME} $it" }
+            var string = bonus.type.toString()
+            bonus.cooldown?.let { string += " - ${emojifier.emojify(Emojifier.Emoji.ABILITY_CD)} $it" }
+            bonus.chargeUp?.let { string += " - ${emojifier.emojify(Emojifier.Emoji.CHANNEL_TIME)} $it" }
             append(string)
         }
 
-        val properties = buildString {
-            effect.description?.let { append("$it\n") }
+        val effects = buildString {
+            bonus.description?.let { append("$it\n") }
 
-            for (property in effect.properties) {
-                append("- **${property.key}**: ${property.value}\n")
+            for (effect in bonus.effectList) {
+                append("- ${emojifier.emojify(effect)} **${effect.key.toTitleCase()}**: ${effect.value}\n")
             }
         }
 
         mandatoryField(
             name = title,
-            value = properties,
+            value = effects,
             inline = false,
         )
     }

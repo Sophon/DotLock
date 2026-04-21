@@ -2,7 +2,7 @@ package io.github.sophon.deadlock.remote.mapper
 
 import io.github.aakira.napier.Napier
 import io.github.sophon.core.domain.model.Ability
-import io.github.sophon.core.domain.model.Property
+import io.github.sophon.core.domain.model.Effect
 import io.github.sophon.core.domain.model.Scale
 import io.github.sophon.core.domain.model.ScaledValue
 import io.github.sophon.core.util.cleanDescription
@@ -37,7 +37,7 @@ internal fun AbilityDto.toDomain(
         description = descriptionMap[descKey]?.cleanDescription(),
         imageUrl = imageUrlMap[abilityKey],
         upgradeList = upgradeList,
-        propertyMap = propertyMap,
+        castMap = propertyMap,
         effectSet = listOf(
             info1, info2, info3,
         ).toDomainBonusList(),
@@ -69,17 +69,17 @@ private fun Map<String, JsonElement>.toUpgradeMap(): Map<String, Double> {
     }
 }
 
-private fun Map<String, PropDto>.toPropertyMap(): Map<String, Property> {
+private fun Map<String, PropDto>.toPropertyMap(): Map<String, Effect> {
     return buildMap {
         for ((pascalKey, prop) in this@toPropertyMap) {
             val scaledValue = prop.toScaledValue() ?: continue
             val displayName = prop.name ?: pascalKey
-            val property = Property(
+            val effect = Effect(
                 key = pascalKey,
                 value = scaledValue,
                 type = prop.type,
             )
-            put(displayName, property)
+            put(displayName, effect)
         }
     }
 }
@@ -108,20 +108,22 @@ private fun JsonElement.toNumericValue(): Double? {
     }
 }
 
-private fun List<InfoDto?>.toDomainBonusList(): Set<Property> {
+private fun List<InfoDto?>.toDomainBonusList(): Set<Effect> {
     return filterNotNull()
         .flatMap { it.main?.props.orEmpty() + it.alt }
         .mapNotNull { prop ->
-            val pascalKey = prop.key ?: return@mapNotNull null
-            prop.toProperty(pascalKey)
+            if (prop.key == null) return@mapNotNull null
+            prop.toProperty()
         }
         .toSet()
 }
 
-private fun PropDto.toProperty(pascalKey: String): Property? {
+private fun PropDto.toProperty(): Effect? {
     val scaledValue = toScaledValue() ?: return null
-    return Property(
-        key = pascalKey,
+    if (scaledValue.value == 0.0) return null
+
+    return Effect(
+        key = name.orEmpty().replace(" ", "_"),
         value = scaledValue,
         type = type,
     )

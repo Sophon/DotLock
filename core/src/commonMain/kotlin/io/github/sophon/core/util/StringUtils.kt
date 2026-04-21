@@ -52,6 +52,11 @@ fun String.toSnakeCase(): String {
         .uppercase()
 }
 
+fun String.toTitleCase(): String {
+    return split("_")
+        .joinToString(" ") { it.lowercase().replaceFirstChar(Char::uppercaseChar) }
+}
+
 fun getEmptyChar(): String = "\u200b"
 
 fun String.cleanHtml(): String {
