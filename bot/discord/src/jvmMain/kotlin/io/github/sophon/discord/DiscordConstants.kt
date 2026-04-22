@@ -13,8 +13,9 @@ internal const val TIME_UPDATE_INTERVAL_H = 3
 internal const val TIME_AUTO_EDIT_EMBED_S = 10
 
 internal const val URL_REPO = "https://github.com/Sophon/FireFrog"
-
+internal const val URL_IMG_FIREFROG = "https://i.imgur.com/N6ft8Lz.png"
 internal const val URL_KOFI = "https://ko-fi.com/sorryuken"
+internal const val URL_INVITATION = "https://discord.com/oauth2/authorize?client_id=1490483447091953664&permissions=2147567616&integration_type=0&scope=bot+applications.commands"
 
 internal const val BUILD_KEY_ENV = "ENV"
 internal const val BUILD_VAL_PROD = "production"

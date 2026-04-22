@@ -36,13 +36,18 @@ internal class DeadlockFeature(
 
     override suspend fun execute(
         command: Command,
-        query: String,
+        query: String?,
         origin: Source,
     ): Result<BotOutput, BotError> {
+        if (query == null) {
+            return Result.Error(BotError.BadUsage("missing query"))
+        }
+
         val result = when (command) {
             Command.Item -> fetchItemUseCase.invoke(query)
             Command.Hero -> fetchHeroUseCase.invoke(query)
             Command.Ability -> fetchAbilityUseCase.invoke(query)
+            else -> Result.Error(BotError.InvalidCommand(command.name))
         }
 
         return result

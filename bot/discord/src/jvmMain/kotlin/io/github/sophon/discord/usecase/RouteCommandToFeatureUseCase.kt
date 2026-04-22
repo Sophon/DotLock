@@ -40,7 +40,6 @@ internal class RouteCommandToFeatureUseCase(
         val commandString = fullQuery.extractFirstWord()
         val query = fullQuery.substringAfter(' ', missingDelimiterValue = "")
             .takeIf { it.isNotBlank() }
-            ?: return Result.Error(BotError.BadUsage("missing query"))
 
         return executeCommand(
             commandString = commandString,
@@ -52,20 +51,28 @@ internal class RouteCommandToFeatureUseCase(
 
     private suspend fun executeCommand(
         commandString: String,
-        query: String,
+        query: String?,
         source: Source,
     ): Result<BotOutput, BotError> {
         val command = Command.fromStringOrNull(commandString)
             ?: return Result.Error(BotError.InvalidCommand(commandString))
-        val formattedQuery = query.formKey()
+        val formattedQuery = query?.formKey()
+        var lastError: BotError? = null
 
         for (feature in featureList) {
             if (command !in feature.supportedCommands) continue
             val result = feature.execute(command = command, query = formattedQuery, origin = source)
-            if (result is Result.Success) return result
+            when (result) {
+                is Result.Success -> return result
+                is Result.Error -> lastError = result.error
+            }
         }
 
-        return Result.Error(BotError.BotLogicError(commandString, query))
+        if (lastError == null) {
+            lastError = BotError.BotLogicError(commandString, query ?: "")
+        }
+
+        return Result.Error(lastError)
     }
 
 
