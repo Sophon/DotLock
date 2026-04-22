@@ -44,7 +44,7 @@ internal class BotFeature(
     ): Result<BotOutput, BotError> {
         val result = when (command) {
             Command.Invite -> createInvitationUseCase.invoke()
-            Command.Help -> createHelpUseCase.invoke()
+            Command.Help -> createHelpUseCase.invoke(featureInfo)
             Command.Repo -> createRepoUrlUseCase.invoke()
             else -> Result.Error(BotError.InvalidCommand(command.name))
         }
