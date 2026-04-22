@@ -39,7 +39,7 @@ internal class BotFeature(
 
     override suspend fun execute(
         command: Command,
-        query: String,
+        query: String?,
         origin: Source,
     ): Result<BotOutput, BotError> {
         val result = when (command) {
