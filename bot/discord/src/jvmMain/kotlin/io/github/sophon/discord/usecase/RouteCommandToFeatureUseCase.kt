@@ -57,14 +57,22 @@ internal class RouteCommandToFeatureUseCase(
         val command = Command.fromStringOrNull(commandString)
             ?: return Result.Error(BotError.InvalidCommand(commandString))
         val formattedQuery = query?.formKey()
+        var lastError: BotError? = null
 
         for (feature in featureList) {
             if (command !in feature.supportedCommands) continue
             val result = feature.execute(command = command, query = formattedQuery, origin = source)
-            if (result is Result.Success) return result
+            when (result) {
+                is Result.Success -> return result
+                is Result.Error -> lastError = result.error
+            }
         }
 
-        return Result.Error(BotError.BotLogicError(commandString, query ?: ""))
+        if (lastError == null) {
+            lastError = BotError.BotLogicError(commandString, query ?: "")
+        }
+
+        return Result.Error(lastError)
     }
 
 

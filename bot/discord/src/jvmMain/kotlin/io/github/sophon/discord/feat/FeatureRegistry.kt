@@ -8,7 +8,7 @@ internal class FeatureRegistry(
 
     fun getFeatures(names: List<String>): List<DiscordRegisteredFeature> {
         val configuredFeatures = names.mapNotNull { getFeature(it) }
-        return configuredFeatures + coreFeature
+        return listOf(coreFeature) + configuredFeatures
     }
 
     fun getRegisteredFeatures(): List<DiscordRegisteredFeature> {
