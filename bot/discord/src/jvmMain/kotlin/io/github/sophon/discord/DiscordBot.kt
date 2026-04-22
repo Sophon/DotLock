@@ -76,8 +76,8 @@ internal class DiscordBotImpl(
     }
 
     private suspend fun startKord() {
-//        cleanOldGuildCommands(kord)
-//        createGlobalCommands()
+        cleanOldGuildCommands(kord)
+        createGlobalCommands()
 //        createAdminCommands()
         createCommandsForTestServer()
 
