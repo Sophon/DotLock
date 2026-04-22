@@ -3,7 +3,7 @@
 ## [v0.3.0] - TODO:
 - upgrade path for items
 - emojified Ability and Item properties
-- 
+- enabled slash commands
 
 ## [v0.2.0] - 2026-04-19
 - rework Item and Ability data structures
