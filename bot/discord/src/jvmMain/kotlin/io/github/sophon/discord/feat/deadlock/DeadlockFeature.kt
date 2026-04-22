@@ -43,6 +43,7 @@ internal class DeadlockFeature(
             Command.Item -> fetchItemUseCase.invoke(query)
             Command.Hero -> fetchHeroUseCase.invoke(query)
             Command.Ability -> fetchAbilityUseCase.invoke(query)
+            else -> Result.Error(BotError.InvalidCommand(command.name))
         }
 
         return result
