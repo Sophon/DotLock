@@ -4,7 +4,8 @@ import dev.kord.common.Color
 import dev.kord.rest.builder.message.EmbedBuilder
 import io.github.sophon.core.domain.model.Ability
 import io.github.sophon.core.domain.model.FeatureInfo
-import io.github.sophon.core.domain.model.Property
+import io.github.sophon.core.domain.model.Effect
+import io.github.sophon.core.util.toTitleCase
 import io.github.sophon.discord.feat.emoji.Emojifier
 
 internal fun abilityEmbed(
@@ -19,7 +20,7 @@ internal fun abilityEmbed(
         thumbnail { url = abilityUrl }
     }
 
-    propertiesSection(ability.propertyMap, emojifier)
+    castSection(ability.castMap, emojifier)
     ability.description?.let {
         mandatoryField(value = it, inline = false)
     }
@@ -27,10 +28,10 @@ internal fun abilityEmbed(
 }
 
 
-private fun EmbedBuilder.propertiesSection(propertyMap: Map<String, Property>, emojifier: Emojifier) {
+private fun EmbedBuilder.castSection(castMap: Map<String, Effect>, emojifier: Emojifier) {
     val lines = buildList {
-        propertyMap.forEach { (key, property) ->
-            add("- **${key}**: ${property.value}")
+        castMap.forEach { (key, effect) ->
+            add("- ${emojifier.emojify(effect)} **${key}**: ${effect.value}")
         }
     }
 
@@ -41,10 +42,10 @@ private fun EmbedBuilder.propertiesSection(propertyMap: Map<String, Property>, e
     mandatoryField(value = lines.drop(mid).joinToString("\n"))
 }
 
-private fun EmbedBuilder.effectsSection(effectSet: Set<Property>, emojifier: Emojifier) {
+private fun EmbedBuilder.effectsSection(effectSet: Set<Effect>, emojifier: Emojifier) {
     val string = buildString {
-        effectSet.forEach { bonus ->
-            append("- **${bonus.key}**: ${bonus.value}\n")
+        effectSet.forEach { effect ->
+            append("- ${emojifier.emojify(effect)} **${effect.key.toTitleCase()}**: ${effect.value}\n")
         }
     }
 

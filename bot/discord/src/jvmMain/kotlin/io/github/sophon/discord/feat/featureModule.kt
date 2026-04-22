@@ -4,6 +4,10 @@ import io.github.sophon.discord.feat.config.ConfigLoader
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import io.github.sophon.core.arch.Result
+import io.github.sophon.discord.feat.bot.BotFeature
+import io.github.sophon.discord.feat.bot.usecase.CreateHelpUseCase
+import io.github.sophon.discord.feat.bot.usecase.CreateInvitationUseCase
+import io.github.sophon.discord.feat.bot.usecase.CreateRepoUrlUseCase
 import io.github.sophon.discord.feat.config.BotConfig
 import io.github.sophon.discord.feat.config.FileManager
 import io.github.sophon.discord.feat.config.FileManagerImpl
@@ -27,11 +31,26 @@ internal fun featureModule() = module {
     singleOf(::FileManagerImpl).bind<FileManager>()
     //endregion
 
+    //region BOT
+    singleOf(::BotFeature).bind<DiscordRegisteredFeature>()
+    singleOf(::CreateInvitationUseCase)
+    singleOf(::CreateHelpUseCase)
+    singleOf(::CreateRepoUrlUseCase)
+    //endregion
+
+    //region DEADLOCK
+    singleOf(::DeadlockFeature).bind<DiscordRegisteredFeature>()
+    singleOf(::FetchItemUseCase)
+    singleOf(::FetchHeroUseCase)
+    singleOf(::FetchAbilityUseCase)
+    //endregion
+
     singleOf(::Emojifier)
 
     single {
         FeatureRegistry(
             features = getAll(),
+            coreFeature = get<BotFeature>(),
         )
     }
     single<List<DiscordRegisteredFeature>> {
@@ -55,11 +74,4 @@ internal fun featureModule() = module {
 //        features + adminFeature
         features
     }
-
-    //region DEADLOCK
-    singleOf(::DeadlockFeature).bind<DiscordRegisteredFeature>()
-    singleOf(::FetchItemUseCase)
-    singleOf(::FetchHeroUseCase)
-    singleOf(::FetchAbilityUseCase)
-    //endregion
 }

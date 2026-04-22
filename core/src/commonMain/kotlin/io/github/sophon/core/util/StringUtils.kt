@@ -41,7 +41,7 @@ fun String.extractFirstWord(): String {
 
 fun String.formKey(): String {
     return trim()
-        .map { if (it.isWhitespace()) '_' else it }
+        .map { if (it.isWhitespace() || it == '-') '_' else it }
         .joinToString("")
         .lowercase()
 }
@@ -50,6 +50,11 @@ fun String.toSnakeCase(): String {
     return replace(Regex("([a-z])([A-Z])")) { "${it.groupValues[1]}_${it.groupValues[2]}" }
         .replace(Regex("([A-Z]+)([A-Z][a-z])")) { "${it.groupValues[1]}_${it.groupValues[2]}" }
         .uppercase()
+}
+
+fun String.toTitleCase(): String {
+    return split("_")
+        .joinToString(" ") { it.lowercase().replaceFirstChar(Char::uppercaseChar) }
 }
 
 fun getEmptyChar(): String = "\u200b"

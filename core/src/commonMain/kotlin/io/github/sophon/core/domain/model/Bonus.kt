@@ -5,5 +5,5 @@ data class Bonus(
     val description: String? = null,
     val cooldown: Double? = null,
     val chargeUp: Double? = null,
-    val properties: List<Property>,
+    val effectList: List<Effect>,
 )

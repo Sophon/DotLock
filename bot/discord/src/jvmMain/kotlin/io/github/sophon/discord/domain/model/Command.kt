@@ -38,6 +38,26 @@ internal sealed class Command(
         )
     )
 
+    //region SUPPORT COMMANDS
+    object Help: Command(
+        name = "help",
+        description = "RTFM",
+        argumentList = listOf(),
+    )
+
+    object Invite: Command(
+        name = "invite",
+        description = "Invitation link",
+        argumentList = listOf(),
+    )
+
+    object Repo: Command(
+        name = "repo",
+        description = "Project repository",
+        argumentList = listOf(),
+    )
+    //endregion
+
 
     data class Argument(
         val name: String,

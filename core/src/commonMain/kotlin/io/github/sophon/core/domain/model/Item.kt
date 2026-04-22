@@ -6,10 +6,11 @@ data class Item(
     val key: String,
     val name: String,
     val url: Url,
+    val aliasList: List<String> = emptyList(),
 
     val cost: Int,
     val tier: Int,
-    val componentList: List<String>,
+    val upgradePath: UpgradePath,
     val shopFilterList: List<ShopFilter>,
 
     val description: String?,
@@ -17,8 +18,13 @@ data class Item(
     val activation: Activation,
     val targetTypeList: List<String>,
 
-    val effectSet: Set<Bonus>,
+    val bonusSet: Set<Bonus>,
 ) {
+    data class UpgradePath(
+        val from: List<String>,
+        val to: List<String>,
+    )
+
     enum class Activation {
         PASSIVE,
         INSTANT_CAST,

@@ -4,7 +4,7 @@ import io.github.aakira.napier.Napier
 import io.github.sophon.core.domain.model.ActivationType
 import io.github.sophon.core.domain.model.Bonus
 import io.github.sophon.core.domain.model.Item
-import io.github.sophon.core.domain.model.Property
+import io.github.sophon.core.domain.model.Effect
 import io.github.sophon.core.domain.model.Scale
 import io.github.sophon.core.domain.model.ScaledValue
 import io.github.sophon.core.domain.model.Url
@@ -45,10 +45,14 @@ internal fun ItemDto.toDomain(
             image = imageUrlMap[itemKey],
             wiki = name.toWikiUrl(),
         ),
+        aliasList = listOf(key),
 
         cost = cost ?: 0,
         tier = tier ?: 0,
-        componentList = components.orEmpty(),
+        upgradePath = Item.UpgradePath(
+            from = components ?: emptyList(),
+            to = emptyList(), //TODO: figure out how to do upgradeTo
+        ),
         shopFilterList = shopFilters.orEmpty().map { filter ->
             Item.ShopFilter.fromString(filter)
         },
@@ -60,7 +64,7 @@ internal fun ItemDto.toDomain(
         activation = activation.toDomainActivation(),
         targetTypeList = targetTypes.orEmpty(),
 
-        effectSet = listOf(
+        bonusSet = listOf(
             info1, info2, info3, info4
         ).toDomainBonusList(descriptionMap),
     )
@@ -111,7 +115,7 @@ private fun List<ItemInfoDto?>.toDomainBonusList(descriptionMap: Map<String, Str
             description = descriptionMap[descriptionKey]?.cleanDescription(),
             cooldown = dto.cooldown,
             chargeUp = dto.chargeUp,
-            properties = (dto.main + dto.alt).toDomainPropertyList(),
+            effectList = (dto.main + dto.alt).toDomainPropertyList(),
         )
     }.toSet()
 }
@@ -125,9 +129,9 @@ private fun String?.toActivationType(): ActivationType {
     }
 }
 
-private fun List<ItemPropDto>.toDomainPropertyList(): List<Property> {
+private fun List<ItemPropDto>.toDomainPropertyList(): List<Effect> {
     return map { dto ->
-        Property(
+        Effect(
             key = dto.key.toSnakeCase(),
             value = ScaledValue(
                 value = dto.value.jsonPrimitive.doubleOrNull ?: 0.0,

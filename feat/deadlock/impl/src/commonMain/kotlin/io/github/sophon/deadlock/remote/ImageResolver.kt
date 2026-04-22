@@ -5,10 +5,16 @@ import io.github.sophon.core.arch.Result
 import io.github.sophon.core.arch.map
 import io.github.sophon.core.util.formKey
 
-internal class ImageResolver(
-    private val source: DeadlockWikiDataSource,
-) {
+internal interface ImageResolver {
     suspend fun resolveImageUrl(
+        names: List<String>,
+    ): Result<Map<String, String>, DataError.Remote>
+}
+
+internal class ImageResolverImpl(
+    private val source: DeadlockWikiDataSource,
+): ImageResolver {
+    override suspend fun resolveImageUrl(
         names: List<String>,
     ): Result<Map<String, String>, DataError.Remote> {
         val nameToFileName = names.associateWith { "${it.toFileName()}.png" }
@@ -21,6 +27,7 @@ internal class ImageResolver(
                 }.toMap()
             }
     }
+
 
     private fun String.toFileName(): String {
         return trim()
