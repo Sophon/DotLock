@@ -1,6 +1,6 @@
 # Changelog
 
-## [v0.3.0] - TODO:
+## [v0.3.0] - 2026-04-23
 - upgrade path for items
 - emojified Ability and Item properties
 - enabled slash commands
