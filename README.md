@@ -1,20 +1,11 @@
-This is a Kotlin Multiplatform project targeting Server.
+# FireFrog
 
-* [/server](./server/src/main/kotlin) is for the Ktor server application.
+A Discord bot for item, hero and ability data for the game Deadlock.
+Data is sourced from [Deadlock Wiki](https://deadlock.wiki/)
 
-### Build and Run Server
+[![Add Bot](https://img.shields.io/badge/Add_to_Discord-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.com/oauth2/authorize?client_id=1490483447091953664&permissions=2147567616&integration_type=0&scope=bot+applications.commands)
 
-To build and run the development version of the server, use the run configuration from the run widget
-in your IDE’s toolbar or run it directly from the terminal:
-- on macOS/Linux
-  ```shell
-  ./gradlew :server:run
-  ```
-- on Windows
-  ```shell
-  .\gradlew.bat :server:run
-  ```
-
----
-
-Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html)…
+### Tech stack
+- Kotlin Multiplatform targeting JVM
+- 🌐 Ktor
+- 💬 Kord
