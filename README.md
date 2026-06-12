@@ -1,5 +1,8 @@
 # FireFrog
 
+<img width="721" height="720" alt="FireFrog-01" src="https://github.com/user-attachments/assets/4d18813e-f372-475b-bbf1-d8573e48571c" />
+
+
 A Discord bot for item, hero and ability data for the game Deadlock.
 Data is sourced from [Deadlock Wiki](https://deadlock.wiki/)
 
